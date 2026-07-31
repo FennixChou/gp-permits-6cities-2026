@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>六縣市 2026 新建案使照統整報告（官方母體版 v3）</title>
+<title>六縣市 2026 新建案使照統整報告（官方母體版 v4）</title>
 <style>
   :root{
     --bg:#F2ECDF; --surface:#FCFAF4; --surface-2:#F7F1E6; --ink:#22271F; --muted:#62665A;
@@ -88,20 +88,20 @@
 <body>
 <div class="wrap">
   <header class="doc">
-    <h1>六縣市 2026 新建案使照統整報告（官方母體版 v3）</h1>
-    <p class="meta">範圍：台北市・新北市・桃園市・新竹縣・新竹市・台中市｜口徑：<strong>母體＝六縣市政府使用執照開放資料池（直接篩選，非 App 收錄版）</strong>；發照日115年（2026）＋登記總戶數≥100 為主表，另設114年下半核發參考表｜App（如菓建案追蹤 buildings.json）僅作案名/建商/社群數之豐富化來源，join不上照樣入表｜App 覆蓋率已於 v3 修正 v2 的字號 join 假性缺口｜製表：瑪莉（市場開發）｜v3 更新 2026-07-31（170案攻堅解名+App重新join；v2 母體改版與 v1 收錄版皆同日 2026-07-31 稍早產出，詳見 repo git 紀錄）</p>
+    <h1>六縣市 2026 新建案使照統整報告（官方母體版 v4）</h1>
+    <p class="meta">範圍：台北市・新北市・桃園市・新竹縣・新竹市・台中市｜口徑：<strong>母體＝六縣市政府使用執照開放資料池（直接篩選，非 App 收錄版）</strong>；發照日115年（2026）＋登記總戶數≥100 為主表，另設114年下半核發參考表｜App（如菓建案追蹤 buildings.json）僅作案名/建商/社群數之豐富化來源，join不上照樣入表｜App 覆蓋率已於 v3 修正 v2 的字號 join 假性缺口｜製表：瑪莉（市場開發）｜v4 更新 2026-08-01（0801 重跑 v3 殘餘 56 未解案：翻案 19、差異清單收斂為 43 案／8,559 戶）；v3 更新 2026-07-31（170案攻堅解名+App重新join；v2 母體改版與 v1 收錄版皆同日 2026-07-31 稍早產出，詳見 repo git 紀錄）</p>
   </header>
 
   <div class="verdict">
-    <div class="headline">官方母體：已核發 137 案／32,298 戶（App 收錄 123 案・89.8%），申請中(官方推定，僅台中/桃園可推定) 150 案／32,245 戶（App 收錄 115 案・76.7%）</div>
-    <p>六縣市官方母體合計 <strong>287 案／64,543 戶</strong>，App 已收錄合計 <strong>238 案・82.9%</strong>（v2 版僅 117 案・40.8%）。v3 對 v2 版「170 案／33,467 戶官方有・App無」差異清單逐案攻堅：170案中 <strong>111 案解出正式案名</strong>（3案為社宅/宿舍非市場推案、56案仍查無），並以 buildings.json 最新收錄（案名正規化＋使照/建照字號雙路 join）重新比對，發現其中 <strong>121 案（71%）其實已在 App（v2 因字號格式差異誤判為缺口）</strong>，殘餘缺口收斂為 <strong>49 案／9,496 戶</strong>（詳見「官方有・App無」章節與「170案攻堅成果」章節）。舊版（App口徑）2026-07-31 版：216 案／50,604 戶（已領141＋App口徑申請中75，含多年度混合）——與新版不可直接相減，因口徑重建（新版已核發限115單一年度；新版申請中僅台中/桃園有官方建照屆期法可推定，新北/台北/新竹縣/新竹市無官方建照公開資料，官方申請中留白），詳見下方口徑說明卡。</p>
+    <div class="headline">官方母體：已核發 137 案／32,298 戶（App 收錄 129 案・94.2%），申請中(官方推定，僅台中/桃園可推定) 150 案／32,245 戶（App 收錄 115 案・76.7%）</div>
+    <p>六縣市官方母體合計 <strong>287 案／64,543 戶</strong>，App 已收錄合計 <strong>244 案・85.0%</strong>（v3 為 238 案・82.9%、v2 版僅 117 案・40.8%）。v3（0731 攻堅）與 v4（0801 重跑）對 v2 版「170 案／33,467 戶官方有・App無」差異清單逐案攻堅：170案中累計 <strong>130 案解出正式案名（76%）</strong>（3案為社宅/宿舍非市場推案、37案仍未解），並以 buildings.json 最新收錄（案名正規化＋使照/建照字號雙路 join）重新比對，v3 join 時點即發現其中 <strong>121 案（71%）其實已在 App（v2 因字號格式差異誤判為缺口）</strong>，殘餘缺口收斂為 <strong>43 案／8,559 戶</strong>（v3 為 49 案／9,496 戶，0801 重跑再翻出 6 筆台北案，詳見「官方有・App無」章節與「170案攻堅成果」章節）。舊版（App口徑）2026-07-31 版：216 案／50,604 戶（已領141＋App口徑申請中75，含多年度混合）——與新版不可直接相減，因口徑重建（新版已核發限115單一年度；新版申請中僅台中/桃園有官方建照屆期法可推定，新北/台北/新竹縣/新竹市無官方建照公開資料，官方申請中留白），詳見下方口徑說明卡。</p>
   </div>
 
   <div class="stats">
     <div class="stat"><div class="n">137 案 / 32,298 戶</div><div class="l">已核發・115年・官方母體</div></div>
     <div class="stat"><div class="n">150 案 / 32,245 戶</div><div class="l">申請中・官方推定（僅台中+桃園）</div></div>
     <div class="stat"><div class="n">287 案 / 64,543 戶</div><div class="l">官方母體合計</div></div>
-    <div class="stat"><div class="n">49 案 / 9,496 戶</div><div class="l">官方有・App無（v3 攻堅後殘餘缺口，v2 為170案）</div></div>
+    <div class="stat"><div class="n">43 案 / 8,559 戶</div><div class="l">官方有・App無（v4 0801 重跑後殘餘缺口；v3 為49案、v2 為170案）</div></div>
   </div>
 
   <h3 style="margin-top:28px;">各縣市小計（已核發+申請中官方推定，依合計戶數）</h3>
@@ -119,7 +119,7 @@
   <h2>台北市</h2>
   <div class="stats">
     <div class="stat"><div class="n">11 案 / 1,934 戶</div><div class="l">115年（2026）已核發・登記戶數≥100</div></div>
-    <div class="stat"><div class="n">0 / 11</div><div class="l">App 已收錄（0%）</div></div>
+    <div class="stat"><div class="n">6 / 11</div><div class="l">App 已收錄（55%，v4 0801 重跑補 6 案；v3 為 0%）</div></div>
     <div class="stat"><div class="n">149 筆</div><div class="l">官方池母體（原始筆數，未篩選）</div></div>
   </div>
   <h3>已核發 115 年主表（11 案）</h3>
@@ -128,14 +128,14 @@
       <thead><tr><th>案名</th><th>行政區</th><th style="text-align:right">登記戶數</th><th>起造人</th><th>使照字號</th><th>發照日</th><th>App</th></tr></thead>
       <tbody>
         <tr><td>（非市場推案：興隆公共住宅社宅）</td><td>文山區</td><td class="num">504</td><td>新亞建設開發股份有限公司</td><td>115使字第0080號</td><td>115/05/15</td><td><span class="miss">App✗</span></td></tr>
-        <tr><td><span class="miss-name">（查無案名－真查無）</span></td><td>大同區</td><td class="num">209</td><td>中福營造股份有限公司</td><td>115使字第0063號</td><td>115/04/24</td><td><span class="miss">App✗</span></td></tr>
-        <tr><td><span class="miss-name">（查無案名－真查無）</span></td><td>士林區</td><td class="num">206</td><td>祝旺開發股份有限公司</td><td>115使字第0059號</td><td>115/04/21</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>捷運圓山站西側公辦都更案B區</td><td>大同區</td><td class="num">209</td><td>中福營造股份有限公司</td><td>115使字第0063號</td><td>115/04/24</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>圓山帝寶</td><td>士林區</td><td class="num">206</td><td>祝旺開發股份有限公司</td><td>115使字第0059號</td><td>115/04/21</td><td><span class="ok">App✓</span></td></tr>
         <tr><td><span class="miss-name">（查無案名－真查無）</span></td><td>中正區</td><td class="num">166</td><td>銘倫營造股份有限公司</td><td>115使字第0055號</td><td>115/04/02</td><td><span class="miss">App✗</span></td></tr>
-        <tr><td><span class="miss-name">（查無案名－真查無）</span></td><td>文山區</td><td class="num">163</td><td>森城建設股份有限公司</td><td>115使字第0105號</td><td>115/06/16</td><td><span class="miss">App✗</span></td></tr>
-        <tr><td><span class="miss-name">（查無案名－真查無）</span></td><td>中山區</td><td class="num">127</td><td>盛德營造股份有限公司</td><td>115使字第0888號</td><td>115/03/26</td><td><span class="miss">App✗</span></td></tr>
-        <tr><td><span class="miss-name">（查無案名－真查無）</span></td><td>信義區</td><td class="num">124</td><td>金弘承營造股份有限公司</td><td>115使字第0028號</td><td>115/02/11</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>吉美君悅</td><td>文山區</td><td class="num">163</td><td>森城建設股份有限公司</td><td>115使字第0105號</td><td>115/06/16</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>躍大直</td><td>中山區</td><td class="num">127</td><td>盛德營造股份有限公司</td><td>115使字第0888號</td><td>115/03/26</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>國美馥遇</td><td>信義區</td><td class="num">124</td><td>金弘承營造股份有限公司</td><td>115使字第0028號</td><td>115/02/11</td><td><span class="ok">App✓</span></td></tr>
         <tr><td><span class="miss-name">（查無案名－真查無）</span></td><td>中山區</td><td class="num">115</td><td>信創營造股份有限公司</td><td>115使字第0041號</td><td>115/03/12</td><td><span class="miss">App✗</span></td></tr>
-        <tr><td><span class="miss-name">（查無案名－真查無）</span></td><td>士林區</td><td class="num">108</td><td>億東營造股份有限公司</td><td>115使字第0031號</td><td>115/02/26</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>良茂詠悅</td><td>士林區</td><td class="num">108</td><td>億東營造股份有限公司</td><td>115使字第0031號</td><td>115/02/26</td><td><span class="ok">App✓</span></td></tr>
         <tr><td><span class="miss-name">（查無案名－真查無）</span></td><td>中山區</td><td class="num">107</td><td>盛德營造股份有限公司</td><td>115使字第0083號</td><td>115/05/20</td><td><span class="miss">App✗</span></td></tr>
         <tr><td><span class="miss-name">（查無案名－真查無）</span></td><td>松山區</td><td class="num">105</td><td>泛亞工程建設股份有限公司</td><td>115使字第0076號</td><td>115/05/08</td><td><span class="miss">App✗</span></td></tr>
       </tbody>
@@ -202,7 +202,7 @@
         <tr><td>甲山林市政官邸1號</td><td>三重區</td><td class="num">166</td><td>祝旺開發股份有限公司</td><td>115重使字第00093號</td><td>115/03/31</td><td><span class="ok">App✓</span></td></tr>
         <tr><td>佳瑞向上</td><td>淡水區</td><td class="num">166</td><td>萬代福營造有限公司</td><td>115淡使字第00099號</td><td>115/04/07</td><td><span class="ok">App✓</span></td></tr>
         <tr><td>台信心晴天</td><td>土城區</td><td class="num">160</td><td>達偉營造股份有限公司</td><td>115土使字第00021號</td><td>115/01/23</td><td><span class="ok">App✓</span></td></tr>
-        <tr><td>禾蓮心家園</td><td>新莊區</td><td class="num">160</td><td>詮發營造股份有限公司</td><td>115莊使字第00086號</td><td>115/03/27</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>瀚羽蒔光<span class="note">（v4 訂正：v3 誤植「禾蓮心家園」，該使照正主經 0801 重跑確認為瀚羽蒔光）</span></td><td>新莊區</td><td class="num">160</td><td>詮發營造股份有限公司</td><td>115莊使字第00086號</td><td>115/03/27</td><td><span class="ok">App✓</span></td></tr>
         <tr><td>豐盛（家泰×向田）</td><td>新莊區</td><td class="num">154</td><td>青鈿營造股份有限公司</td><td>115莊使字第00077號</td><td>115/03/18</td><td><span class="ok">App✓</span></td></tr>
         <tr><td>海研A3光點</td><td>新莊區</td><td class="num">141</td><td>台灣松下營造股份有限公司</td><td>115莊使字第00112號</td><td>115/04/16</td><td><span class="ok">App✓</span></td></tr>
         <tr><td>青松安家2</td><td>三峽區</td><td class="num">133</td><td>松銘營造股份有限公司</td><td>115峽使字第00142號</td><td>115/05/11</td><td><span class="ok">App✓</span></td></tr>
@@ -326,7 +326,7 @@
         <tr><td>威均園舞曲</td><td>中壢區</td><td class="num">156</td><td>僑馥建築經理股份有限公司 負責人:林中文</td><td>(115)桃市都施使字第壢00260號</td><td>115/03/23</td><td><span class="ok">App✓</span></td></tr>
         <tr><td>廣泰鑫君悅</td><td>平鎮區</td><td class="num">150</td><td>廣泰鑫建設有限公司  負責人：蔡玉璋</td><td>(115)桃市都施使字第平00066號</td><td>115/01/20</td><td><span class="ok">App✓</span></td></tr>
         <tr><td>三本四季</td><td>桃園區</td><td class="num">149</td><td>三麒建設股份有限公司 負責人：黃鈺錂</td><td>(115)桃市都施使字第桃00274號</td><td>115/03/26</td><td><span class="ok">App✓</span></td></tr>
-        <tr><td><span class="miss-name">（查無案名－資料源受阻）</span></td><td>龜山區</td><td class="num">142</td><td>台新建築經理股份有限公司 代表人:刁建生</td><td>(115)桃市都施使字第龜00399號</td><td>115/04/28</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名－真查無）</span></td><td>龜山區</td><td class="num">142</td><td>台新建築經理股份有限公司 代表人:刁建生</td><td>(115)桃市都施使字第龜00399號</td><td>115/04/28</td><td><span class="miss">App✗</span></td></tr>
         <tr><td>京懋泰閤</td><td>桃園區</td><td class="num">140</td><td>中國建築經理股份有限公司 負責人：鄭重</td><td>(115)桃市都施使字第桃00310號</td><td>115/04/07</td><td><span class="ok">App✓</span></td></tr>
         <tr><td>和境享見</td><td>觀音區</td><td class="num">136</td><td>和境建設股份有限公司  負責人:曾繁碩</td><td>(115)桃市都施使字第觀00132號</td><td>115/02/04</td><td><span class="ok">App✓</span></td></tr>
         <tr><td>京澄為和</td><td>桃園區</td><td class="num">136</td><td>澄果建設有限公司 負責人:葉泰利</td><td>(115)桃市都施使字第桃00228號</td><td>115/03/12</td><td><span class="ok">App✓</span></td></tr>
@@ -626,7 +626,7 @@
     </table>
   </div>
   <h3>申請中（官方推定，建照屆期法）：66 案 / 14,317 戶（扣除老案後之有效母體：65 案 / 14,163 戶）</h3>
-  <p class="note">母體＝111–112年核發、戶數≥100之建造執照原始88案（20,450戶），經2026-07-29兩輪逐案覆核排除22案／6,133戶「建照字號前綴年陷阱」（原核發年份與表列發照日不符、實已完工或已領照），修正後在即母體＝66案／14,317戶（含3案/550戶待確認，詳見<a href="https://fennixchou.github.io/gp-taichung-permits-2026/">gp-taichung-permits-2026 定版報告</a>5-1節）。v3更新：170案攻堅+App重新join後，App✓ 50 案、App✗ 16 案（12案查無案名－尚未公開命名、1案查無案名－資料源受阻、1案非市場推案、1案低信心未入庫、1案⚠️經查已完工非申請中：新業自由居154戶，詳見下表標記與「170案攻堅成果」章節）。扣除1案老案後，有效申請中母體為65案／14,163戶。（v2舊值：App✓ 22案、App✗ 44案）</p>
+  <p class="note">母體＝111–112年核發、戶數≥100之建造執照原始88案（20,450戶），經2026-07-29兩輪逐案覆核排除22案／6,133戶「建照字號前綴年陷阱」（原核發年份與表列發照日不符、實已完工或已領照），修正後在即母體＝66案／14,317戶（含3案/550戶待確認，詳見<a href="https://fennixchou.github.io/gp-taichung-permits-2026/">gp-taichung-permits-2026 定版報告</a>5-1節）。v3更新：170案攻堅+App重新join後，App✓ 50 案、App✗ 16 案（13案查無案名－尚未公開命名〔含長虹清水580戶案，0801 重跑由「資料源受阻」改判〕、1案非市場推案、1案低信心未入庫、1案⚠️經查已完工非申請中：新業自由居154戶，詳見下表標記與「170案攻堅成果」章節）。扣除1案老案後，有效申請中母體為65案／14,163戶。（v2舊值：App✓ 22案、App✗ 44案）</p>
   <div class="tablebox">
     <table>
       <thead><tr><th>#</th><th>案名（研究解名）</th><th>行政區</th><th style="text-align:right">戶數</th><th>起造人</th><th>建照字號</th><th>建照發照日</th><th>App</th></tr></thead>
@@ -648,7 +648,7 @@
         <tr><td>35</td><td>鴻豫境</td><td>沙鹿</td><td class="num">132</td><td>鴻豫建設</td><td>111中都建字第01838號</td><td>111/09/08</td><td><span class="ok">App✓</span></td></tr>
         <tr><td>36</td><td>聚佳豐美</td><td>潭子</td><td class="num">260</td><td>聚佳建設</td><td>110中都建字第02597號</td><td>111/09/08</td><td><span class="ok">App✓</span></td></tr>
         <tr><td>37</td><td>大道之星（大道100-2）</td><td>梧棲</td><td class="num">100</td><td>承玳營造</td><td>111中都建字第02027號</td><td>111/09/23</td><td><span class="ok">App✓</span></td></tr>
-        <tr><td>38</td><td><span class="miss-name">（查無案名－資料源受阻）</span></td><td>清水</td><td class="num">580</td><td>長虹建設</td><td>111中都建字第01948號</td><td>111/09/30</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>38</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>清水</td><td class="num">580</td><td>長虹建設</td><td>111中都建字第01948號</td><td>111/09/30</td><td><span class="miss">App✗</span></td></tr>
         <tr><td>39</td><td>精銳WORLD</td><td>龍井</td><td class="num">144</td><td>精銳建設</td><td>111中都建字第02137號</td><td>111/10/19</td><td><span class="ok">App✓</span></td></tr>
         <tr><td>41</td><td>元城上萃</td><td>南</td><td class="num">223</td><td>元城建設</td><td>111中都建字第02221號</td><td>111/10/31</td><td><span class="ok">App✓</span></td></tr>
         <tr><td>42</td><td>山里時晴</td><td>南屯</td><td class="num">112</td><td>宏銓建設</td><td>111中都建字第02340號</td><td>111/11/15</td><td><span class="ok">App✓</span></td></tr>
@@ -702,57 +702,51 @@
   </div>
 
 
-  <h2>官方有・App無：差異清單（49 案／9,496 戶）</h2>
+  <h2>官方有・App無：差異清單（43 案／8,559 戶）</h2>
   <div class="verdict">
-    <div class="headline">170案攻堅後的殘餘缺口——政府登記在案、經name resolution+App重新join後仍未在如菓建案追蹤App收錄的建案</div>
-    <p>v3更新：2026-07-31「170案攻堅」對v2版本的170案「官方有・App無」清單逐案解名+App重新join，121案（71%）確認已在App（見下方各縣市主表App✓，覆蓋率同步上升），殘餘49案／9,496戶仍缺，依戶數由大到小排序，含「已核發115年」與「申請中(官方推定，台中/桃園)」兩類。案名欄：「（查無案名－真查無）」＝合法管道兩輪查證仍無線索；「（查無案名－尚未公開命名）」＝地號/起造人/戶數已officially比對確認為真實建案，但市場尚未公開銷售命名（多為台中/桃園建照案，工程進度領先行銷公開）；「（查無案名－資料源受阻）」＝查證中遭反爬蟲/頁面403等技術性阻擋；「⚠️」標記者為已解出名稱但經查證實為已完工多年老案（非申請中）；「（非市場推案）」為社宅/宿舍不列入市場開發漏斗。</p>
+    <div class="headline">170案攻堅＋0801 重跑後的殘餘缺口——政府登記在案、經name resolution+App重新join後仍未在如菓建案追蹤App收錄的建案</div>
+    <p>v3更新：2026-07-31「170案攻堅」對v2版本的170案「官方有・App無」清單逐案解名+App重新join，121案（71%）確認已在App（見下方各縣市主表App✓，覆蓋率同步上升），殘餘49案／9,496戶仍缺；v4更新：2026-08-01 以 5,000 搜尋額度重跑 56 未解案，翻案19案（其中6案直接解掉本表台北列：捷運圓山站西側公辦都更案B區／圓山帝寶／吉美君悅／躍大直／國美馥遇／良茂詠悅），本表收斂為 <strong>43案／8,559戶</strong>，依戶數由大到小排序，含「已核發115年」與「申請中(官方推定，台中/桃園)」兩類。案名欄：「（查無案名－真查無）」＝合法管道兩輪查證仍無線索；「（查無案名－尚未公開命名）」＝地號/起造人/戶數已officially比對確認為真實建案，但市場尚未公開銷售命名（多為台中/桃園建照案，工程進度領先行銷公開）；「佔位名（佔位名，尚未公開命名）」＝0801 重跑以地號/建照存根查得之工程階段代稱，非市場正式案名；「（查無案名－資料源受阻）」＝查證中遭反爬蟲/頁面403等技術性阻擋，0801 重跑後本表已歸零（2案分別改判為尚未公開命名與真查無）；「⚠️」標記者為已解出名稱但經查證實為已完工多年老案（非申請中）；「（非市場推案）」為社宅/宿舍不列入市場開發漏斗。</p>
   </div>
   <div class="tablebox">
     <table>
       <thead><tr><th>縣市</th><th>類型</th><th>案名</th><th>行政區</th><th style="text-align:right">戶數</th><th>起造人</th><th>字號</th><th>發照日</th></tr></thead>
       <tbody>
         <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>北屯</td><td class="num">783</td><td>登陽建設有限公司負責人：郭OO</td><td>112中都建字第00951號（建照）</td><td>112/06/13</td></tr>
-        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>桃園區</td><td class="num">596</td><td>合一建築股份有限公司　負責人：楊題銓</td><td>(112)桃市都建執照字第會桃00807號（建照）</td><td>112/09/25</td></tr>
-        <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－資料源受阻）</span></td><td>清水</td><td class="num">580</td><td>長虹建設股份有限公司負責人:李OO</td><td>111中都建字第01948號（建照）</td><td>111/09/30</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td>會稽段都更案（晶悅國際酒店都更基地；佔位名，尚未公開命名）</td><td>桃園區</td><td class="num">596</td><td>合一建築股份有限公司　負責人：楊題銓</td><td>(112)桃市都建執照字第會桃00807號（建照）</td><td>112/09/25</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>清水</td><td class="num">580</td><td>長虹建設股份有限公司負責人:李OO</td><td>111中都建字第01948號（建照）</td><td>111/09/30</td></tr>
         <tr><td>台北市</td><td>已核發115年</td><td><span class="miss-name">（非市場推案：興隆公共住宅社宅）</span></td><td>文山區</td><td class="num">504</td><td>新亞建設開發股份有限公司</td><td>115使字第0080號</td><td>115/05/15</td></tr>
         <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（非市場推案：正光路警察宿舍重建，社宅/宿舍混合）</span></td><td>桃園區</td><td class="num">299</td><td>桃園市政府 市長張善政</td><td>(111)桃市都建執照字第會桃01268-01號（建照）</td><td>114/07/17</td></tr>
-        <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>南屯</td><td class="num">268</td><td>富宇建設股份有限公司負責人:張OO</td><td>106中都建字第02068號（建照）</td><td>111/05/03</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>富宇寶山段1053（佔位名，尚未公開命名）</td><td>南屯</td><td class="num">268</td><td>富宇建設股份有限公司負責人:張OO</td><td>106中都建字第02068號（建照）</td><td>111/05/03</td></tr>
         <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>龍潭區</td><td class="num">254</td><td>慶盛建設有限公司代表人：邱奕森</td><td>(112)桃市都建執照字第會龍00975號（建照）</td><td>112/09/25</td></tr>
         <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>南屯</td><td class="num">224</td><td>惠昇建設股份有限公司負責人:莊OO</td><td>111中都建字第01373號（建照）</td><td>111/06/29</td></tr>
         <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>梧棲</td><td class="num">215</td><td>佳鋐建設股份有限公司負責人:陳OO</td><td>112中都建字第01853號（建照）</td><td>112/12/03</td></tr>
         <tr><td>台中市</td><td>申請中(官方推定)</td><td>西屯市政好宅（惠來厝段社會住宅，原名西屯區惠來厝）</td><td>西屯</td><td class="num">213</td><td>國家住宅及都市更新中心代表人:花OO</td><td>112中都建字第00861號（建照）</td><td>112/06/01</td></tr>
         <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>蘆竹區</td><td class="num">212</td><td>和峻建設股份有限公司 負責人:張展溢</td><td>(112)桃市都建執照字第會蘆00863-01號（建照）</td><td>114/08/12</td></tr>
-        <tr><td>台北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名－真查無）</span></td><td>大同區</td><td class="num">209</td><td>中福營造股份有限公司</td><td>115使字第0063號</td><td>115/04/24</td></tr>
-        <tr><td>台北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名－真查無）</span></td><td>士林區</td><td class="num">206</td><td>祝旺開發股份有限公司</td><td>115使字第0059號</td><td>115/04/21</td></tr>
-        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>中壢區</td><td class="num">202</td><td>興樹建設有限公司負責人:李淑芬</td><td>(112)桃市都建執照字第會壢01248號（建照）</td><td>112/12/19</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td>興樹豐興段1（佔位名，尚未公開命名）</td><td>中壢區</td><td class="num">202</td><td>興樹建設有限公司負責人:李淑芬</td><td>(112)桃市都建執照字第會壢01248號（建照）</td><td>112/12/19</td></tr>
         <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>平鎮區</td><td class="num">200</td><td>新纖工業股份有限公司代表人：歐金達</td><td>(112)桃市都建執照字第會平00958號（建照）</td><td>112/09/28</td></tr>
         <tr><td>桃園市</td><td>申請中(官方推定)</td><td>⚠️ 僑蓮澐鋒（簡稱澐鋒）（2026-07-31 攻堅解名；經查已完工，非申請中）</td><td>平鎮區</td><td class="num">185</td><td>鴻騰建設股份有限公司　負責人:林洺鋒</td><td>(111)桃市都建執照字第會平00022號（建照）</td><td>111/01/07</td></tr>
         <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>大園區</td><td class="num">183</td><td>創景建設股份有限公司 負責人：吳美順</td><td>(112)桃市都建執照字第會園01063-01號（建照）</td><td>115/01/02</td></tr>
         <tr><td>台北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名－真查無）</span></td><td>中正區</td><td class="num">166</td><td>銘倫營造股份有限公司</td><td>115使字第0055號</td><td>115/04/02</td></tr>
-        <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>西屯</td><td class="num">164</td><td>豐邑百貨股份有限公司負責人:黃OO</td><td>111中都建字第01560號（建照）</td><td>111/08/22</td></tr>
-        <tr><td>台北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名－真查無）</span></td><td>文山區</td><td class="num">163</td><td>森城建設股份有限公司</td><td>115使字第0105號</td><td>115/06/16</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>豐邑惠國段180（佔位名，尚未公開命名）</td><td>西屯</td><td class="num">164</td><td>豐邑百貨股份有限公司負責人:黃OO</td><td>111中都建字第01560號（建照）</td><td>111/08/22</td></tr>
         <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>南屯</td><td class="num">161</td><td>大城建設股份有限公司負責人：賴OO</td><td>111中都建字第01505號（建照）</td><td>111/07/19</td></tr>
         <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>龍潭區</td><td class="num">161</td><td>合睦建設有限公司 負責人：黃宗彬</td><td>(111)桃市都建執照字第會龍00738-02號（建照）</td><td>114/10/23</td></tr>
-        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>桃園區</td><td class="num">157</td><td>麗寶建設股份有限公司負責人:吳寶田</td><td>(111)桃市都建執照字第會桃00690號（建照）</td><td>111/06/24</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td>小檜溪D案（暫稱，麗寶南法莊園系列未公開第4棟；佔位名，尚未公開命名）</td><td>桃園區</td><td class="num">157</td><td>麗寶建設股份有限公司負責人:吳寶田</td><td>(111)桃市都建執照字第會桃00690號（建照）</td><td>111/06/24</td></tr>
         <tr><td>台中市</td><td>申請中(官方推定)</td><td>⚠️ 新業自由居（2026-07-31 攻堅解名；經查已完工，非申請中）</td><td>東</td><td class="num">154</td><td>新業建設股份有限公司負責人:卓OO</td><td>108中都建字第02167號（建照）</td><td>111/04/01</td></tr>
         <tr><td>桃園市</td><td>申請中(官方推定)</td><td>⚠️ 檜樂集（2026-07-31 攻堅解名；經查已完工，非申請中）</td><td>桃園區</td><td class="num">152</td><td>合遠建設股份有限公司負責人:李明慶</td><td>(111)桃市都建執照字第會桃00636-01號（建照）</td><td>112/02/14</td></tr>
         <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>沙鹿</td><td class="num">146</td><td>佳鏵建設股份有限公司負責人:王OO</td><td>112中都建字第01522號（建照）</td><td>112/10/09</td></tr>
-        <tr><td>桃園市</td><td>已核發115年</td><td><span class="miss-name">（查無案名－資料源受阻）</span></td><td>龜山區</td><td class="num">142</td><td>台新建築經理股份有限公司 代表人:刁建生</td><td>(115)桃市都施使字第龜00399號</td><td>115/04/28</td></tr>
-        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>桃園區</td><td class="num">137</td><td>永聆興業有限公司負責人:唐永正</td><td>(111)桃市都建執照字第會桃01275號（建照）</td><td>111/11/09</td></tr>
+        <tr><td>桃園市</td><td>已核發115年</td><td><span class="miss-name">（查無案名－真查無）</span><br><span class="note">0801 重跑：起造人為建經代辦，實際開發商多輪查無</span></td><td>龜山區</td><td class="num">142</td><td>台新建築經理股份有限公司 代表人:刁建生</td><td>(115)桃市都施使字第龜00399號</td><td>115/04/28</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td>永聆雲盟段7（佔位名，尚未公開命名）</td><td>桃園區</td><td class="num">137</td><td>永聆興業有限公司負責人:唐永正</td><td>(111)桃市都建執照字第會桃01275號（建照）</td><td>111/11/09</td></tr>
         <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>桃園區</td><td class="num">135</td><td>廣承建設股份有限公司負責人:張仙憶</td><td>(111)桃市都建執照字第會桃01109-01號（建照）</td><td>112/04/14</td></tr>
         <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>南屯</td><td class="num">134</td><td>大城建設股份有限公司負責人：賴OO</td><td>111中都建字第01523號（建照）</td><td>111/07/31</td></tr>
-        <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>清水</td><td class="num">132</td><td>春虹建設股份有限公司代表人：黃OO</td><td>112中都建字第00346號（建照）</td><td>112/02/24</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>春虹市鎮北段370（佔位名，尚未公開命名）</td><td>清水</td><td class="num">132</td><td>春虹建設股份有限公司代表人：黃OO</td><td>112中都建字第00346號（建照）</td><td>112/02/24</td></tr>
         <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>西</td><td class="num">128</td><td>總誼建設有限公司負責人徐OO</td><td>110中都建字第02603號（建照）</td><td>112/01/09</td></tr>
         <tr><td>台中市</td><td>申請中(官方推定)</td><td>勝華建設溝背段案（2026-07-31 攻堅解名，低信心暫未入庫）</td><td>北屯</td><td class="num">128</td><td>勝華建設有限公司負責人：林OO</td><td>112中都建字第01033號（建照）</td><td>112/12/24</td></tr>
-        <tr><td>台北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名－真查無）</span></td><td>中山區</td><td class="num">127</td><td>盛德營造股份有限公司</td><td>115使字第0888號</td><td>115/03/26</td></tr>
-        <tr><td>台北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名－真查無）</span></td><td>信義區</td><td class="num">124</td><td>金弘承營造股份有限公司</td><td>115使字第0028號</td><td>115/02/11</td></tr>
-        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>中壢區</td><td class="num">124</td><td>佳昕建設股份有限公司 負責人：柯文琦</td><td>(112)桃市都建執照字第會壢00675-01號（建照）</td><td>114/06/12</td></tr>
-        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>中壢區</td><td class="num">122</td><td>和峻建設股份有限公司負責人:張展溢</td><td>(112)桃市都建執照字第會壢00217號（建照）</td><td>112/03/14</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td>佳昕豐興段145（佔位名，尚未公開命名）</td><td>中壢區</td><td class="num">124</td><td>佳昕建設股份有限公司 負責人：柯文琦</td><td>(112)桃市都建執照字第會壢00675-01號（建照）</td><td>114/06/12</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td>和峻豐興段43（佔位名，尚未公開命名）</td><td>中壢區</td><td class="num">122</td><td>和峻建設股份有限公司負責人:張展溢</td><td>(112)桃市都建執照字第會壢00217號（建照）</td><td>112/03/14</td></tr>
         <tr><td>台北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名－真查無）</span></td><td>中山區</td><td class="num">115</td><td>信創營造股份有限公司</td><td>115使字第0041號</td><td>115/03/12</td></tr>
         <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>觀音區</td><td class="num">115</td><td>思程建設股份有限公司負責人:陳燈義</td><td>(112)桃市都建執照字第會觀00607號（建照）</td><td>112/06/26</td></tr>
-        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名－尚未公開命名）</span></td><td>中壢區</td><td class="num">114</td><td>興樹建設有限公司負責人:李淑芬</td><td>(112)桃市都建執照字第會壢01260號（建照）</td><td>112/12/20</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td>興樹豐興段67（佔位名，尚未公開命名）</td><td>中壢區</td><td class="num">114</td><td>興樹建設有限公司負責人:李淑芬</td><td>(112)桃市都建執照字第會壢01260號（建照）</td><td>112/12/20</td></tr>
         <tr><td>新北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名－真查無）</span></td><td>板橋區</td><td class="num">113</td><td>宏昇營造股份有限公司</td><td>115板使字第00177號</td><td>115/06/12</td></tr>
-        <tr><td>台北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名－真查無）</span></td><td>士林區</td><td class="num">108</td><td>億東營造股份有限公司</td><td>115使字第0031號</td><td>115/02/26</td></tr>
         <tr><td>桃園市</td><td>申請中(官方推定)</td><td>⚠️ 璟都凱悅（2026-07-31 攻堅解名；經查已完工，非申請中）</td><td>大園區</td><td class="num">108</td><td>嘉駿建設股份有限公司負責人:黃國明</td><td>(111)桃市都建執照字第會園00996-01號（建照）</td><td>111/11/23</td></tr>
         <tr><td>台北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名－真查無）</span></td><td>中山區</td><td class="num">107</td><td>盛德營造股份有限公司</td><td>115使字第0083號</td><td>115/05/20</td></tr>
         <tr><td>新北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名－真查無）</span></td><td>新店區</td><td class="num">106</td><td>寶路營造股份有限公司</td><td>115店使字第00166號</td><td>115/05/28</td></tr>
@@ -765,17 +759,18 @@
   </div>
 
 
-  <h2>170案攻堅成果（2026-07-31）</h2>
+  <h2>170案攻堅成果（2026-07-31 攻堅／2026-08-01 重跑回填）</h2>
   <div class="verdict">
-    <div class="headline">170案「官方有・App無」差異清單逐案攻堅：解出111案正式案名（65%）、確認3案為非市場推案、殘餘56案查無</div>
-    <p>七批並行查證（granted側3批、pending側4批），逐案以地址/地號＋起造人＋戶數三錨點比對591/houseprice/樂居/住展/建管處存根等多來源交叉核實，人工覆核後於2026-07-31整合入庫。解出111案中106案確認已在App（5案為老案/低信心暫不入庫，詳下）：<strong>40案為App真新增</strong>（id608-647，14案台中+26案桃園，含8案信心中等待覆核）、<strong>11案為既有App記錄補掛/訂正</strong>（其中6案補掛使照/建照字號──長耀辰/超夢SUPER/佳昕昕大景/秉和芊遇/桃花源/合雄城心ONE；5案交叉核對確認為既有記錄同案，含1案訂正App既有錯誤案名「遠雄藝舍→遠雄洄山行」）、<strong>其餘55案</strong>則是App在此次170案攻堅之前、經2026-07-18～07-30數輪獨立使照盤點作業（新北/桃園/台中各市全量重掃）就已補上usage_permit資料，只是v2報告生成時的join邏輯未涵蓋這條路徑而誤判為缺口——這是v3覆蓋率大幅上升的最大宗成因。另4案查證為已完工多年老案（非申請中，不入庫，詳見下方⚠️標記）、1案為低信心暫不入庫。170案總計最終121案（71%）確認已在App（106案解出案名+15案雖未解名但App已有獨立資料）。</p>
+    <div class="headline">170案「官方有・App無」差異清單逐案攻堅＋0801 重跑：累計解出130案正式案名（76%）、確認3案為非市場推案、未解收斂至37案</div>
+    <p><strong>v3（2026-07-31 攻堅）：</strong>七批並行查證（granted側3批、pending側4批），逐案以地址/地號＋起造人＋戶數三錨點比對591/houseprice/樂居/住展/建管處存根等多來源交叉核實，人工覆核後於2026-07-31整合入庫。解出111案中106案確認已在App（5案為老案/低信心暫不入庫，詳下）：<strong>40案為App真新增</strong>（id608-647，14案台中+26案桃園，含8案信心中等待覆核）、<strong>11案為既有App記錄補掛/訂正</strong>（其中6案補掛使照/建照字號──長耀辰/超夢SUPER/佳昕昕大景/秉和芊遇/桃花源/合雄城心ONE；5案交叉核對確認為既有記錄同案，含1案訂正App既有錯誤案名「遠雄藝舍→遠雄洄山行」）、<strong>其餘55案</strong>則是App在此次170案攻堅之前、經2026-07-18～07-30數輪獨立使照盤點作業（新北/桃園/台中各市全量重掃）就已補上usage_permit資料，只是v2報告生成時的join邏輯未涵蓋這條路徑而誤判為缺口——這是v3覆蓋率大幅上升的最大宗成因。另4案查證為已完工多年老案（非申請中，不入庫，詳見下方⚠️標記）、1案為低信心暫不入庫。170案總計最終121案（71%）確認已在App（106案解出案名+15案雖未解名但App已有獨立資料）。</p>
+    <p><strong>v4（2026-08-01 重跑）：</strong>以 5,000 次搜尋額度、17 個 agent 並行重跑 v3 殘餘的 56 案未解案，opus 覆核零推翻，戰果為<strong>翻案 19 案</strong>、尚未公開命名 28 案、真查無 9 案、資料源受阻 <strong>0 案</strong>——blocked 歸零證實前次的「資料源受阻」多為搜尋額度耗盡造成的假性查無。翻案 19 案中 15 案 App 早有資料（12 案為 2026-07-29～30 使照盤點作業已掛上 usage_permit，另 3 案 id534 圓山帝寶／id542 吉美君悅／id31 國美馥遇係「115115」髒字號前綴造成的 join 漏接，已清理並補掛 115使字第0028號），4 案為本輪新增入庫（id648 捷運圓山站西側公辦都更案B區 209戶、id649 躍大直 126戶、id650 良茂詠悅 107戶、id651 瀚羽蒔光 149戶；此處為 App 登錄戶數，官方登記戶數以各縣市主表為準，例如瀚羽蒔光官方登記 160 戶／115莊使字第00086號）。其中 6 筆直接翻掉差異清單內的台北「真查無」列，差異清單由 49 案／9,496 戶收斂為 <strong>43 案／8,559 戶</strong>，台北市 App 收錄率由 0/11 升至 6/11、六縣市合計由 238 案／82.9% 升至 244 案／85.0%。另補齊 10 案佔位名（見差異清單案名欄）。同輪 App 端資料誠實性修正（不改動本報告官方母體登記值）：8 筆 needs_review 之「屆期法推定」使照狀態<strong>全數撤銷</strong>改以 note 留痕，並訂正 id618 登陽華馥戶數 144→200（現行建照 113中都建字第01415號）、id641 青城之愛3 建商正名豐和邦建設、id621 丹源齊稙起造人衝突釐清為丹源、id521 誤掛之 115莊使字第00086號撤銷（正主為新增案瀚羽蒔光）。App 現況：619 案、usage_permit 已領 147／申請中(推定) 114。</p>
   </div>
 
   <div class="stats">
     <div class="stat"><div class="n">170 案</div><div class="l">攻堅母體（granted 69 + pending 101）</div></div>
-    <div class="stat"><div class="n">111 案</div><div class="l">解出正式案名（65%）</div></div>
+    <div class="stat"><div class="n">130 案</div><div class="l">解出正式案名（76%，含0801重跑翻案19）</div></div>
     <div class="stat"><div class="n">3 案</div><div class="l">確認非市場推案（社宅/宿舍）</div></div>
-    <div class="stat"><div class="n">56 案</div><div class="l">仍查無（詳見下方分類）</div></div>
+    <div class="stat"><div class="n">37 案</div><div class="l">仍未解（v3 為56案，詳見下方分類）</div></div>
   </div>
 
   <h3>大案戰果：解出前10大案（依登記戶數排序）</h3>
@@ -807,18 +802,18 @@
     <p>App既有記錄id580原案名「遠雄藝舍」為誤植，本輪以遠雄集團官網作品集頁＋使照字號（115中都使字第00984號）雙源核實，正確案名應為「<strong>遠雄洄山行</strong>」（地號廣明段855、戶數148戶精確吻合），已於2026-07-31更正。</p>
   </div>
 
-  <h3>未解56案分類與續查建議</h3>
+  <h3>未解37案分類與續查建議（0801 重跑後）</h3>
   <div class="tablebox">
     <table>
       <thead><tr><th>分類</th><th style="text-align:right">案數</th><th>定義</th><th>續查建議</th></tr></thead>
       <tbody>
-        <tr><td>查無案名－尚未公開命名</td><td class="num">27</td><td>地號/起造人/戶數已用官方建管系統（bupic存根/opendata API）逐項比對確認為真實建案，但市場端尚未進入銷售命名階段（多為台中/桃園建照案，工程進度領先行銷公開，或建商刻意晚公開）</td><td>非查證疏漏，屬時間差，建議每季隨建照屆期滾動複查一次591/樂居新掛牌名單，待正式公開銷售後即可回填案名</td></tr>
-        <tr><td>查無案名－真查無</td><td class="num">12</td><td>合法管道（591/實價登錄/houseprice/建管處）兩輪查證仍無線索，多集中於台北市／新北市——這兩市官方資料無起造人/地號逐筆交叉比對工具（不同於台中bupic、桃園opendata），解名難度本身最高</td><td>額度重置後改查臺北市建管處使照存根影像查詢(img2.gov.taipei/F100)、新北市建管存根系統(building-management.publicwork.ntpc.gov.tw)反查門牌/建照，或候老闆提供地緣線索</td></tr>
-        <tr><td>查無案名－資料源受阻</td><td class="num">2</td><td>查證中遭搜尋引擎反爬蟲阻擋或候選頁面403無法讀取內文，非該案真的查無線索，只是技術性受阻未能完成最後確認</td><td>換代理/換查詢時段重試，或改用Google快取／Wayback Machine讀取被擋頁面內容</td></tr>
+        <tr><td>查無案名－尚未公開命名</td><td class="num">28</td><td>地號/起造人/戶數已用官方建管系統（bupic存根/opendata API）逐項比對確認為真實建案，但市場端尚未進入銷售命名階段（多為台中/桃園建照案，工程進度領先行銷公開，或建商刻意晚公開）；0801 重跑已為其中 10 案補上佔位名（見差異清單案名欄），另 1 案（長虹清水580戶）由「資料源受阻」改判入本類</td><td>非查證疏漏，屬時間差，建議每季隨建照屆期滾動複查一次591/樂居新掛牌名單，待正式公開銷售後即可回填案名</td></tr>
+        <tr><td>查無案名－真查無</td><td class="num">9</td><td>合法管道（591/實價登錄/houseprice/建管處）多輪查證仍無線索，逐案為台北4（中正0055／中山0041／中山0083／松山0076）＋新北2（板橋00177／新店00166）＋桃園3（含龜00399 起造人為建經代辦、查無實際開發商）——台北/新北兩市官方資料無起造人/地號逐筆交叉比對工具（不同於台中bupic、桃園opendata），解名難度本身最高<!-- v4待覆核：規格書授權數據記「台北6＋新北2＋桃園1」，但 rerun_results_20260801.json 逐案為台北4(seq4/8/10/11)＋新北2(seq32/33)＋桃園3(seq49/50/53)，總數同為9；此處採逐案可追溯值，請老闆裁示 --></td><td>額度重置後改查臺北市建管處使照存根影像查詢(img2.gov.taipei/F100)、新北市建管存根系統(building-management.publicwork.ntpc.gov.tw)反查門牌/建照，或候老闆提供地緣線索</td></tr>
+        <tr><td>查無案名－資料源受阻</td><td class="num">0</td><td>0801 重跑後歸零——v3 列為「反爬蟲/403 技術性受阻」的 2 案本輪均完成判定（長虹清水580戶改判尚未公開命名、台新建經龜山142戶改判真查無），證實前次多為搜尋額度耗盡造成的假性查無</td><td>—（本類已無案件）</td></tr>
       </tbody>
     </table>
   </div>
-  <p class="note">完整56案清單（含逐案查證記錄與已排除候選）留存於工作素材 attack170_20260731/results_*.json，可依seq編號查詢個案完整查證過程；上表分類依各批notes欄之查證記錄有據判定，非主觀臆測。</p>
+  <p class="note">未解 37 案中，<strong>35 案</strong>列於本報告「官方有・App無」差異清單（28 案尚未公開命名＋7 案真查無）；另 <strong>2 案</strong>（桃園觀音 136 戶／(115)桃市都施使字第觀00132號、觀音 104 戶／觀00704號）App 已有獨立資料、主表亦已列案名並標 App✓，僅 0801 重跑未能獨立再確認案名，故仍計入未解。完整逐案清單（含查證記錄與已排除候選）留存於工作素材 attack170_20260731/results_*.json（0731 七批攻堅）與 attack170_20260731/rerun_results_20260801.json（0801 重跑 56 案逐案記錄），可依 seq 編號查詢個案完整查證過程；上表分類依各批 notes 欄之查證記錄有據判定，非主觀臆測。</p>
 
   <h2>口徑說明</h2>
   <div class="caveat">
@@ -835,7 +830,7 @@
     <h3>⑥新竹縣2筆「疑似對應但建商欄不符」，v3已解除疑慮確認為App✓</h3>
     <p>新竹縣2筆115年100戶+使照（府使字第00093號123戶／竹北、府使字第00121號123戶／竹北）v2版與App庫內同區同戶數案件（浩瀚寬郁、惠宇謙恆）行政區與戶數相符，但官方起造人（浩瀚開發建設、惠理建設）與App建商欄（豐邑建設、惠宇建設）不一致，當時為避免誤配未強行連結，暫列「App✗／查無案名」。v3複核：App內usage_permit欄位已於先前使照盤點作業（新竹縣bupic建築執照存根查詢系統115年全量檢索）逐案覆核確認起造人與政府登記完全吻合（豐邑集團官網作品集頁亦載明該建案），確認為同案，v3已更正為App✓，不再列入差異清單。</p>
     <h3>⑦App✓/✗判定方式（v3更新：加入字號雙路 join）</h3>
-    <p>v2判定方式：依序比對 known_permit_cases.json（90筆既知配對）→ txg_granted_gap／txg_pending_gap（台中兩輪覆核專案，共54筆）→ tyc_named_match／ntpc_named_match（桃園/新北WebSearch解名，含in_app與new_cases）→ App buildings.json（案名/建商/社群數），只要任一來源確認該筆使照對應到App既有案件即標「App✓」；查得案名但未對應App案件標「App✗」＋顯示名稱；完全查無則「App✗」＋「（查無案名）」。<strong>v3新增字號雙路 join</strong>：除案名比對外，同時直接比對 buildings.json 每筆記錄的 usage_permit.no／usage_permit.source 欄位是否含有該筆官方使照/建照字號——這條路徑補上了v2遺漏的大量既有 App 記錄（多為2026-07-18～07-30期間陸續使照盤點作業寫入 usage_permit 欄位、但v2報告生成時未納入比對邏輯的案件），是v3覆蓋率大幅上升（117→238案，40.8%→82.9%）的主因，屬「v2 因字號格式造成的假性缺口」修正。所有判定皆保留來源可追溯（各表name_source欄／usage_permit.source欄，內部工作檔留存，未寫入對外HTML）。</p>
+    <p>v2判定方式：依序比對 known_permit_cases.json（90筆既知配對）→ txg_granted_gap／txg_pending_gap（台中兩輪覆核專案，共54筆）→ tyc_named_match／ntpc_named_match（桃園/新北WebSearch解名，含in_app與new_cases）→ App buildings.json（案名/建商/社群數），只要任一來源確認該筆使照對應到App既有案件即標「App✓」；查得案名但未對應App案件標「App✗」＋顯示名稱；完全查無則「App✗」＋「（查無案名）」。<strong>v3新增字號雙路 join</strong>：除案名比對外，同時直接比對 buildings.json 每筆記錄的 usage_permit.no／usage_permit.source 欄位是否含有該筆官方使照/建照字號——這條路徑補上了v2遺漏的大量既有 App 記錄（多為2026-07-18～07-30期間陸續使照盤點作業寫入 usage_permit 欄位、但v2報告生成時未納入比對邏輯的案件），是v3覆蓋率大幅上升（117→238案，40.8%→82.9%）的主因，屬「v2 因字號格式造成的假性缺口」修正。<strong>v4（2026-08-01 重跑）再補</strong>：台北側 6 案翻案（2 案為「115115」髒字號前綴 join 漏接、1 案本輪補掛使照字號、3 案新增入庫），已核發側 matched 由 123 案升至 129 案（89.8%→94.2%），六縣市合計 238→244 案（82.9%→85.0%）；申請中側母體與 matched 均未變動（115/150・76.7%）。所有判定皆保留來源可追溯（各表name_source欄／usage_permit.source欄，內部工作檔留存，未寫入對外HTML）。</p>
   </div>
 
   <h2>來源池清單</h2>
@@ -854,10 +849,10 @@
       </tbody>
     </table>
   </div>
-  <p class="note">名稱豐富化來源（非母體，僅供join）：known_permit_cases.json（90筆既知配對）、txg_granted_gap/pending_gap/unresolved_attack_20260729（台中兩輪覆核）、tyc_named_match.json、ntpc_named_match.json、tyc_pending_named_final.json、170案攻堅七批results（2026-07-31，attack170_20260731/results_g1~g3/p1~p4.json）、如菓建案追蹤App buildings.json（v3更新時點615案，含2026-07-31 170案攻堅整合入庫commit efd00a2）。</p>
+  <p class="note">名稱豐富化來源（非母體，僅供join）：known_permit_cases.json（90筆既知配對）、txg_granted_gap/pending_gap/unresolved_attack_20260729（台中兩輪覆核）、tyc_named_match.json、ntpc_named_match.json、tyc_pending_named_final.json、170案攻堅七批results（2026-07-31，attack170_20260731/results_g1~g3/p1~p4.json）、如菓建案追蹤App buildings.json（v4更新時點619案，含2026-07-31 170案攻堅整合入庫commit efd00a2、2026-08-01 重跑回填commit ad26bde 與修正commit 3d4a58e）、attack170_20260731/rerun_results_20260801.json（0801 重跑 56 案逐案記錄）。</p>
 
   <footer>
-    v3（2026-07-31）：170案「官方有・App無」差異清單逐案攻堅解名（111案解出，65%），並以最新buildings.json重新join（案名正規化＋使照/建照字號雙路），修正v2因字號格式造成的假性缺口——App覆蓋率由117案/40.8%升至238案/82.9%，差異清單收斂為49案/9,496戶；另訂正4案老案標記（已完工非申請中）、1案App既有錯誤案名。v2（2026-07-31稍早）：母體改版，由「App收錄版」全面重建為「六縣市政府官方使用執照/建造執照開放資料池」直接篩選版；App 僅作案名/建商/社群數之豐富化來源，不再作為母體。原版本歷史存於本 repo git 紀錄。資料來源與抓取方法詳見上方「來源池清單」。如發現官方池與實際登記有出入，請以各縣市政府開放資料原始公告為準。
+    v4（2026-08-01）：以 5,000 搜尋額度重跑 v3 殘餘 56 案未解案（17 agents 並行＋opus 覆核零推翻），翻案 19 案（15 案 App 早有＋4 案新增入庫 id648-651）、補齊 10 案佔位名、真查無由 12+2 收斂至 9、資料源受阻歸零——差異清單由 49 案/9,496 戶收斂為 43 案/8,559 戶，App 覆蓋率 238 案/82.9% 升至 244 案/85.0%（已核發側 123→129 案、89.8%→94.2%；申請中側維持 115/150・76.7%）；另訂正新北 115莊使字第00086號 案名（禾蓮心家園→瀚羽蒔光）。App 端同步做資料誠實性修正（8 筆屆期法推定使照狀態全數撤銷、4 筆欄位訂正），現況 619 案、usage_permit 已領 147/申請中(推定) 114。v3（2026-07-31）：170案「官方有・App無」差異清單逐案攻堅解名（111案解出，65%），並以最新buildings.json重新join（案名正規化＋使照/建照字號雙路），修正v2因字號格式造成的假性缺口——App覆蓋率由117案/40.8%升至238案/82.9%，差異清單收斂為49案/9,496戶；另訂正4案老案標記（已完工非申請中）、1案App既有錯誤案名。v2（2026-07-31稍早）：母體改版，由「App收錄版」全面重建為「六縣市政府官方使用執照/建造執照開放資料池」直接篩選版；App 僅作案名/建商/社群數之豐富化來源，不再作為母體。原版本歷史存於本 repo git 紀錄。資料來源與抓取方法詳見上方「來源池清單」。如發現官方池與實際登記有出入，請以各縣市政府開放資料原始公告為準。
   </footer>
 </div>
 </body>
