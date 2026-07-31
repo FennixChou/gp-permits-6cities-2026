@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>六縣市 2026 新建案使照統整報告</title>
+<title>六縣市 2026 新建案使照統整報告（官方母體版）</title>
 <style>
   :root{
     --bg:#F2ECDF; --surface:#FCFAF4; --surface-2:#F7F1E6; --ink:#22271F; --muted:#62665A;
@@ -31,9 +31,9 @@
   body{background:var(--bg); color:var(--ink); margin:0;
     font-family:"Segoe UI","Microsoft JhengHei","PingFang TC","Noto Sans TC",system-ui,sans-serif;
     font-size:16px; line-height:1.75;}
-  .wrap{max-width:860px; margin:0 auto; padding:44px 22px;}
+  .wrap{max-width:960px; margin:0 auto; padding:44px 22px;}
   header.doc h1{font-size:1.55rem; font-weight:600; margin:0 0 6px; text-wrap:balance;}
-  .meta{color:var(--muted); font-size:.88rem; margin:0 0 28px;}
+  .meta{color:var(--muted); font-size:.85rem; margin:0 0 28px;}
   h2{font-size:1.3rem; font-weight:600; margin:44px 0 12px; padding-top:18px; border-top:2px solid var(--primary-line);}
   h2:first-of-type{border-top:none; padding-top:0;}
   h3{font-size:1rem; font-weight:600; margin:20px 0 8px;}
@@ -46,20 +46,21 @@
   .stat .n{font-size:1.3rem; font-weight:600; color:var(--primary); font-variant-numeric:tabular-nums;}
   .stat .l{color:var(--muted); font-size:.82rem; letter-spacing:.04em;}
   .tablebox{overflow-x:auto; border:1px solid var(--line); border-radius:10px; background:var(--surface); margin:12px 0;}
-  table{border-collapse:collapse; width:100%; min-width:720px; font-size:.9rem;}
-  th{background:var(--surface-2); color:var(--muted); font-size:.76rem; letter-spacing:.05em; font-weight:600;
+  table{border-collapse:collapse; width:100%; min-width:720px; font-size:.88rem;}
+  th{background:var(--surface-2); color:var(--muted); font-size:.74rem; letter-spacing:.05em; font-weight:600;
      text-align:left; padding:9px 11px; white-space:nowrap;}
   td{padding:8px 11px; border-top:1px solid var(--line); vertical-align:top;}
   td.num{font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap;}
   .ok{color:var(--primary); font-weight:600;}
+  .miss{color:var(--danger); font-weight:600;}
+  .miss-name{color:var(--muted); font-style:italic;}
   .warn-t{color:var(--warn); font-weight:600;}
   .note{color:var(--muted); font-size:.88rem;}
   ol,ul{margin:0 0 12px; padding-left:1.35em;}
   li{margin-bottom:6px;}
   footer{margin-top:40px; padding-top:14px; border-top:1px solid var(--line); color:var(--muted); font-size:.88rem;}
-  /* 總覽橫條 */
   .bars{margin:16px 0;}
-  .barrow{display:grid; grid-template-columns:64px 1fr 220px; align-items:center; gap:10px; margin-bottom:10px;}
+  .barrow{display:grid; grid-template-columns:64px 1fr 260px; align-items:center; gap:10px; margin-bottom:10px;}
   .barlabel{font-size:.88rem; font-weight:600;}
   .bartrack{display:flex; height:16px; border-radius:6px; overflow:hidden; background:var(--surface-2); border:1px solid var(--line);}
   .barseg-g{background:var(--primary);}
@@ -72,12 +73,13 @@
   .dot-g{background:var(--primary);} .dot-p{background:var(--clay);}
   .caveat{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:16px 20px; margin:14px 0;}
   .caveat h3{margin-top:0;}
+  .poolbox{font-size:.82rem;}
   @media print{
     :root{ --bg:#FFFFFF; --surface:#FFFFFF; --surface-2:#F4EFE3; }
     .wrap{max-width:none; padding:0;}
     .tablebox{overflow:visible;}
-    table{min-width:0; font-size:.68rem;}
-    th,td,td.num{white-space:normal; padding:5px 7px;}
+    table{min-width:0; font-size:.62rem;}
+    th,td,td.num{white-space:normal; padding:4px 6px;}
     .verdict,.stat,.caveat{break-inside:avoid;} tr{break-inside:avoid;}
     h2{break-before:page;} h2:first-of-type{break-before:auto;}
   }
@@ -86,2215 +88,842 @@
 <body>
 <div class="wrap">
   <header class="doc">
-    <h1>六縣市 2026 新建案使照統整報告</h1>
-    <p class="meta">範圍：台北市・新北市・桃園市・新竹縣・新竹市・台中市｜口徑：住宅戶數 ≥100 戶、使用執照「已領」或「申請中(推定)」｜資料源：如菓建案追蹤 App buildings.json（單一正本，575 案）｜製表：瑪莉（市場開發）｜產製 2026-07-31</p>
+    <h1>六縣市 2026 新建案使照統整報告（官方母體版）</h1>
+    <p class="meta">範圍：台北市・新北市・桃園市・新竹縣・新竹市・台中市｜口徑：<strong>母體＝六縣市政府使用執照開放資料池（直接篩選，非 App 收錄版）</strong>；發照日115年（2026）＋登記總戶數≥100 為主表，另設114年下半核發參考表｜App（如菓建案追蹤 buildings.json）僅作案名/建商/社群數之豐富化來源，join不上照樣入表｜製表：瑪莉（市場開發）｜產製 2026-07-31</p>
   </header>
 
   <div class="verdict">
-    <div class="headline">六縣市合計 216 案・50,604 戶：已領 141 案 / 35,000 戶，申請中(推定) 75 案 / 15,604 戶</div>
-    <p>台中市以 105 案・24,912 戶居六縣市之冠，桃園市 59 案次之；新竹市查無 100 戶以上使照案件（詳見口徑說明）。已領 141 案中 130 案為 115 年（2026）新領，11 案為 113–114 年舊領但仍在 App 追蹤中。</p>
+    <div class="headline">官方母體：已核發 137 案／32,298 戶（App 收錄 68 案・49.6%），申請中(官方推定，僅台中/桃園可推定) 150 案／32,245 戶（App 收錄 49 案・32.7%）</div>
+    <p>六縣市官方母體合計 <strong>287 案／64,543 戶</strong>。其中 <strong>170 案／33,467 戶「官方有登記、App 未收錄」</strong>（詳見「官方有・App無」差異清單章節）——這是本次改版最核心的發現：舊版報告母體＝App buildings.json（575案，僅216案達100戶門檻），只要App沒追蹤到的案子就完全不會出現；新版直接篩官方池，App 反而只是「豐富化」案名的次要來源。舊版（App口徑）2026-07-31 版：216 案／50,604 戶（已領141＋App口徑申請中75，含多年度混合）——與新版不可直接相減，因口徑重建（新版已核發限115單一年度；新版申請中僅台中/桃園有官方建照屆期法可推定，新北/台北/新竹縣/新竹市無官方建照公開資料，官方申請中留白），詳見下方口徑說明卡。</p>
   </div>
 
   <div class="stats">
-    <div class="stat"><div class="n">216 案</div><div class="l">六縣市合計・100戶以上</div></div>
-    <div class="stat"><div class="n">50,604 戶</div><div class="l">合計住宅戶數</div></div>
-    <div class="stat"><div class="n">141 案 / 35,000 戶</div><div class="l">已領</div></div>
-    <div class="stat"><div class="n">75 案 / 15,604 戶</div><div class="l">申請中(推定)</div></div>
+    <div class="stat"><div class="n">137 案 / 32,298 戶</div><div class="l">已核發・115年・官方母體</div></div>
+    <div class="stat"><div class="n">150 案 / 32,245 戶</div><div class="l">申請中・官方推定（僅台中+桃園）</div></div>
+    <div class="stat"><div class="n">287 案 / 64,543 戶</div><div class="l">官方母體合計</div></div>
+    <div class="stat"><div class="n">170 案 / 33,467 戶</div><div class="l">官方有・App無（差異清單）</div></div>
   </div>
 
-  <h3 style="margin-top:28px;">各縣市小計（依合計戶數）</h3>
-  <div class="legend"><span><i class="dot dot-g"></i>已領</span><span><i class="dot dot-p"></i>申請中(推定)</span></div>
+  <h3 style="margin-top:28px;">各縣市小計（已核發+申請中官方推定，依合計戶數）</h3>
+  <div class="legend"><span><i class="dot dot-g"></i>已核發(115年)</span><span><i class="dot dot-p"></i>申請中(官方推定，僅台中/桃園)</span></div>
   <div class="bars">
-  
-    <div class="barrow">
-      <div class="barlabel">台北市</div>
-      <div class="bartrack">
-        <div class="barseg barseg-g" style="width:3.0%"></div><div class="barseg barseg-p" style="width:0.0%"></div>
-      </div>
-      <div class="barnum">747 戶<span class="barsub">（已領 747・申請中 0）</span></div>
-    </div>
-
-    <div class="barrow">
-      <div class="barlabel">新北市</div>
-      <div class="bartrack">
-        <div class="barseg barseg-g" style="width:31.9%"></div><div class="barseg barseg-p" style="width:4.3%"></div>
-      </div>
-      <div class="barnum">9,014 戶<span class="barsub">（已領 7,949・申請中 1,065）</span></div>
-    </div>
-
-    <div class="barrow">
-      <div class="barlabel">桃園市</div>
-      <div class="bartrack">
-        <div class="barseg barseg-g" style="width:41.1%"></div><div class="barseg barseg-p" style="width:16.7%"></div>
-      </div>
-      <div class="barnum">14,379 戶<span class="barsub">（已領 10,230・申請中 4,149）</span></div>
-    </div>
-
-    <div class="barrow">
-      <div class="barlabel">新竹縣</div>
-      <div class="bartrack">
-        <div class="barseg barseg-g" style="width:6.2%"></div><div class="barseg barseg-p" style="width:0.0%"></div>
-      </div>
-      <div class="barnum">1,552 戶<span class="barsub">（已領 1,552・申請中 0）</span></div>
-    </div>
-
-    <div class="barrow">
-      <div class="barlabel">新竹市</div>
-      <div class="bartrack">
-        <div class="barseg barseg-g" style="width:0.0%"></div><div class="barseg barseg-p" style="width:0.0%"></div>
-      </div>
-      <div class="barnum">0 戶<span class="barsub">（已領 0・申請中 0）</span></div>
-    </div>
-
-    <div class="barrow">
-      <div class="barlabel">台中市</div>
-      <div class="bartrack">
-        <div class="barseg barseg-g" style="width:58.3%"></div><div class="barseg barseg-p" style="width:41.7%"></div>
-      </div>
-      <div class="barnum">24,912 戶<span class="barsub">（已領 14,522・申請中 10,390）</span></div>
-    </div>
+    <div class="barrow"><div class="barlabel">台北</div><div class="bartrack"><div class="barseg-g" style="width:6.816819992245603%"></div><div class="barseg-p" style="width:0%"></div></div><div class="barnum">1,934 戶<span class="barsub">（已核發 1,934・無官方推定法）</span></div></div>
+    <div class="barrow"><div class="barlabel">新北</div><div class="bartrack"><div class="barseg-g" style="width:26.17813964964224%"></div><div class="barseg-p" style="width:0%"></div></div><div class="barnum">7,427 戶<span class="barsub">（已核發 7,427・無官方推定法）</span></div></div>
+    <div class="barrow"><div class="barlabel">桃園</div><div class="bartrack"><div class="barseg-g" style="width:36.80871312255472%"></div><div class="barseg-p" style="width:63.19128687744527%"></div></div><div class="barnum">28,371 戶<span class="barsub">（已核發 10,443・申請中(官方) 17,928）</span></div></div>
+    <div class="barrow"><div class="barlabel">新竹縣</div><div class="bartrack"><div class="barseg-g" style="width:5.470374678368757%"></div><div class="barseg-p" style="width:0%"></div></div><div class="barnum">1,552 戶<span class="barsub">（已核發 1,552・無官方推定法）</span></div></div>
+    <div class="barrow"><div class="barlabel">新竹市</div><div class="bartrack"><div class="barseg-g" style="width:0%"></div><div class="barseg-p" style="width:0%"></div></div><div class="barnum">0 戶<span class="barsub">（已核發 0・無官方推定法）</span></div></div>
+    <div class="barrow"><div class="barlabel">台中</div><div class="bartrack"><div class="barseg-g" style="width:38.56755137288076%"></div><div class="barseg-p" style="width:50.46350146276127%"></div></div><div class="barnum">25,259 戶<span class="barsub">（已核發 10,942・申請中(官方) 14,317）</span></div></div>
   </div>
-  <p class="note">另有 3 案戶數未達 100 戶但已查有使照結論（如「原昕吾旭」58戶・申請中(推定)），依口徑不納入主表，僅此帶過筆數：原昕吾旭（新北市・58戶・申請中(推定)）、福容大都會（新北市・50戶・申請中(推定)）、鈞HOUSE（桃園市・55戶・已領）。</p>
 
-  
+
   <h2>台北市</h2>
   <div class="stats">
-    <div class="stat"><div class="n">5 案</div><div class="l">100戶以上・已領+申請中</div></div>
-    <div class="stat"><div class="n">747 戶</div><div class="l">合計住宅戶數</div></div>
-    <div class="stat"><div class="n">5 案 / 747 戶</div><div class="l">已核發</div></div>
-    <div class="stat"><div class="n">0 案 / 0 戶</div><div class="l">申請中(推定)</div></div>
+    <div class="stat"><div class="n">11 案 / 1,934 戶</div><div class="l">115年（2026）已核發・登記戶數≥100</div></div>
+    <div class="stat"><div class="n">0 / 11</div><div class="l">App 已收錄（0%）</div></div>
+    <div class="stat"><div class="n">149 筆</div><div class="l">官方池母體（原始筆數，未篩選）</div></div>
   </div>
-  
-  <h3>已核發（5 案）</h3>
+  <h3>已核發 115 年主表（11 案）</h3>
   <div class="tablebox">
     <table>
-      <thead><tr><th>案名</th><th>行政區</th><th style="text-align:right">住宅戶數</th><th>建商</th><th>使照字號</th><th>發照日</th><th>完工</th><th style="text-align:right">LINE群數</th></tr></thead>
-      <tbody><tr>
-      <td>世達懿居</td>
-      <td>中正區</td>
-      <td class="num">166</td>
-      <td>世達建設（危老案）</td>
-      <td>115115使字第0055號</td>
-      <td>115/04/02</td>
-      <td>2026 Q2</td>
-      <td class="num">8</td>
-    </tr>
-<tr>
-      <td>圓山帝寶</td>
-      <td>士林區</td>
-      <td class="num">206</td>
-      <td>愛山林建設＋冠揚建設</td>
-      <td>115115使字第0059號</td>
-      <td>115/04/21</td>
-      <td>2026 Q2</td>
-      <td class="num">6</td>
-    </tr>
-<tr>
-      <td>吉美艾麗</td>
-      <td>松山區</td>
-      <td class="num">105</td>
-      <td>吉美建設</td>
-      <td>115115使字第0076號</td>
-      <td>115/05/08</td>
-      <td>2026 Q2</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>鼎吉中山VISION</td>
-      <td>中山區</td>
-      <td class="num">107</td>
-      <td>鼎吉建設（危老案）</td>
-      <td>115115使字第0083號</td>
-      <td>115/05/20</td>
-      <td>2026 Q2</td>
-      <td class="num">5</td>
-    </tr>
-<tr>
-      <td>吉美君悅</td>
-      <td>文山區</td>
-      <td class="num">163</td>
-      <td>吉美建設</td>
-      <td>115115使字第0105號</td>
-      <td>115/06/16</td>
-      <td>2026 Q2</td>
-      <td class="num">3</td>
-    </tr></tbody>
+      <thead><tr><th>案名</th><th>行政區</th><th style="text-align:right">登記戶數</th><th>起造人</th><th>使照字號</th><th>發照日</th><th>App</th></tr></thead>
+      <tbody>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>文山區</td><td class="num">504</td><td>新亞建設開發股份有限公司</td><td>115使字第0080號</td><td>115/05/15</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>大同區</td><td class="num">209</td><td>中福營造股份有限公司</td><td>115使字第0063號</td><td>115/04/24</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>士林區</td><td class="num">206</td><td>祝旺開發股份有限公司</td><td>115使字第0059號</td><td>115/04/21</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>中正區</td><td class="num">166</td><td>銘倫營造股份有限公司</td><td>115使字第0055號</td><td>115/04/02</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>文山區</td><td class="num">163</td><td>森城建設股份有限公司</td><td>115使字第0105號</td><td>115/06/16</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>中山區</td><td class="num">127</td><td>盛德營造股份有限公司</td><td>115使字第0888號</td><td>115/03/26</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>信義區</td><td class="num">124</td><td>金弘承營造股份有限公司</td><td>115使字第0028號</td><td>115/02/11</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>中山區</td><td class="num">115</td><td>信創營造股份有限公司</td><td>115使字第0041號</td><td>115/03/12</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>士林區</td><td class="num">108</td><td>億東營造股份有限公司</td><td>115使字第0031號</td><td>115/02/26</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>中山區</td><td class="num">107</td><td>盛德營造股份有限公司</td><td>115使字第0083號</td><td>115/05/20</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>松山區</td><td class="num">105</td><td>泛亞工程建設股份有限公司</td><td>115使字第0076號</td><td>115/05/08</td><td><span class="miss">App✗</span></td></tr>
+      </tbody>
     </table>
   </div>
-  <h3>申請中・推定（0 案）</h3>
-  <p class="note">本次查核無符合「申請中(推定)」條件的案件。</p>
-  
+  <h3>114 年下半核發・參考表（16 案 / 2,716 戶，僅供對照・不列入官方主表統計）</h3>
+  <div class="tablebox">
+    <table>
+      <thead><tr><th>行政區</th><th style="text-align:right">登記戶數</th><th>起造人</th><th>使照字號</th><th>發照日</th></tr></thead>
+      <tbody>
+        <tr><td>文山區</td><td class="num">349</td><td>日商華大成營造工程股份有限公司台灣分公司</td><td>114使字第0124號</td><td>114/08/12</td></tr>
+        <tr><td>南港區</td><td class="num">314</td><td>中鹿營造股份有限公司</td><td>114使字第0136號</td><td>114/08/29</td></tr>
+        <tr><td>北投區</td><td class="num">304</td><td>大陸工程股份有限公司</td><td>114使字第0112號</td><td>114/07/29</td></tr>
+        <tr><td>文山區</td><td class="num">264</td><td>新亞建設開發股份有限公司</td><td>114使字第0151號</td><td>114/09/10</td></tr>
+        <tr><td>松山區</td><td class="num">164</td><td>宏昇營造股份有限公司</td><td>114使字第0140號</td><td>114/09/01</td></tr>
+        <tr><td>中正區</td><td class="num">159</td><td>台灣大林組營造股份有限公司</td><td>114使字第0168號</td><td>114/09/11</td></tr>
+        <tr><td>萬華區</td><td class="num">129</td><td>首鋼營造股份有限公司</td><td>114使字第0129號</td><td>114/08/18</td></tr>
+        <tr><td>士林區</td><td class="num">127</td><td>森城建設股份有限公司</td><td>114使字第0177號</td><td>114/10/15</td></tr>
+        <tr><td>南港區</td><td class="num">122</td><td>統營營造股份有限公司</td><td>114使字第0113號</td><td>114/07/29</td></tr>
+        <tr><td>文山區</td><td class="num">122</td><td>久松營造股份有限公司</td><td>114使字第0182號</td><td>114/10/21</td></tr>
+        <tr><td>南港區</td><td class="num">120</td><td>建國工程股份有限公司</td><td>114使字第0157號</td><td>114/09/18</td></tr>
+        <tr><td>松山區</td><td class="num">116</td><td>大陸工程股份有限公司</td><td>114使字第0146號</td><td>114/09/05</td></tr>
+        <tr><td>中山區</td><td class="num">112</td><td>璞昌營造股份有限公司</td><td>114使字第0217號</td><td>114/12/08</td></tr>
+        <tr><td>文山區</td><td class="num">107</td><td>昶明營造股份有限公司</td><td>114使字第0219號</td><td>114/12/10</td></tr>
+        <tr><td>內湖區</td><td class="num">106</td><td>忠泰營造股份有限公司</td><td>114使字第0111號</td><td>114/07/28</td></tr>
+        <tr><td>南港區</td><td class="num">101</td><td>世國營造有限公司</td><td>114使字第0202號</td><td>114/11/18</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>申請中（官方推定）：無官方建照/申請開放資料，無法從官方母體推定</h3>
+  <p class="note">台北市政府未公開可比對「建照屆期」之逐筆建造執照開放資料集，本報告不對台北市進行申請中案件之官方推定，僅呈現已核發（使照）主表。</p>
+
 
   <h2>新北市</h2>
   <div class="stats">
-    <div class="stat"><div class="n">40 案</div><div class="l">100戶以上・已領+申請中</div></div>
-    <div class="stat"><div class="n">9,014 戶</div><div class="l">合計住宅戶數</div></div>
-    <div class="stat"><div class="n">35 案 / 7,949 戶</div><div class="l">已核發</div></div>
-    <div class="stat"><div class="n">5 案 / 1,065 戶</div><div class="l">申請中(推定)</div></div>
+    <div class="stat"><div class="n">34 案 / 7,427 戶</div><div class="l">115年（2026）已核發・登記戶數≥100</div></div>
+    <div class="stat"><div class="n">10 / 34</div><div class="l">App 已收錄（29%）</div></div>
+    <div class="stat"><div class="n">332 筆</div><div class="l">官方池母體（原始筆數，未篩選）</div></div>
   </div>
-  
-  <h3>已核發（35 案）</h3>
+  <h3>已核發 115 年主表（34 案）</h3>
   <div class="tablebox">
     <table>
-      <thead><tr><th>案名</th><th>行政區</th><th style="text-align:right">住宅戶數</th><th>建商</th><th>使照字號</th><th>發照日</th><th>完工</th><th style="text-align:right">LINE群數</th></tr></thead>
-      <tbody><tr>
-      <td>潤泰CITY PARK</td>
-      <td>三重區</td>
-      <td class="num">433</td>
-      <td>潤泰創新國際股份有限公司</td>
-      <td>114重使字第00245號</td>
-      <td>114/08/14</td>
-      <td>2026 Q1</td>
-      <td class="num">6</td>
-    </tr>
-<tr>
-      <td>築禾忠孝苑</td>
-      <td>林口區</td>
-      <td class="num">204</td>
-      <td>築禾建設股份有限公司</td>
-      <td>114林使字第00324號</td>
-      <td>114/10/09</td>
-      <td>2026 Q1</td>
-      <td class="num">3</td>
-    </tr>
-<tr>
-      <td>京澄為德</td>
-      <td>鶯歌區</td>
-      <td class="num">113</td>
-      <td>京澄建設有限公司</td>
-      <td>114鶯使字第00408號</td>
-      <td>114/12/30</td>
-      <td>2026 Q3</td>
-      <td class="num">3</td>
-    </tr>
-<tr>
-      <td>日初不老莊園（樂陶居）</td>
-      <td>三芝區</td>
-      <td class="num">541</td>
-      <td>日勝生活科技</td>
-      <td>115芝使字第00005號</td>
-      <td>115/01/08</td>
-      <td>2026 Q1</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>台信心晴天</td>
-      <td>土城區</td>
-      <td class="num">160</td>
-      <td>台信建設</td>
-      <td>115土使字第00021號</td>
-      <td>115/01/23</td>
-      <td>2026 Q1</td>
-      <td class="num">0</td>
-    </tr>
-<tr>
-      <td>閱讀台灣</td>
-      <td>泰山區</td>
-      <td class="num">274</td>
-      <td>丞石建築開發有限公司</td>
-      <td>115泰使字第00033號</td>
-      <td>115/02/03</td>
-      <td>2026 Q1</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>唯我（鼎實唯我）</td>
-      <td>新店區</td>
-      <td class="num">167</td>
-      <td>鼎實建設</td>
-      <td>115店使字第00035號</td>
-      <td>115/02/04</td>
-      <td>2026 Q1</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>山水城州</td>
-      <td>五股區</td>
-      <td class="num">184</td>
-      <td>帝洋建設、建洋建設（合建）</td>
-      <td>115股使字第00037號</td>
-      <td>115/02/05</td>
-      <td>2026 Q1</td>
-      <td class="num">0</td>
-    </tr>
-<tr>
-      <td>及福樂之町</td>
-      <td>三重區</td>
-      <td class="num">224</td>
-      <td>及福建設</td>
-      <td>115重使字第00041號</td>
-      <td>115/02/06</td>
-      <td>2026 Q1</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>城德華福</td>
-      <td>板橋區</td>
-      <td class="num">101</td>
-      <td>城德建設</td>
-      <td>115板使字第00044號</td>
-      <td>115/02/09</td>
-      <td>2026 Q1</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>竹城.日和</td>
-      <td>林口區</td>
-      <td class="num">218</td>
-      <td>竹城建設</td>
-      <td>115林使字第00045號</td>
-      <td>115/02/09</td>
-      <td>2026 Q1</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>立軒天玥</td>
-      <td>林口區</td>
-      <td class="num">103</td>
-      <td>樂軒開發建設</td>
-      <td>115林使字第00057號</td>
-      <td>115/02/13</td>
-      <td>2026 Q1</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>瓏山林上城苑</td>
-      <td>三重區</td>
-      <td class="num">270</td>
-      <td>瓏山林</td>
-      <td>115重使字第00062號</td>
-      <td>115/02/25</td>
-      <td>2026 Q1</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>合環LANDMARK</td>
-      <td>新店區</td>
-      <td class="num">546</td>
-      <td><span class="note">-</span></td>
-      <td>115店使字第00066號</td>
-      <td>115/03/05</td>
-      <td>2026 Q1</td>
-      <td class="num">3</td>
-    </tr>
-<tr>
-      <td>豐盛（家泰×向田）</td>
-      <td>新莊區</td>
-      <td class="num">154</td>
-      <td>家泰建設、向田建設</td>
-      <td>115莊使字第00077號</td>
-      <td>115/03/18</td>
-      <td>2026 Q1</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>禾蓮心家園</td>
-      <td>新莊區</td>
-      <td class="num">174</td>
-      <td>禾蓮開發股份有限公司</td>
-      <td>115莊使字第00086號</td>
-      <td>115/03/27</td>
-      <td>2026 H1</td>
-      <td class="num">3</td>
-    </tr>
-<tr>
-      <td>青澤-蒔光泊旅</td>
-      <td>淡水區</td>
-      <td class="num">293</td>
-      <td>東家機構-允鵬建設股份有限公司</td>
-      <td>115淡使字第00092號</td>
-      <td>115/03/31</td>
-      <td>2026 Q2</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>甲山林市政官邸1號</td>
-      <td>三重區</td>
-      <td class="num">166</td>
-      <td>愛山林建設開發、乾富建設（合建，甲山林機構）</td>
-      <td>115重使字第00093號</td>
-      <td>115/03/31</td>
-      <td>2026 Q1</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>佳瑞向上</td>
-      <td>淡水區</td>
-      <td class="num">166</td>
-      <td>佳瑞建設（寶佳機構）</td>
-      <td>115淡使字第00099號</td>
-      <td>115/04/07</td>
-      <td>2026 Q2</td>
-      <td class="num">9</td>
-    </tr>
-<tr>
-      <td>春城新港灣</td>
-      <td>八里區</td>
-      <td class="num">198</td>
-      <td>廣春成建設股份有限公司</td>
-      <td>115八使字第00100號</td>
-      <td>115/04/08</td>
-      <td>2026 Q2</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>自由之丘</td>
-      <td>新莊區</td>
-      <td class="num">125</td>
-      <td>泰鼎建設股份有限公司（興合力建築團隊）</td>
-      <td>115莊使字第00102號</td>
-      <td>115/04/09</td>
-      <td>2026 Q3</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>自由綠洲</td>
-      <td>三重區</td>
-      <td class="num">322</td>
-      <td><span class="note">-</span></td>
-      <td>115重使字第00111號</td>
-      <td>115/04/15</td>
-      <td>2026 Q1</td>
-      <td class="num">4</td>
-    </tr>
-<tr>
-      <td>海研A3光點</td>
-      <td>新莊區</td>
-      <td class="num">141</td>
-      <td>海研建築</td>
-      <td>115莊使字第00112號</td>
-      <td>115/04/16</td>
-      <td>2026 Q2</td>
-      <td class="num">7</td>
-    </tr>
-<tr>
-      <td>紅布朗花園</td>
-      <td>土城區</td>
-      <td class="num">373</td>
-      <td>茂德建設股份有限公司、眾德建設股份有限公司</td>
-      <td>115土使字第00134號</td>
-      <td>115/05/05</td>
-      <td>2026 Q2</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>家泰家悅</td>
-      <td>新莊區</td>
-      <td class="num">221</td>
-      <td>家泰眾業開發＋家悅建設</td>
-      <td>115莊使字第00133號</td>
-      <td>115/05/05</td>
-      <td>2026 Q2</td>
-      <td class="num">4</td>
-    </tr>
-<tr>
-      <td>上上寀（為家上彩）</td>
-      <td>板橋區</td>
-      <td class="num">256</td>
-      <td>村誠建設</td>
-      <td>115板使字第00137號</td>
-      <td>115/05/07</td>
-      <td>2026 Q2</td>
-      <td class="num">10</td>
-    </tr>
-<tr>
-      <td>寶石承岳</td>
-      <td>三重區</td>
-      <td class="num">113</td>
-      <td>寶石建設機構（寶石機構）</td>
-      <td>115重使字第00138號</td>
-      <td>115/05/08</td>
-      <td>2026 Q3</td>
-      <td class="num">3</td>
-    </tr>
-<tr>
-      <td>青松安家2</td>
-      <td>三峽區</td>
-      <td class="num">133</td>
-      <td>麥當勞建設股份有限公司</td>
-      <td>115峽使字第00142號</td>
-      <td>115/05/11</td>
-      <td>2026 Q2</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>馥華沐白</td>
-      <td>板橋區</td>
-      <td class="num">114</td>
-      <td>馥麗建設（馥華集團）</td>
-      <td>115板使字第00154號</td>
-      <td>115/05/20</td>
-      <td>2026 Q2</td>
-      <td class="num">8</td>
-    </tr>
-<tr>
-      <td>鉅陞ONE</td>
-      <td>淡水區</td>
-      <td class="num">532</td>
-      <td>鉅陞建設</td>
-      <td>115淡使字第00157號</td>
-      <td>115/05/25</td>
-      <td>2026 Q1</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>站前美學</td>
-      <td>鶯歌區</td>
-      <td class="num">201</td>
-      <td>佳承開發</td>
-      <td>115鶯使字第00165號</td>
-      <td>115/05/28</td>
-      <td>2026 Q2</td>
-      <td class="num">6</td>
-    </tr>
-<tr>
-      <td>華固一莊</td>
-      <td>泰山區</td>
-      <td class="num">168</td>
-      <td>華固建設股份有限公司（營造：品興營造；建築師：呂建勳建築師事務所）</td>
-      <td>115泰使字第00171號</td>
-      <td>115/06/05</td>
-      <td>2026 Q4</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>公園yoyo</td>
-      <td>三重區</td>
-      <td class="num">207</td>
-      <td>漢翔開發股份有限公司、樂利開發股份有限公司</td>
-      <td>115重使字第00172號</td>
-      <td>115/06/08</td>
-      <td>2026 Q1</td>
-      <td class="num">4</td>
-    </tr>
-<tr>
-      <td>長耀加</td>
-      <td>林口區</td>
-      <td class="num">114</td>
-      <td>長耀建設</td>
-      <td>115林使字第00173號</td>
-      <td>115/06/09</td>
-      <td>2026 Q2</td>
-      <td class="num">5</td>
-    </tr>
-<tr>
-      <td>寶佳淳青</td>
-      <td>土城區</td>
-      <td class="num">240</td>
-      <td><span class="note">-</span></td>
-      <td>115土使字第00175號</td>
-      <td>115/06/12</td>
-      <td>2026 Q2</td>
-      <td class="num">4</td>
-    </tr></tbody>
+      <thead><tr><th>案名</th><th>行政區</th><th style="text-align:right">登記戶數</th><th>起造人</th><th>使照字號</th><th>發照日</th><th>App</th></tr></thead>
+      <tbody>
+        <tr><td>合環LANDMARK（合環LANDMAR）</td><td>新店區</td><td class="num">546</td><td>大陸工程股份有限公司,負責人：欣陸投資控股股份有限公司</td><td>115店使字第00066號</td><td>115/03/05</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>日初不老莊園(樂陶居)</td><td>三芝區</td><td class="num">541</td><td>泰誠發展營造股份有限公司</td><td>115芝使字第00005號</td><td>115/01/08</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>淡水區</td><td class="num">532</td><td>齊陞營造股份有限公司</td><td>115淡使字第00157號</td><td>115/05/25</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>土城區</td><td class="num">373</td><td>鴻信營造股份有限公司</td><td>115土使字第00134號</td><td>115/05/05</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>自由綠洲</td><td>三重區</td><td class="num">327</td><td>紹華營造股份有限公司</td><td>115重使字第00111號</td><td>115/04/15</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>青澤-蒔光泊旅</td><td>淡水區</td><td class="num">297</td><td>久年營造股份有限公司</td><td>115淡使字第00092號</td><td>115/03/31</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>閱讀台灣</td><td>泰山區</td><td class="num">289</td><td>大可營造有限公司</td><td>115泰使字第00033號</td><td>115/02/03</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>瓏山林上城苑</td><td>三重區</td><td class="num">270</td><td>瓏山林營建股份有限公司</td><td>115重使字第00062號</td><td>115/02/25</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>上上寀（為家上彩）</td><td>板橋區</td><td class="num">256</td><td>合茂營造股份有限公司</td><td>115板使字第00137號</td><td>115/05/07</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>土城區</td><td class="num">240</td><td>洛城營造有限公司</td><td>115土使字第00175號</td><td>115/06/12</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>三重區</td><td class="num">224</td><td>嘉頡營造股份有限公司</td><td>115重使字第00041號</td><td>115/02/06</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>家泰家悅</td><td>新莊區</td><td class="num">221</td><td>青鈿營造股份有限公司</td><td>115莊使字第00133號</td><td>115/05/05</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>竹城.日和</td><td>林口區</td><td class="num">218</td><td>大裕營造有限公司</td><td>115林使字第00045號</td><td>115/02/09</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>三重區</td><td class="num">207</td><td>承優營造股份有限公司</td><td>115重使字第00172號</td><td>115/06/08</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>站前美學</td><td>鶯歌區</td><td class="num">200</td><td>森城建設股份有限公司</td><td>115鶯使字第00165號</td><td>115/05/28</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>八里區</td><td class="num">198</td><td>春城營造股份有限公司</td><td>115八使字第00100號</td><td>115/04/08</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>五股區</td><td class="num">184</td><td>昇宏工程企業有限公司</td><td>115股使字第00037號</td><td>115/02/05</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>泰山區</td><td class="num">168</td><td>品興營造股份有限公司</td><td>115泰使字第00171號</td><td>115/06/05</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>新店區</td><td class="num">167</td><td>清林營造有限公司</td><td>115店使字第00035號</td><td>115/02/04</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>三重區</td><td class="num">166</td><td>祝旺開發股份有限公司</td><td>115重使字第00093號</td><td>115/03/31</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>佳瑞向上</td><td>淡水區</td><td class="num">166</td><td>萬代福營造有限公司</td><td>115淡使字第00099號</td><td>115/04/07</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>土城區</td><td class="num">160</td><td>達偉營造股份有限公司</td><td>115土使字第00021號</td><td>115/01/23</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>新莊區</td><td class="num">160</td><td>詮發營造股份有限公司</td><td>115莊使字第00086號</td><td>115/03/27</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>豐盛（家泰∞向田「豐盛」，亦稱家泰豐盛/秀泰豐盛）</td><td>新莊區</td><td class="num">154</td><td>青鈿營造股份有限公司</td><td>115莊使字第00077號</td><td>115/03/18</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>海研A3光點</td><td>新莊區</td><td class="num">141</td><td>台灣松下營造股份有限公司</td><td>115莊使字第00112號</td><td>115/04/16</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>三峽區</td><td class="num">133</td><td>松銘營造股份有限公司</td><td>115峽使字第00142號</td><td>115/05/11</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>新莊區</td><td class="num">125</td><td>億東營造股份有限公司</td><td>115莊使字第00102號</td><td>115/04/09</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>馥華沐白</td><td>板橋區</td><td class="num">114</td><td>永大興營造工程股份有限公司</td><td>115板使字第00154號</td><td>115/05/20</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>長耀加</td><td>林口區</td><td class="num">114</td><td>森城建設股份有限公司</td><td>115林使字第00173號</td><td>115/06/09</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>三重區</td><td class="num">113</td><td>台成營造有限公司</td><td>115重使字第00138號</td><td>115/05/08</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>板橋區</td><td class="num">113</td><td>宏昇營造股份有限公司</td><td>115板使字第00177號</td><td>115/06/12</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>新店區</td><td class="num">106</td><td>寶路營造股份有限公司</td><td>115店使字第00166號</td><td>115/05/28</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>立軒天玥</td><td>林口區</td><td class="num">103</td><td>鴻軒營造股份有限公司</td><td>115林使字第00057號</td><td>115/02/13</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>城德華福</td><td>板橋區</td><td class="num">101</td><td>利華營造股份有限公司</td><td>115板使字第00044號</td><td>115/02/09</td><td><span class="miss">App✗</span></td></tr>
+      </tbody>
     </table>
   </div>
-  <h3>申請中・推定（5 案）</h3>
+  <h3>114 年下半核發・參考表（47 案 / 9,207 戶，僅供對照・不列入官方主表統計）</h3>
+  <div class="tablebox">
+    <table>
+      <thead><tr><th>行政區</th><th style="text-align:right">登記戶數</th><th>起造人</th><th>使照字號</th><th>發照日</th></tr></thead>
+      <tbody>
+        <tr><td>板橋區</td><td class="num">632</td><td>大陸工程股份有限公司</td><td>114板使字第00291號</td><td>114/09/10</td></tr>
+        <tr><td>三重區</td><td class="num">439</td><td>潤弘精密工程事業股份有限公司</td><td>114重使字第00245號</td><td>114/08/14</td></tr>
+        <tr><td>新莊區</td><td class="num">405</td><td>瓏山林營建股份有限公司</td><td>114莊使字第00195號</td><td>114/07/11</td></tr>
+        <tr><td>板橋區</td><td class="num">362</td><td>華熊營造股份有限公司</td><td>114板使字第00337號</td><td>114/10/23</td></tr>
+        <tr><td>新店區</td><td class="num">314</td><td>久年營造股份有限公司</td><td>114店使字第00235號</td><td>114/08/07</td></tr>
+        <tr><td>林口區</td><td class="num">312</td><td>森城建設股份有限公司</td><td>114林使字第00381號</td><td>114/12/05</td></tr>
+        <tr><td>中和區</td><td class="num">306</td><td>瑞助營造股份有限公司</td><td>114中使字第00372號</td><td>114/12/01</td></tr>
+        <tr><td>土城區</td><td class="num">281</td><td>北昌營造股份有限公司</td><td>114土使字第00375號</td><td>114/12/03</td></tr>
+        <tr><td>中和區</td><td class="num">275</td><td>金駿營造股份有限公司</td><td>114中使字第00207號</td><td>114/07/22</td></tr>
+        <tr><td>板橋區</td><td class="num">265</td><td>立琦建築股份有限公司</td><td>114板使字第00185號</td><td>114/07/02</td></tr>
+        <tr><td>五股區</td><td class="num">233</td><td>鴻信營造股份有限公司</td><td>114股使字第00394號</td><td>114/12/18</td></tr>
+        <tr><td>五股區</td><td class="num">227</td><td>鴻信營造股份有限公司</td><td>114股使字第00240號</td><td>114/08/13</td></tr>
+        <tr><td>泰山區</td><td class="num">215</td><td>偉邦營造股份有限公司</td><td>114泰使字第00290號</td><td>114/09/10</td></tr>
+        <tr><td>林口區</td><td class="num">211</td><td>國城營造有限公司</td><td>114林使字第00324號</td><td>114/10/09</td></tr>
+        <tr><td>三重區</td><td class="num">209</td><td>天瀚營造股份有限公司</td><td>114重使字第00311號</td><td>114/09/25</td></tr>
+        <tr><td>中和區</td><td class="num">193</td><td>毅成建設股份有限公司</td><td>114中使字第00273號</td><td>114/08/28</td></tr>
+        <tr><td>淡水區</td><td class="num">187</td><td>國城營造有限公司</td><td>114淡使字第00229號</td><td>114/08/05</td></tr>
+        <tr><td>三重區</td><td class="num">178</td><td>承優營造股份有限公司</td><td>114重使字第00259號</td><td>114/08/21</td></tr>
+        <tr><td>淡水區</td><td class="num">176</td><td>洛城營造有限公司</td><td>114淡使字第00193號</td><td>114/07/10</td></tr>
+        <tr><td>板橋區</td><td class="num">176</td><td>國聖營造有限公司</td><td>114板使字第00250號</td><td>114/08/15</td></tr>
+        <tr><td>土城區</td><td class="num">176</td><td>洛城營造有限公司</td><td>114土使字第00323號</td><td>114/10/09</td></tr>
+        <tr><td>淡水區</td><td class="num">172</td><td>天鵝堡營造股份有限公司</td><td>114淡使字第00213號</td><td>114/07/24</td></tr>
+        <tr><td>鶯歌區</td><td class="num">163</td><td>協泰營造股份有限公司</td><td>114鶯使字第00398號</td><td>114/12/22</td></tr>
+        <tr><td>中和區</td><td class="num">160</td><td>弘庭營造股份有限公司</td><td>114中使字第00369號</td><td>114/11/28</td></tr>
+        <tr><td>三重區</td><td class="num">157</td><td>旺邦營造股份有限公司</td><td>114重使字第00294號</td><td>114/09/15</td></tr>
+        <tr><td>新莊區</td><td class="num">153</td><td>協侑營造有限公司</td><td>114莊使字第00333號</td><td>114/10/17</td></tr>
+        <tr><td>三重區</td><td class="num">144</td><td>新亞建設開發股份有限公司</td><td>114重使字第00365號</td><td>114/11/25</td></tr>
+        <tr><td>泰山區</td><td class="num">141</td><td>鴻信營造股份有限公司</td><td>114泰使字第00387號</td><td>114/12/10</td></tr>
+        <tr><td>中和區</td><td class="num">141</td><td>昶明營造股份有限公司</td><td>114中使字第00407號</td><td>114/12/29</td></tr>
+        <tr><td>汐止區</td><td class="num">140</td><td>暘昌營造股份有限公司</td><td>114汐使字第00274號</td><td>114/08/29</td></tr>
+        <tr><td>淡水區</td><td class="num">138</td><td>萬代福營造有限公司</td><td>114淡使字第00242號</td><td>114/08/13</td></tr>
+        <tr><td>新莊區</td><td class="num">137</td><td>千瑞營造股份有限公司</td><td>114莊使字第00318號</td><td>114/10/03</td></tr>
+        <tr><td>中和區</td><td class="num">136</td><td>世國營造有限公司</td><td>114中使字第00390號</td><td>114/12/15</td></tr>
+        <tr><td>三重區</td><td class="num">134</td><td>紹華營造股份有限公司</td><td>114重使字第00299號</td><td>114/09/17</td></tr>
+        <tr><td>淡水區</td><td class="num">133</td><td>瑞恆營造股份有限公司</td><td>114淡使字第00271號</td><td>114/08/28</td></tr>
+        <tr><td>板橋區</td><td class="num">129</td><td>久舜營造股份有限公司</td><td>114板使字第00205號</td><td>114/07/21</td></tr>
+        <tr><td>土城區</td><td class="num">127</td><td>揚潤營造股份有限公司</td><td>114土使字第00217號</td><td>114/07/25</td></tr>
+        <tr><td>林口區</td><td class="num">118</td><td>六大營造股份有限公司</td><td>114林使字第00292號</td><td>114/09/12</td></tr>
+        <tr><td>板橋區</td><td class="num">118</td><td>建坤營造事業股份有限公司</td><td>114板使字第00359號</td><td>114/11/20</td></tr>
+        <tr><td>林口區</td><td class="num">116</td><td>佑春營造有限公司</td><td>114林使字第00219號</td><td>114/07/28</td></tr>
+        <tr><td>中和區</td><td class="num">116</td><td>蒲陽營造工程股份有限公司</td><td>114中使字第00352號</td><td>114/11/12</td></tr>
+        <tr><td>鶯歌區</td><td class="num">115</td><td>森碁營造有限公司</td><td>114鶯使字第00408號</td><td>114/12/30</td></tr>
+        <tr><td>中和區</td><td class="num">114</td><td>品興營造股份有限公司</td><td>114中使字第00191號</td><td>114/07/09</td></tr>
+        <tr><td>淡水區</td><td class="num">112</td><td>大家營造股份有限公司</td><td>114淡使字第00349號</td><td>114/11/05</td></tr>
+        <tr><td>新店區</td><td class="num">112</td><td>漢庭營造股份有限公司</td><td>114店使字第00401號</td><td>114/12/24</td></tr>
+        <tr><td>三重區</td><td class="num">106</td><td>建程營造工程有限公司</td><td>114重使字第00256號</td><td>114/08/21</td></tr>
+        <tr><td>三重區</td><td class="num">103</td><td>久年營造股份有限公司</td><td>114重使字第00409號</td><td>114/12/30</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>申請中（官方推定）：無官方建照開放資料，無法從官方母體推定</h3>
+  <p class="note">新北市都發局未公開「建造執照」逐筆開放資料集（僅使照存根），無法比照台中／桃園的「建照屆期法」推定申請中案件，故不列入官方母體主表。以下 5 案為 App 既有追蹤庫內「申請中(推定)」口徑（依完工期已屆而使照未見於113–115使照池推定），非官方資料來源，僅供參考（非官方母體）：</p>
   <div class="tablebox">
     <table>
       <thead><tr><th>案名</th><th>行政區</th><th style="text-align:right">戶數</th><th>建商</th><th>推定依據摘要</th><th>完工預估</th></tr></thead>
-      <tbody><tr>
-      <td>公園66</td>
-      <td>三重區</td>
-      <td class="num">337</td>
-      <td>茂德建設股份有限公司、德裕建設股份有限公司</td>
-      <td class="note">完工期2026 Q1已屆而使照未見於113-115開放資料——推定申請中或交屋延後（0729…</td>
-      <td>2026 Q1</td>
-    </tr>
-<tr>
-      <td>半島花園2期 D.E.F棟</td>
-      <td>汐止區</td>
-      <td class="num">286</td>
-      <td>清美資產管理開發股份有限公司</td>
-      <td class="note">完工期2026 Q1已屆而使照未見於113-115開放資料——推定申請中或交屋延後（0729…</td>
-      <td>2026 Q1</td>
-    </tr>
-<tr>
-      <td>和洲艾美</td>
-      <td>林口區</td>
-      <td class="num">208</td>
-      <td>和洲建設股份有限公司(寶佳機構)</td>
-      <td class="note">building-tracker-report-新北桃園0711</td>
-      <td>2026 Q3</td>
-    </tr>
-<tr>
-      <td>國鉅興</td>
-      <td>泰山區</td>
-      <td class="num">124</td>
-      <td>國鉅開發建設股份有限公司</td>
-      <td class="note">完工期2026 Q2已屆而使照未見於113-115開放資料——推定申請中或交屋延後（0729…</td>
-      <td>2026 Q2</td>
-    </tr>
-<tr>
-      <td>興格．御賞</td>
-      <td>淡水區</td>
-      <td class="num">110</td>
-      <td>興格建設</td>
-      <td class="note">完工期2026 Q1已屆而使照未見於113-115開放資料——推定申請中或交屋延後（0729…</td>
-      <td>2026 Q1</td>
-    </tr></tbody>
+      <tbody>
+      <tr><td>公園66</td><td>三重區</td><td class="num">337</td><td>茂德建設股份有限公司、德裕建設股份有限公司</td><td class="note">完工期2026 Q1已屆而使照未見於113-115開放資料——推定申請中或交屋延後</td><td>2026 Q1</td></tr>
+      <tr><td>半島花園2期 D.E.F棟</td><td>汐止區</td><td class="num">286</td><td>清美資產管理開發股份有限公司</td><td class="note">完工期2026 Q1已屆而使照未見於113-115開放資料——推定申請中或交屋延後</td><td>2026 Q1</td></tr>
+      <tr><td>和洲艾美</td><td>林口區</td><td class="num">208</td><td>和洲建設股份有限公司(寶佳機構)</td><td class="note">building-tracker-report-新北桃園0711</td><td>2026 Q3</td></tr>
+      <tr><td>國鉅興</td><td>泰山區</td><td class="num">124</td><td>國鉅開發建設股份有限公司</td><td class="note">完工期2026 Q2已屆而使照未見於113-115開放資料——推定申請中或交屋延後</td><td>2026 Q2</td></tr>
+      <tr><td>興格．御賞</td><td>淡水區</td><td class="num">110</td><td>興格建設</td><td class="note">完工期2026 Q1已屆而使照未見於113-115開放資料——推定申請中或交屋延後</td><td>2026 Q1</td></tr>
+      </tbody>
     </table>
   </div>
-  
+
 
   <h2>桃園市</h2>
   <div class="stats">
-    <div class="stat"><div class="n">59 案</div><div class="l">100戶以上・已領+申請中</div></div>
-    <div class="stat"><div class="n">14,379 戶</div><div class="l">合計住宅戶數</div></div>
-    <div class="stat"><div class="n">39 案 / 10,230 戶</div><div class="l">已核發</div></div>
-    <div class="stat"><div class="n">20 案 / 4,149 戶</div><div class="l">申請中(推定)</div></div>
+    <div class="stat"><div class="n">39 案 / 10,443 戶</div><div class="l">115年（2026）已核發・登記戶數≥100</div></div>
+    <div class="stat"><div class="n">19 / 39</div><div class="l">App 已收錄（49%）</div></div>
+    <div class="stat"><div class="n">333 筆</div><div class="l">官方池母體（原始筆數，未篩選）</div></div>
   </div>
-  
-  <h3>已核發（39 案）</h3>
+  <h3>已核發 115 年主表（39 案）</h3>
   <div class="tablebox">
     <table>
-      <thead><tr><th>案名</th><th>行政區</th><th style="text-align:right">住宅戶數</th><th>建商</th><th>使照字號</th><th>發照日</th><th>完工</th><th style="text-align:right">LINE群數</th></tr></thead>
-      <tbody><tr>
-      <td>璟都未來城</td>
-      <td>大園區</td>
-      <td class="num">416</td>
-      <td>信都建設（璟都機構）</td>
-      <td>(114)桃市都施使字第園01268號</td>
-      <td>114/12/23</td>
-      <td>2026 Q1</td>
-      <td class="num">6</td>
-    </tr>
-<tr>
-      <td>鉑克棶</td>
-      <td>桃園區</td>
-      <td class="num">346</td>
-      <td>興富發建設</td>
-      <td>(115)桃市都施使字第桃00052號</td>
-      <td>115/01/20</td>
-      <td>待確認</td>
-      <td class="num">4</td>
-    </tr>
-<tr>
-      <td>廣泰鑫君悅</td>
-      <td>平鎮區</td>
-      <td class="num">150</td>
-      <td>廣泰鑫建設有限公司</td>
-      <td>(115)桃市都施使字第平00066號</td>
-      <td>115/01/20</td>
-      <td>2026 Q1</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>安美大望</td>
-      <td>蘆竹區</td>
-      <td class="num">333</td>
-      <td><span class="note">-</span></td>
-      <td>(115)桃市都施使字第蘆00081號</td>
-      <td>115/01/23</td>
-      <td>新成屋(2026)</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>佳陞豐川</td>
-      <td>蘆竹區</td>
-      <td class="num">376</td>
-      <td>佳陞建設股份有限公司</td>
-      <td>(115)桃市都施使字第蘆00103號</td>
-      <td>115/01/28</td>
-      <td>新成屋(2026)</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>月沐青2</td>
-      <td>楊梅區</td>
-      <td class="num">169</td>
-      <td>合遠建設（寶佳機構）</td>
-      <td>(115)桃市都施使字第楊00112號</td>
-      <td>115/01/29</td>
-      <td>待確認</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>禾悅花園</td>
-      <td>龜山區（A7）</td>
-      <td class="num">1,051</td>
-      <td><span class="note">-</span></td>
-      <td>(115)桃市都施使字第龜00136號</td>
-      <td>115/02/04</td>
-      <td>預售（完工待確認）</td>
-      <td class="num">9</td>
-    </tr>
-<tr>
-      <td>和境享見</td>
-      <td>觀音區</td>
-      <td class="num">122</td>
-      <td>和境建設股份有限公司</td>
-      <td>(115)桃市都施使字第觀00132號</td>
-      <td>115/02/04</td>
-      <td>2028 Q1</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>鼎藏學苑</td>
-      <td>楊梅區</td>
-      <td class="num">346</td>
-      <td>鼎晟建設</td>
-      <td>(115)桃市都施使字第楊00135號</td>
-      <td>115/02/04</td>
-      <td>2026 Q1</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>昭揚天賦</td>
-      <td>桃園區</td>
-      <td class="num">101</td>
-      <td>昕陽建設（昭揚集團）</td>
-      <td>(115)桃市都施使字第桃00148號</td>
-      <td>115/02/06</td>
-      <td>2026 Q1</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>百川博硯</td>
-      <td>龜山區</td>
-      <td class="num">173</td>
-      <td>百川建設開發股份有限公司</td>
-      <td>(115)桃市都施使字第龜00191號</td>
-      <td>115/02/24</td>
-      <td>2026 Q1</td>
-      <td class="num">7</td>
-    </tr>
-<tr>
-      <td>京澄為和</td>
-      <td>桃園區（經國）</td>
-      <td class="num">136</td>
-      <td>澄果建設</td>
-      <td>(115)桃市都施使字第桃00228號</td>
-      <td>115/03/12</td>
-      <td>新成屋(2026)</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>陶然自若</td>
-      <td>龍潭區</td>
-      <td class="num">123</td>
-      <td>陞逸建設</td>
-      <td>(115)桃市都施使字第龍00233號</td>
-      <td>115/03/13</td>
-      <td>2026 Q1</td>
-      <td class="num">0</td>
-    </tr>
-<tr>
-      <td>君邑羅浮</td>
-      <td>龜山區</td>
-      <td class="num">185</td>
-      <td>法邑建設有限公司</td>
-      <td>(115)桃市都施使字第龜00240號</td>
-      <td>115/03/17</td>
-      <td>新成屋(2026)</td>
-      <td class="num">10</td>
-    </tr>
-<tr>
-      <td>皇普La Vie</td>
-      <td>蘆竹區</td>
-      <td class="num">256</td>
-      <td><span class="note">-</span></td>
-      <td>(115)桃市都施使字第蘆00249號</td>
-      <td>115/03/19</td>
-      <td>新成屋(2026)</td>
-      <td class="num">0</td>
-    </tr>
-<tr>
-      <td>藏月泱</td>
-      <td>中壢區</td>
-      <td class="num">103</td>
-      <td><span class="note">-</span></td>
-      <td>(115)桃市都施使字第壢00253號</td>
-      <td>115/03/19</td>
-      <td>2026 Q1</td>
-      <td class="num">0</td>
-    </tr>
-<tr>
-      <td>威均園舞曲</td>
-      <td>中壢區</td>
-      <td class="num">156</td>
-      <td>威均機構（晨豐建設）</td>
-      <td>(115)桃市都施使字第壢00260號</td>
-      <td>115/03/23</td>
-      <td>2026 Q1</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>三本四季</td>
-      <td>桃園區</td>
-      <td class="num">149</td>
-      <td>三麒建設</td>
-      <td>(115)桃市都施使字第桃00274號</td>
-      <td>115/03/26</td>
-      <td>2026 Q1</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>築心匯</td>
-      <td>蘆竹區</td>
-      <td class="num">265</td>
-      <td><span class="note">-</span></td>
-      <td>(115)桃市都施使字第蘆00280號</td>
-      <td>115/03/27</td>
-      <td>2026 Q2</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>京懋泰閤</td>
-      <td>桃園區</td>
-      <td class="num">140</td>
-      <td>京懋建設</td>
-      <td>(115)桃市都施使字第桃00310號</td>
-      <td>115/04/07</td>
-      <td>2026 Q2</td>
-      <td class="num">5</td>
-    </tr>
-<tr>
-      <td>威均峰澤</td>
-      <td>中壢區</td>
-      <td class="num">387</td>
-      <td>昇貿建設（威均機構）</td>
-      <td>(115)桃市都施使字第壢00400號</td>
-      <td>115/04/28</td>
-      <td>2026 Q2</td>
-      <td class="num">10</td>
-    </tr>
-<tr>
-      <td>遠雄仰森</td>
-      <td>大園區</td>
-      <td class="num">564</td>
-      <td>遠雄建設</td>
-      <td>(115)桃市都施使字第園00406號</td>
-      <td>115/04/29</td>
-      <td>2026 Q2</td>
-      <td class="num">10</td>
-    </tr>
-<tr>
-      <td>合雄大境</td>
-      <td>八德區</td>
-      <td class="num">522</td>
-      <td>合雄建設股份有限公司</td>
-      <td>(115)桃市都施使字第德00458號</td>
-      <td>115/05/14</td>
-      <td>2026 Q2</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>鴻承鑄玥</td>
-      <td>八德區（八擴重劃區）</td>
-      <td class="num">255</td>
-      <td><span class="note">-</span></td>
-      <td>(115)桃市都施使字第德00483號</td>
-      <td>115/05/21</td>
-      <td>2026 Q2</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>樸翔豐耘</td>
-      <td>蘆竹區</td>
-      <td class="num">104</td>
-      <td>樸翔建設股份有限公司</td>
-      <td>(115)桃市都施使字第蘆00496號</td>
-      <td>115/05/26</td>
-      <td>2026 Q2</td>
-      <td class="num">0</td>
-    </tr>
-<tr>
-      <td>鴻築玥</td>
-      <td>龜山區</td>
-      <td class="num">199</td>
-      <td>鴻築建設（寶佳機構）</td>
-      <td>(115)桃市都施使字第龜00492號</td>
-      <td>115/05/26</td>
-      <td>2026 Q2</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>丹佛花都</td>
-      <td>龜山區（A7）</td>
-      <td class="num">546</td>
-      <td><span class="note">-</span></td>
-      <td>(115)桃市都施使字第龜00502號</td>
-      <td>115/05/28</td>
-      <td>2026 Q2</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>鴻築麗苑</td>
-      <td>桃園區</td>
-      <td class="num">294</td>
-      <td>鴻築建設股份有限公司</td>
-      <td>(115)桃市都施使字第桃00511號</td>
-      <td>115/06/01</td>
-      <td>2026 Q2</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>福鄉一邸</td>
-      <td>八德區</td>
-      <td class="num">100</td>
-      <td>廣永投資有限公司</td>
-      <td>(115)桃市都施使字第德00583號</td>
-      <td>115/06/23</td>
-      <td>2026 Q2</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>鴻廣川湛</td>
-      <td>中壢區（A20興南重劃區）</td>
-      <td class="num">232</td>
-      <td>鴻廣建設股份有限公司</td>
-      <td>(115)桃市都施使字第壢00589號</td>
-      <td>115/06/24</td>
-      <td>2026 H2</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>謙上園</td>
-      <td>八德區</td>
-      <td class="num">173</td>
-      <td>富源建設＋捷笙建設</td>
-      <td>(115)桃市都施使字第德00588號</td>
-      <td>115/06/24</td>
-      <td>2026 Q2</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>合遠朗廷</td>
-      <td>中壢區（A20興南）</td>
-      <td class="num">217</td>
-      <td><span class="note">-</span></td>
-      <td>(115)桃市都施使字第壢00659號</td>
-      <td>115/07/14</td>
-      <td>2026 Q3</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>寶台‧未來</td>
-      <td>中壢區</td>
-      <td class="num">111</td>
-      <td>寶中建設有限公司</td>
-      <td>(115)桃市都施使字第壢00662號</td>
-      <td>115/07/15</td>
-      <td>2026 Q3</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>誠聚禾</td>
-      <td>楊梅區</td>
-      <td class="num">131</td>
-      <td>誠聚建築‧禾羱建設</td>
-      <td>(115)桃市都施使字第楊00666號</td>
-      <td>115/07/23</td>
-      <td>2026 Q3</td>
-      <td class="num">7</td>
-    </tr>
-<tr>
-      <td>合輝大璽-水月</td>
-      <td>桃園區（小檜溪）</td>
-      <td class="num">163</td>
-      <td>合輝建設開發股份有限公司</td>
-      <td>(115)桃市都施使字第桃00691號</td>
-      <td>115/07/24</td>
-      <td>新成屋(2026)</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>溫莎堡</td>
-      <td>龜山區（A7）</td>
-      <td class="num">465</td>
-      <td>潤隆建設股份有限公司</td>
-      <td>(115)桃市都施使字第龜00695號</td>
-      <td>115/07/27</td>
-      <td>2026 Q3</td>
-      <td class="num">9</td>
-    </tr>
-<tr>
-      <td>凱田藝境</td>
-      <td>觀音區</td>
-      <td class="num">104</td>
-      <td>凱田建設股份有限公司</td>
-      <td>(115)桃市都施使字第觀00704號</td>
-      <td>115/07/28</td>
-      <td>2026 Q4</td>
-      <td class="num">3</td>
-    </tr>
-<tr>
-      <td>聚泰雲邸</td>
-      <td>中壢區</td>
-      <td class="num">303</td>
-      <td>聚泰建設</td>
-      <td>(115)桃市都施使字第壢00714號</td>
-      <td>115/07/28</td>
-      <td>2027 Q3</td>
-      <td class="num">4</td>
-    </tr>
-<tr>
-      <td>玄泰T1</td>
-      <td>龜山區</td>
-      <td class="num">264</td>
-      <td>群泰開發有限公司</td>
-      <td>(115)桃市都施使字第龜00705號</td>
-      <td>115/07/28</td>
-      <td>新成屋(2026)</td>
-      <td class="num">10</td>
-    </tr></tbody>
+      <thead><tr><th>案名</th><th>行政區</th><th style="text-align:right">登記戶數</th><th>起造人</th><th>使照字號</th><th>發照日</th><th>App</th></tr></thead>
+      <tbody>
+        <tr><td>禾悅花園</td><td>龜山區</td><td class="num">1,051</td><td>禾聯股份有限公司 負責人:蔡柏毅</td><td>(115)桃市都施使字第龜00136號</td><td>115/02/04</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>龜山區</td><td class="num">595</td><td>群泰開發有限公司 負責人:王芳怡</td><td>(115)桃市都施使字第龜00705號</td><td>115/07/28</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>遠雄仰森</td><td>大園區</td><td class="num">564</td><td>中國建築經理股份有限公司 負責人:鄭重</td><td>(115)桃市都施使字第園00406號</td><td>115/04/29</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>丹佛花都</td><td>龜山區</td><td class="num">546</td><td>僑馥建築經理股份有限公司 代表人：林中文</td><td>(115)桃市都施使字第龜00502號</td><td>115/05/28</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>八德區</td><td class="num">522</td><td>合雄建設股份有限公司  負責人:陳清基</td><td>(115)桃市都施使字第德00458號</td><td>115/05/14</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>龜山區</td><td class="num">465</td><td>潤隆建設股份有限公司 代表人:邱秉澤</td><td>(115)桃市都施使字第龜00695號</td><td>115/07/27</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>威均峰澤</td><td>中壢區</td><td class="num">387</td><td>昇貿建設開發股份有限公司 負責人：李三蓮</td><td>(115)桃市都施使字第壢00400號</td><td>115/04/28</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>佳陞豐川</td><td>蘆竹區</td><td class="num">376</td><td>佳陞建設股份有限公司  負責人:彭仁煥</td><td>(115)桃市都施使字第蘆00103號</td><td>115/01/28</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>鉑克棶</td><td>桃園區</td><td class="num">346</td><td>興益發建設企業股份有限公司 負責人:黃清水</td><td>(115)桃市都施使字第桃00052號</td><td>115/01/20</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>鼎藏學苑</td><td>楊梅區</td><td class="num">346</td><td>鼎晟建設有限公司 負責人：賴佩亞</td><td>(115)桃市都施使字第楊00135號</td><td>115/02/04</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>安美大望</td><td>蘆竹區</td><td class="num">333</td><td>僑馥建築經理股份有限公司 負責人：林中文</td><td>(115)桃市都施使字第蘆00081號</td><td>115/01/23</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>龜山區</td><td class="num">320</td><td>法邑建設有限公司  負責人:周育賢</td><td>(115)桃市都施使字第龜00240號</td><td>115/03/17</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">303</td><td>聚泰建設股份有限公司 負責人:黃宗錦</td><td>(115)桃市都施使字第壢00714號</td><td>115/07/28</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>鴻築麗苑</td><td>桃園區</td><td class="num">294</td><td>鴻築建設股份有限公司 負責人：吳裕國</td><td>(115)桃市都施使字第桃00511號</td><td>115/06/01</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>築心匯</td><td>蘆竹區</td><td class="num">265</td><td>和峻建設股份有限公司  負責人:張展溢</td><td>(115)桃市都施使字第蘆00280號</td><td>115/03/27</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>皇普La Vie</td><td>蘆竹區</td><td class="num">257</td><td>皇普建設股份有限公司 負責人：蘇永平</td><td>(115)桃市都施使字第蘆00249號</td><td>115/03/19</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>鴻承鑄玥</td><td>八德區</td><td class="num">255</td><td>鴻承建設股份有限公司 負責人:黃智楨</td><td>(115)桃市都施使字第德00483號</td><td>115/05/21</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">232</td><td>鴻廣建設股份有限公司 負責人：鄭鴻慶</td><td>(115)桃市都施使字第壢00589號</td><td>115/06/24</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>合遠朗廷</td><td>中壢區</td><td class="num">217</td><td>合遠建設股份有限公司 負責人:李明慶</td><td>(115)桃市都施使字第壢00659號</td><td>115/07/14</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>鴻築玥</td><td>龜山區</td><td class="num">199</td><td>鴻築建設股份有限公司 負責人:吳裕國</td><td>(115)桃市都施使字第龜00492號</td><td>115/05/26</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>百川博硯</td><td>龜山區</td><td class="num">179</td><td>僑馥建築經理股份有限公司 負責人:林中文</td><td>(115)桃市都施使字第龜00191號</td><td>115/02/24</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>謙上園</td><td>八德區</td><td class="num">173</td><td>富源建設股份有限公司  負責人:林進財</td><td>(115)桃市都施使字第德00588號</td><td>115/06/24</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>月沐青2</td><td>楊梅區</td><td class="num">169</td><td>合遠建設股份有限公司  負責人:李明慶</td><td>(115)桃市都施使字第楊00112號</td><td>115/01/29</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">163</td><td>合輝建設開發股份有限公司負責人:林彩雲</td><td>(115)桃市都施使字第桃00691號</td><td>115/07/24</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>威均園舞曲</td><td>中壢區</td><td class="num">156</td><td>僑馥建築經理股份有限公司 負責人:林中文</td><td>(115)桃市都施使字第壢00260號</td><td>115/03/23</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>平鎮區</td><td class="num">150</td><td>廣泰鑫建設有限公司  負責人：蔡玉璋</td><td>(115)桃市都施使字第平00066號</td><td>115/01/20</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>三本四季</td><td>桃園區</td><td class="num">149</td><td>三麒建設股份有限公司 負責人：黃鈺錂</td><td>(115)桃市都施使字第桃00274號</td><td>115/03/26</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>龜山區</td><td class="num">142</td><td>台新建築經理股份有限公司 代表人:刁建生</td><td>(115)桃市都施使字第龜00399號</td><td>115/04/28</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>京懋泰閤</td><td>桃園區</td><td class="num">140</td><td>中國建築經理股份有限公司 負責人：鄭重</td><td>(115)桃市都施使字第桃00310號</td><td>115/04/07</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>觀音區</td><td class="num">136</td><td>和境建設股份有限公司  負責人:曾繁碩</td><td>(115)桃市都施使字第觀00132號</td><td>115/02/04</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">136</td><td>澄果建設有限公司 負責人:葉泰利</td><td>(115)桃市都施使字第桃00228號</td><td>115/03/12</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>誠聚禾</td><td>楊梅區</td><td class="num">131</td><td>禾羱建設股份有限公司 負責人:廖偉辰</td><td>(115)桃市都施使字第楊00666號</td><td>115/07/23</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>陶然自若</td><td>龍潭區</td><td class="num">123</td><td>僑馥建築經理股份有限公司 負責人：林中文</td><td>(115)桃市都施使字第龍00233號</td><td>115/03/13</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>寶台‧未來</td><td>中壢區</td><td class="num">111</td><td>寶中建設有限公司 負責人:陳文祥</td><td>(115)桃市都施使字第壢00662號</td><td>115/07/15</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>樸翔豐耘</td><td>蘆竹區</td><td class="num">104</td><td>樸翔建設股份有限公司 負責人：何明倫</td><td>(115)桃市都施使字第蘆00496號</td><td>115/05/26</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>觀音區</td><td class="num">104</td><td>寶國建築經理股份有限公司 負責人:陳正林</td><td>(115)桃市都施使字第觀00704號</td><td>115/07/28</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>藏月泱</td><td>中壢區</td><td class="num">103</td><td>台灣金聯資產管理股份有限公司  代表人：宮文萍</td><td>(115)桃市都施使字第壢00253號</td><td>115/03/19</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>昭揚天賦</td><td>桃園區</td><td class="num">101</td><td>昕陽建設股份有限公司 負責人:呂雅蕙</td><td>(115)桃市都施使字第桃00148號</td><td>115/02/06</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>福鄉一邸</td><td>八德區</td><td class="num">100</td><td>廣永投資有限公司 負責人：福來</td><td>(115)桃市都施使字第德00583號</td><td>115/06/23</td><td><span class="ok">App✓</span></td></tr>
+      </tbody>
     </table>
   </div>
-  <h3>申請中・推定（20 案）</h3>
+  <h3>114 年下半核發・參考表（39 案 / 8,669 戶，僅供對照・不列入官方主表統計）</h3>
   <div class="tablebox">
     <table>
-      <thead><tr><th>案名</th><th>行政區</th><th style="text-align:right">戶數</th><th>建商</th><th>推定依據摘要</th><th>完工預估</th></tr></thead>
-      <tbody><tr>
-      <td>鴻築捷市閱</td>
-      <td>龜山區</td>
-      <td class="num">548</td>
-      <td>鴻築建設股份有限公司</td>
-      <td class="note">建照(112)桃市都建執照字第會龜01246號工期屆滿且完工排程2026 Q4，使照未見於開…</td>
-      <td>2026 Q4</td>
-    </tr>
-<tr>
-      <td>美術水公園</td>
-      <td>大園區（航空城／領航南路）</td>
-      <td class="num">422</td>
-      <td>齊裕營造股份有限公司（投資興建，904.591詳情頁標示）</td>
-      <td class="note">完工期2026 H1已屆而使照未見於113-115開放資料——推定申請中或交屋延後（0729…</td>
-      <td>2026 H1</td>
-    </tr>
-<tr>
-      <td>桃大詠</td>
-      <td>中壢區（青埔A18）</td>
-      <td class="num">296</td>
-      <td>桃大建設股份有限公司、石沐國際開發股份有限公司</td>
-      <td class="note">完工期2026 Q1已屆而使照未見於113-115開放資料——推定申請中或交屋延後（0729…</td>
-      <td>2026 Q1</td>
-    </tr>
-<tr>
-      <td>益翔新天地</td>
-      <td>觀音區（草漯）</td>
-      <td class="num">284</td>
-      <td>益翔建設股份有限公司</td>
-      <td class="note">建照(111)桃市都建執照字第會觀01383-01號工期屆滿且完工排程2026 Q3，使照未…</td>
-      <td>2026 Q3</td>
-    </tr>
-<tr>
-      <td>櫻花馥</td>
-      <td>楊梅區</td>
-      <td class="num">253</td>
-      <td>櫻花建設股份有限公司</td>
-      <td class="note">建照(111)桃市都建執照字第會楊00929-02號工期屆滿且完工排程2026 Q4，使照未…</td>
-      <td>2026 Q4</td>
-    </tr>
-<tr>
-      <td>大華菁耕</td>
-      <td>蘆竹區</td>
-      <td class="num">228</td>
-      <td><span class="note">-</span></td>
-      <td class="note">完工期2026 Q2已屆而使照未見於113-115開放資料——推定申請中或交屋延後（0729…</td>
-      <td>2026 Q2</td>
-    </tr>
-<tr>
-      <td>和發首映</td>
-      <td>觀音區</td>
-      <td class="num">206</td>
-      <td>和發建設股份有限公司</td>
-      <td class="note">建照(112)桃市都建執照字第會觀00310-01號工期屆滿且完工排程2026 Q4，使照未…</td>
-      <td>2026 Q4</td>
-    </tr>
-<tr>
-      <td>三本大序</td>
-      <td>桃園區（小檜溪）</td>
-      <td class="num">200</td>
-      <td>三麒建設股份有限公司（三本建設）</td>
-      <td class="note">建照(111)桃市都建執照字第會桃00346-03號屆期未領使照（0729大案解名確認）</td>
-      <td>2026 Q3</td>
-    </tr>
-<tr>
-      <td>鴻灃悅</td>
-      <td>觀音區</td>
-      <td class="num">174</td>
-      <td>鴻灃建設股份有限公司</td>
-      <td class="note">建照(111)桃市都建執照字第會觀00601-02號工期屆滿且完工排程2026 Q4，使照未…</td>
-      <td>2026 Q4</td>
-    </tr>
-<tr>
-      <td>宗佳致境</td>
-      <td>蘆竹區（A10山鼻）</td>
-      <td class="num">168</td>
-      <td><span class="note">-</span></td>
-      <td class="note">完工期2026 Q2已屆而使照未見於113-115開放資料——推定申請中或交屋延後（0729…</td>
-      <td>2026 Q2</td>
-    </tr>
-<tr>
-      <td>協勝雙子城II</td>
-      <td>大園區</td>
-      <td class="num">165</td>
-      <td>協勝建設股份有限公司</td>
-      <td class="note">建照(111)桃市都建執照字第會園00180-03號工期屆滿且完工排程2026 Q4，使照未…</td>
-      <td>2026 Q4</td>
-    </tr>
-<tr>
-      <td>大華開朗</td>
-      <td>龜山區（A7重劃區）</td>
-      <td class="num">161</td>
-      <td>（591頁未標示投資興建公司；與大華菁耕/大華首捷同「大華」字號但未證實同建商，不臆測）</td>
-      <td class="note">完工期2026 Q2已屆而使照未見於113-115開放資料——推定申請中或交屋延後（0729…</td>
-      <td>2026 Q2</td>
-    </tr>
-<tr>
-      <td>櫻花響</td>
-      <td>中壢區（A20興南）</td>
-      <td class="num">146</td>
-      <td><span class="note">-</span></td>
-      <td class="note">完工期2026 Q2已屆而使照未見於113-115開放資料——推定申請中或交屋延後（0729…</td>
-      <td>2026 Q2</td>
-    </tr>
-<tr>
-      <td>宗佳領御</td>
-      <td>大園區</td>
-      <td class="num">144</td>
-      <td>宗佳建設股份有限公司</td>
-      <td class="note">building-tracker-report-新北桃園0711</td>
-      <td>2026 Q3</td>
-    </tr>
-<tr>
-      <td>頤昌筑岳</td>
-      <td>龜山區</td>
-      <td class="num">142</td>
-      <td>頤叡建設股份有限公司</td>
-      <td class="note">完工期2026 Q2已屆而使照未見於113-115開放資料——推定申請中或交屋延後（0729…</td>
-      <td>2026 Q2</td>
-    </tr>
-<tr>
-      <td>和境寓見</td>
-      <td>觀音區（草漯一單元）</td>
-      <td class="num">134</td>
-      <td><span class="note">-</span></td>
-      <td class="note">完工期2026 Q2已屆而使照未見於113-115開放資料——推定申請中或交屋延後（0729…</td>
-      <td>2026 Q2</td>
-    </tr>
-<tr>
-      <td>展志縱橫時代</td>
-      <td>桃園區</td>
-      <td class="num">128</td>
-      <td>展志建設開發股份有限公司</td>
-      <td class="note">building-tracker-report-新北桃園0711</td>
-      <td>2026 Q3</td>
-    </tr>
-<tr>
-      <td>御禾院</td>
-      <td>大園區（客運園區）</td>
-      <td class="num">125</td>
-      <td>大濟建設股份有限公司</td>
-      <td class="note">建照(111)桃市都建執照字第會園00435-02號工期屆滿且完工排程2026 Q4，使照未…</td>
-      <td>2026 Q4</td>
-    </tr>
-<tr>
-      <td>寶欣好漾</td>
-      <td>楊梅區</td>
-      <td class="num">125</td>
-      <td>寶欣建設股份有限公司</td>
-      <td class="note">建照(111)桃市都建執照字第會楊00626-02號工期屆滿且完工排程2026 Q2，使照未…</td>
-      <td>2026 Q2</td>
-    </tr>
-<tr>
-      <td>合陽逸境</td>
-      <td>大園區（客運園區）</td>
-      <td class="num">100</td>
-      <td>合陽建設股份有限公司</td>
-      <td class="note">建照(112)桃市都建執照字第會園00780號工期屆滿且完工排程2026 Q4，使照未見於開…</td>
-      <td>2026 Q4</td>
-    </tr></tbody>
+      <thead><tr><th>行政區</th><th style="text-align:right">登記戶數</th><th>起造人</th><th>使照字號</th><th>發照日</th></tr></thead>
+      <tbody>
+        <tr><td>龜山區</td><td class="num">803</td><td>鴻築建設股份有限公司 負責人:吳裕國</td><td>(114)桃市都施使字第龜00905號</td><td>114/08/28</td></tr>
+        <tr><td>中壢區</td><td class="num">558</td><td>僑馥建築經理股份有限公司 負責人：林中文</td><td>(114)桃市都施使字第壢01091號</td><td>114/10/27</td></tr>
+        <tr><td>八德區</td><td class="num">457</td><td>寶佳建設股份有限公司 負責人:孔令儀</td><td>(114)桃市都施使字第德01217號</td><td>114/12/08</td></tr>
+        <tr><td>大園區</td><td class="num">427</td><td>信都建設股份有限公司 負責人:吳立偉</td><td>(114)桃市都施使字第園01268號</td><td>114/12/23</td></tr>
+        <tr><td>大園區</td><td class="num">422</td><td>齊裕營造股份有限公司 負責人:鄭俊民</td><td>(114)桃市都施使字第園01204號</td><td>114/12/03</td></tr>
+        <tr><td>龜山區</td><td class="num">328</td><td>豐邑建設股份有限公司 負責人：黃淑美</td><td>(114)桃市都施使字第龜00957號</td><td>114/09/12</td></tr>
+        <tr><td>桃園區</td><td class="num">306</td><td>璞揚建設股份有限公司 負責人:蕭立志</td><td>(114)桃市都施使字第桃01214號</td><td>114/12/08</td></tr>
+        <tr><td>桃園區</td><td class="num">293</td><td>國家住宅及都市更新中心 代表人：花敬群</td><td>(114)桃市都施使字第桃01025號</td><td>114/10/03</td></tr>
+        <tr><td>八德區</td><td class="num">277</td><td>和發建設股份有限公司  負責人:方敬元</td><td>(114)桃市都施使字第德00752號</td><td>114/07/14</td></tr>
+        <tr><td>中壢區</td><td class="num">260</td><td>臺億建築經理股份有限公司 負責人:陳長琪</td><td>(114)桃市都施使字第壢00688號</td><td>114/07/03</td></tr>
+        <tr><td>楊梅區</td><td class="num">260</td><td>和耀建設股份有限公司  負責人:邊宜威</td><td>(114)桃市都施使字第楊01140號</td><td>114/11/10</td></tr>
+        <tr><td>新屋區</td><td class="num">256</td><td>盛竑建設有限公司  負責人:張剛維</td><td>(114)桃市都施使字第屋01215號</td><td>114/12/08</td></tr>
+        <tr><td>大園區</td><td class="num">249</td><td>交通部民用航空局 局長 何淑萍</td><td>(114)桃市都施使字第園00738號</td><td>114/07/02</td></tr>
+        <tr><td>桃園區</td><td class="num">237</td><td>合雄建設股份有限公司  負責人:陳清基</td><td>(114)桃市都施使字第桃01063號</td><td>114/10/16</td></tr>
+        <tr><td>桃園區</td><td class="num">206</td><td>君邑建設有限公司 負責人:徐雅惠</td><td>(114)桃市都施使字第桃01155號</td><td>114/11/17</td></tr>
+        <tr><td>八德區</td><td class="num">202</td><td>協勝建設股份有限公司  負責人:李宗熹</td><td>(114)桃市都施使字第德00818號</td><td>114/08/05</td></tr>
+        <tr><td>中壢區</td><td class="num">202</td><td>益展建設股份有限公司 負責人:范振成</td><td>(114)桃市都施使字第壢01113號</td><td>114/11/03</td></tr>
+        <tr><td>龜山區</td><td class="num">177</td><td>吉城開發股份有限公司(負責人:張雅婷)</td><td>(114)桃市都施使字第龜00970號</td><td>114/09/18</td></tr>
+        <tr><td>中壢區</td><td class="num">173</td><td>茂宇建設有限公司 負責人:黃楚文</td><td>(114)桃市都施使字第壢00941號</td><td>114/09/10</td></tr>
+        <tr><td>楊梅區</td><td class="num">170</td><td>櫻花建設股份有限公司  負責人:陳世英</td><td>(114)桃市都施使字第楊00851號</td><td>114/08/14</td></tr>
+        <tr><td>桃園區</td><td class="num">170</td><td>東亞建築經理股份有限公司 代表人:曹奮平</td><td>(114)桃市都施使字第桃01269號</td><td>114/12/23</td></tr>
+        <tr><td>八德區</td><td class="num">161</td><td>冠奕建設股份有限公司 負責人:吳冠廷</td><td>(114)桃市都施使字第德01207號</td><td>114/12/03</td></tr>
+        <tr><td>中壢區</td><td class="num">153</td><td>臺億建築經理股份有限公司 負責人:陳長琪</td><td>(114)桃市都施使字第壢00806號</td><td>114/07/30</td></tr>
+        <tr><td>桃園區</td><td class="num">145</td><td>中堤建設股份有限公司 負責人:林振欽</td><td>(114)桃市都施使字第桃00865號</td><td>114/08/15</td></tr>
+        <tr><td>大園區</td><td class="num">144</td><td>協勝建設股份有限公司  負責人:李宗熹</td><td>(114)桃市都施使字第園01064號</td><td>114/10/16</td></tr>
+        <tr><td>大園區</td><td class="num">135</td><td>僑馥建築經理股份有限公司 負責人：林中文</td><td>(114)桃市都施使字第園00870號</td><td>114/08/18</td></tr>
+        <tr><td>平鎮區</td><td class="num">134</td><td>環泥建設開發股份有限公司  負責人：吳英辰</td><td>(114)桃市都施使字第平00989號</td><td>114/09/25</td></tr>
+        <tr><td>觀音區</td><td class="num">131</td><td>合展建設股份有限公司  負責人:曾國修</td><td>(114)桃市都施使字第觀01092號</td><td>114/10/27</td></tr>
+        <tr><td>大園區</td><td class="num">127</td><td>傳佳建設股份有限公司  負責人:傅君毅</td><td>(114)桃市都施使字第園01124號</td><td>114/11/05</td></tr>
+        <tr><td>龜山區</td><td class="num">122</td><td>台新建築經理股份有限公司  負責人：刁建生</td><td>(114)桃市都施使字第龜00971號</td><td>114/09/19</td></tr>
+        <tr><td>觀音區</td><td class="num">120</td><td>大益開發建設有限公司 負責人：陳益昌</td><td>(114)桃市都施使字第觀00756號</td><td>114/07/14</td></tr>
+        <tr><td>八德區</td><td class="num">116</td><td>鵬躍建設股份有限公司 負責人:黃聖巖</td><td>(114)桃市都施使字第德01237號</td><td>114/12/15</td></tr>
+        <tr><td>蘆竹區</td><td class="num">115</td><td>德鄉建設有限公司 負責人：鄭佳雯</td><td>(114)桃市都施使字第蘆00939號</td><td>114/09/09</td></tr>
+        <tr><td>大園區</td><td class="num">111</td><td>臺億建築經理股份有限公司負責人：陳長琪</td><td>(114)桃市都施使字第園00850號</td><td>114/08/14</td></tr>
+        <tr><td>中壢區</td><td class="num">110</td><td>樂成投資有限公司 負責人:賴靈焜</td><td>(114)桃市都施使字第壢00778號</td><td>114/07/22</td></tr>
+        <tr><td>中壢區</td><td class="num">104</td><td>合展建設股份有限公司  負責人:曾國修</td><td>(114)桃市都施使字第壢01035號</td><td>114/10/08</td></tr>
+        <tr><td>中壢區</td><td class="num">104</td><td>鑫興投資有限公司 負責人:賴靈欣</td><td>(114)桃市都施使字第壢01151號</td><td>114/11/14</td></tr>
+        <tr><td>楊梅區</td><td class="num">103</td><td>百傑建設股份有限公司 代表人:徐金樹</td><td>(114)桃市都施使字第楊00936號</td><td>114/09/08</td></tr>
+        <tr><td>中壢區</td><td class="num">101</td><td>詠薪建設有限公司 負責人:林偉樟</td><td>(114)桃市都施使字第壢00888號</td><td>114/08/15</td></tr>
+      </tbody>
     </table>
   </div>
-  
+  <h3>申請中（官方推定，建照屆期法）：84 案 / 17,928 戶</h3>
+  <p class="note">母體＝111–112年核發、戶數≥100之建造執照，扣除已比對出「已領使照」1案（丹佛花都，115使字第00502號龜）。App✓ 27 案、App✗ 57 案（其中5案經WebSearch解出案名但App尚未收錄，其餘52案僅有建照字號/地址/起造人，查無案名）。</p>
+  <div class="tablebox">
+    <table>
+      <thead><tr><th>案名</th><th>行政區</th><th style="text-align:right">戶數</th><th>起造人</th><th>建照字號</th><th>建照發照日</th><th>App</th></tr></thead>
+      <tbody>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>龜山區</td><td class="num">1,063</td><td>僑馥建築經理股份有限公司 代表人:林中文</td><td>(111)桃市都建執照字第會龜01329-02號</td><td>114/12/19</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>宏普序時代</td><td>中壢區</td><td class="num">1,027</td><td>宏普建設股份有限公司負責人：華展投資股份有限公司</td><td>(112)桃市都建執照字第會壢00200-02號</td><td>113/10/07</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">596</td><td>合一建築股份有限公司　負責人：楊題銓</td><td>(112)桃市都建執照字第會桃00807號</td><td>112/09/25</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>A20-合磊天沐</td><td>中壢區</td><td class="num">593</td><td>合磊建設股份有限公司負責人：林謙一</td><td>(112)桃市都建執照字第會壢00578-01號</td><td>113/04/11</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>鴻築捷市閱</td><td>龜山區</td><td class="num">567</td><td>鴻築建設股份有限公司負責人：吳裕國</td><td>(112)桃市都建執照字第會龜01246號</td><td>112/12/18</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">388</td><td>臺億建築經理股份有限公司負責人：陳長琪</td><td>(111)桃市都建執照字第會桃00438-02號</td><td>113/11/07</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>宏普青芝段146(未公開，暫稱)</td><td>中壢區</td><td class="num">364</td><td>宏普建設股份有限公司　代表人：華展投資股份有限公司</td><td>(112)桃市都建執照字第會壢01225-01號</td><td>114/05/19</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>楊梅區</td><td class="num">333</td><td>台新建築經理股份有限公司  代表人：刁建生</td><td>(112)桃市都建執照字第會楊00962-02號</td><td>115/04/27</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>聚泰雲邸</td><td>中壢區</td><td class="num">303</td><td>聚泰建設股份有限公司負責人:黃宗錦</td><td>(112)桃市都建執照字第會壢00701號</td><td>112/07/20</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">299</td><td>桃園市政府 市長張善政</td><td>(111)桃市都建執照字第會桃01268-01號</td><td>114/07/17</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>勤樸大道</td><td>中壢區</td><td class="num">297</td><td>勤樸開發有限公司負責人：萬久陽</td><td>(112)桃市都建執照字第會壢00429-02號</td><td>114/03/24</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>協勝中央公園</td><td>大園區</td><td class="num">296</td><td>協勝建設股份有限公司負責人:李宗熹</td><td>(111)桃市都建執照字第會園00835-03號</td><td>113/06/20</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>八德區</td><td class="num">294</td><td>秉和建設股份有限公司  負責人:李佳恂</td><td>(112)桃市都建執照字第會德00455-02號</td><td>114/06/26</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>益翔新天地</td><td>觀音區</td><td class="num">284</td><td>益翔建設股份有限公司(負責人：張少暐)</td><td>(111)桃市都建執照字第會觀01383-01號</td><td>113/06/28</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>合展悅恬</td><td>大園區</td><td class="num">273</td><td>合展建設股份有限公司負責人:曾國修</td><td>(112)桃市都建執照字第會園00385號</td><td>112/04/26</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>凱越豐耘</td><td>桃園區</td><td class="num">260</td><td>凱越建設股份有限公司 負責人：林鴻森</td><td>(111)桃市都建執照字第會桃01186-02號</td><td>115/01/14</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>富堡菁英滙</td><td>龜山區</td><td class="num">258</td><td>富堡開發建設有限公司負責人：孫福忠</td><td>(111)桃市都建執照字第會龜01272號</td><td>111/11/08</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>龍潭區</td><td class="num">254</td><td>慶盛建設有限公司代表人：邱奕森</td><td>(112)桃市都建執照字第會龍00975號</td><td>112/09/25</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>櫻花馥</td><td>楊梅區</td><td class="num">253</td><td>櫻花建設股份有限公司負責人:陳世英</td><td>(111)桃市都建執照字第會楊00929-02號</td><td>113/11/20</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>合登領航城</td><td>大園區</td><td class="num">246</td><td>合登建設股份有限公司  負責人:徐龍雲</td><td>(112)桃市都建執照字第會園00268-01號</td><td>114/12/03</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>弘峻公園賦</td><td>楊梅區</td><td class="num">235</td><td>弘峻建設股份有限公司 負責人:林鴻楷</td><td>(111)桃市都建執照字第會楊00199-02號</td><td>114/11/21</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>大華菁耕</td><td>蘆竹區</td><td class="num">228</td><td>寶國建築經理股份有限公司 負責人：陳正林</td><td>(112)桃市都建執照字第會蘆00251-01號</td><td>115/06/23</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>和發水慕白</td><td>中壢區</td><td class="num">221</td><td>和發建設股份有限公司 負責人：方敬元</td><td>(111)桃市都建執照字第會壢00377-03號</td><td>115/06/03</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>樺龍淳藝</td><td>中壢區</td><td class="num">221</td><td>鋒橋建設股份有限公司負責人:游晴雯</td><td>(111)桃市都建執照字第會壢00801-02號</td><td>113/05/01</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>君邑莫內</td><td>楊梅區</td><td class="num">216</td><td>富邑建設有限公司 負責人：陳根添</td><td>(111)桃市都建執照字第會楊00710-02號</td><td>114/12/22</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>蘆竹區</td><td class="num">212</td><td>和峻建設股份有限公司 負責人:張展溢</td><td>(112)桃市都建執照字第會蘆00863-01號</td><td>114/08/12</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>和發首映</td><td>觀音區</td><td class="num">208</td><td>和發建設股份有限公司  負責人:方敬元</td><td>(112)桃市都建執照字第會觀00310-01號</td><td>114/06/17</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">202</td><td>興樹建設有限公司負責人:李淑芬</td><td>(112)桃市都建執照字第會壢01248號</td><td>112/12/19</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>三本大序</td><td>桃園區</td><td class="num">200</td><td>三麒建設股份有限公司負責人：黃鈺錂</td><td>(111)桃市都建執照字第會桃00346-03號</td><td>113/07/30</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>平鎮區</td><td class="num">200</td><td>新纖工業股份有限公司代表人：歐金達</td><td>(112)桃市都建執照字第會平00958號</td><td>112/09/28</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>悦佳文萃</td><td>觀音區</td><td class="num">198</td><td>悅佳建設股份有限公司負責人:李法穆</td><td>(111)桃市都建執照字第會觀01293-02號</td><td>113/05/29</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>大園區</td><td class="num">196</td><td>力馥建設股份有限公司 負責人：蔡宗良</td><td>(112)桃市都建執照字第會園01008-02號</td><td>115/06/10</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>鴻灃悅</td><td>觀音區</td><td class="num">185</td><td>鴻灃建設股份有限公司負責人：胡志鵬</td><td>(111)桃市都建執照字第會觀00601-02號</td><td>113/02/17</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>平鎮區</td><td class="num">185</td><td>鴻騰建設股份有限公司　負責人:林洺鋒</td><td>(111)桃市都建執照字第會平00022號</td><td>111/01/07</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">185</td><td>悅萊建設股份有限公司負責人:翁茂槐</td><td>(112)桃市都建執照字第會壢00562-02號</td><td>113/11/25</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>大園區</td><td class="num">185</td><td>上順房屋開發股份有限公司負責人:李南山</td><td>(112)桃市都建執照字第會園00596-01號</td><td>113/03/13</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>大園區</td><td class="num">183</td><td>創景建設股份有限公司 負責人：吳美順</td><td>(112)桃市都建執照字第會園01063-01號</td><td>115/01/02</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>蘆竹區</td><td class="num">172</td><td>佳昕建設股份有限公司負責人：柯文琦</td><td>(111)桃市都建執照字第會蘆01381-01號</td><td>113/04/18</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>蘆竹區</td><td class="num">168</td><td>寶佳建設股份有限公司負責人:孔令儀</td><td>(112)桃市都建執照字第會蘆00439-01號</td><td>112/10/26</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>觀音區</td><td class="num">167</td><td>佳昕建設股份有限公司負責人：柯文琦</td><td>(111)桃市都建執照字第會觀00913-01號</td><td>114/05/15</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">166</td><td>和耀建設股份有限公司  負責人:邊宜威</td><td>(111)桃市都建執照字第會桃00627-02號</td><td>114/12/22</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>協勝雙子城II</td><td>大園區</td><td class="num">165</td><td>協勝建設股份有限公司  負責人:李宗熹</td><td>(111)桃市都建執照字第會園00180-03號</td><td>115/03/11</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>龜山區</td><td class="num">164</td><td>秉和建設股份有限公司負責人:李佳恂</td><td>(112)桃市都建執照字第會龜00445-02號</td><td>113/06/14</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>龜山區</td><td class="num">161</td><td>寶國建築經理股份有限公司 負責人:陳正林</td><td>(111)桃市都建執照字第會龜00227-02號</td><td>114/12/30</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>大園區</td><td class="num">161</td><td>承瑞開發股份有限公司負責人:陳民崇</td><td>(112)桃市都建執照字第會園00269-01號</td><td>113/07/29</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>龍潭區</td><td class="num">161</td><td>合睦建設有限公司 負責人：黃宗彬</td><td>(111)桃市都建執照字第會龍00738-02號</td><td>114/10/23</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">160</td><td>寶誠建設股份有限公司負責人:李法穆</td><td>(112)桃市都建執照字第會壢00073-02號</td><td>113/08/14</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">157</td><td>麗寶建設股份有限公司負責人:吳寶田</td><td>(111)桃市都建執照字第會桃00690號</td><td>111/06/24</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">156</td><td>益展建設股份有限公司負責人:范振成</td><td>(112)桃市都建執照字第會桃00359-01號</td><td>114/02/26</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">152</td><td>合遠建設股份有限公司負責人:李明慶</td><td>(111)桃市都建執照字第會桃00636-01號</td><td>112/02/14</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">146</td><td>櫻花建設股份有限公司負責人:陳世英</td><td>(111)桃市都建執照字第會壢01435-01號</td><td>113/04/23</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>大園區</td><td class="num">144</td><td>寶佳建設股份有限公司負責人：孔令儀</td><td>(112)桃市都建執照字第會園00258號</td><td>112/03/22</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">140</td><td>大維建設股份有限公司 負責人：葉洋澤</td><td>(111)桃市都建執照字第會壢00952-03號</td><td>114/10/22</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">137</td><td>永聆興業有限公司負責人:唐永正</td><td>(111)桃市都建執照字第會桃01275號</td><td>111/11/09</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>格律美-華廈區</td><td>楊梅區</td><td class="num">136</td><td>卓悅建設有限公司負責人:李訓雄</td><td>(112)桃市都建執照字第會楊00520號</td><td>112/06/05</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">136</td><td>遠傳建設股份有限公司負責人:葉維宗</td><td>(111)桃市都建執照字第會桃00505號</td><td>111/05/12</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>佳昕昕藝</td><td>楊梅區</td><td class="num">135</td><td>佳昕建設股份有限公司負責人：柯文琦</td><td>(112)桃市都建執照字第會楊00561-02號</td><td>113/09/12</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">135</td><td>廣承建設股份有限公司負責人:張仙憶</td><td>(111)桃市都建執照字第會桃01109-01號</td><td>112/04/14</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>大園區</td><td class="num">134</td><td>旺坤建設股份有限公司負責人：劉詩筠</td><td>(112)桃市都建執照字第會園00845-02號</td><td>113/08/07</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>平鎮區</td><td class="num">133</td><td>合眾建築經理股份有限公司 負責人：顏文澤</td><td>(112)桃市都建執照字第會平01281-02號</td><td>115/03/24</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">132</td><td>誠永營造股份有限公司代表人：李玉雲</td><td>(112)桃市都建執照字第會桃00331號</td><td>112/04/17</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>蘆竹區</td><td class="num">131</td><td>合雄建設股份有限公司  負責人:陳清基</td><td>(112)桃市都建執照字第會蘆00437-01號</td><td>114/09/05</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>君臨塘詩-慕荷</td><td>中壢區</td><td class="num">126</td><td>君臨開發建設股份有限公司(負責人:周凱君)</td><td>(112)桃市都建執照字第會壢00820-01號</td><td>113/02/27</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>御禾院</td><td>大園區</td><td class="num">125</td><td>大濟建設股份有限公司 負責人：游泰山</td><td>(111)桃市都建執照字第會園00435-02號</td><td>115/05/18</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>寶欣好漾</td><td>楊梅區</td><td class="num">125</td><td>寶欣建設股份有限公司  負責人:洪凱悌</td><td>(111)桃市都建執照字第會楊00626-02號</td><td>114/12/03</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">125</td><td>國灝建設有限公司代表人:章白天</td><td>(111)桃市都建執照字第會壢00910號</td><td>111/08/18</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">124</td><td>佳昕建設股份有限公司 負責人：柯文琦</td><td>(112)桃市都建執照字第會壢00675-01號</td><td>114/06/12</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">122</td><td>和峻建設股份有限公司負責人:張展溢</td><td>(112)桃市都建執照字第會壢00217號</td><td>112/03/14</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">121</td><td>益欣建設股份有限公司負責人:蔡威漢</td><td>(112)桃市都建執照字第會壢00788-01號</td><td>113/05/13</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>嚮未來-蒔美</td><td>觀音區</td><td class="num">120</td><td>弘峻建設股份有限公司負責人:林鴻楷</td><td>(111)桃市都建執照字第會觀01229號</td><td>111/10/27</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>寶台青耘</td><td>楊梅區</td><td class="num">115</td><td>寶台建設有限公司負責人：柯振良</td><td>(112)桃市都建執照字第會楊00315-01號</td><td>113/09/30</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>觀音區</td><td class="num">115</td><td>思程建設股份有限公司負責人:陳燈義</td><td>(112)桃市都建執照字第會觀00607號</td><td>112/06/26</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">114</td><td>興樹建設有限公司負責人:李淑芬</td><td>(112)桃市都建執照字第會壢01260號</td><td>112/12/20</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>青和登豐</td><td>八德區</td><td class="num">112</td><td>青和建設有限公司 負責人:黃聰郎</td><td>(111)桃市都建執照字第會德01191-02號</td><td>115/07/14</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>大園區</td><td class="num">108</td><td>嘉駿建設股份有限公司負責人:黃國明</td><td>(111)桃市都建執照字第會園00996-01號</td><td>111/11/23</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>楊梅區</td><td class="num">106</td><td>合眾建築經理股份有限公司 負責人：顏文澤</td><td>(112)桃市都建執照字第會楊00263-02號</td><td>114/08/04</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>大園區</td><td class="num">105</td><td>惠田開發股份有限公司 負責人:邱黎光</td><td>(112)桃市都建執照字第會園00450-01號</td><td>114/07/28</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">103</td><td>臺灣金融聯合都市更新服務股份有限公司負責人：林旺根</td><td>(111)桃市都建執照字第會壢01006-03號</td><td>114/03/05</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">102</td><td>杭特建設股份有限公司負責人:李家銘</td><td>(112)桃市都建執照字第會桃00038-01號</td><td>113/11/18</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>大園區</td><td class="num">102</td><td>益欣建設股份有限公司負責人:蔡威漢</td><td>(112)桃市都建執照字第會園00245號</td><td>112/03/20</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">101</td><td>璞揚建設股份有限公司 負責人:蕭立志</td><td>(111)桃市都建執照字第會桃00726-02號</td><td>114/09/10</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>合陽逸境</td><td>大園區</td><td class="num">100</td><td>合陽建設股份有限公司負責人：張偉倫</td><td>(112)桃市都建執照字第會園00780號</td><td>112/08/07</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>楊梅區</td><td class="num">100</td><td>保利開發建設有限公司負責人：陳芷淳</td><td>(112)桃市都建執照字第會楊01247號</td><td>112/12/18</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">100</td><td>川和發建設股份有限公司負責人:陳美福</td><td>(112)桃市都建執照字第會桃00203-01號</td><td>113/02/02</td><td><span class="miss">App✗</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
 
   <h2>新竹縣</h2>
   <div class="stats">
-    <div class="stat"><div class="n">7 案</div><div class="l">100戶以上・已領+申請中</div></div>
-    <div class="stat"><div class="n">1,552 戶</div><div class="l">合計住宅戶數</div></div>
-    <div class="stat"><div class="n">7 案 / 1,552 戶</div><div class="l">已核發</div></div>
-    <div class="stat"><div class="n">0 案 / 0 戶</div><div class="l">申請中(推定)</div></div>
+    <div class="stat"><div class="n">7 案 / 1,552 戶</div><div class="l">115年（2026）已核發・登記戶數≥100</div></div>
+    <div class="stat"><div class="n">5 / 7</div><div class="l">App 已收錄（71%）</div></div>
+    <div class="stat"><div class="n">176 筆</div><div class="l">官方池母體（原始筆數，未篩選）</div></div>
   </div>
-  
-  <h3>已核發（7 案）</h3>
+  <h3>已核發 115 年主表（7 案）</h3>
   <div class="tablebox">
     <table>
-      <thead><tr><th>案名</th><th>行政區</th><th style="text-align:right">住宅戶數</th><th>建商</th><th>使照字號</th><th>發照日</th><th>完工</th><th style="text-align:right">LINE群數</th></tr></thead>
-      <tbody><tr>
-      <td>富廣和合</td>
-      <td>竹東鎮</td>
-      <td class="num">336</td>
-      <td>富洋建設、捷笙建設（合建，富廣建築團隊）</td>
-      <td>(115)府使字第00004號</td>
-      <td>115/01/16</td>
-      <td>2026 Q1</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>富宇森之樹</td>
-      <td>竹北市（縣治三期）</td>
-      <td class="num">252</td>
-      <td><span class="note">-</span></td>
-      <td>(115)府使字第00040號</td>
-      <td>115/03/25</td>
-      <td>2026 Q1</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>協勝大聚</td>
-      <td>竹北市（高鐵特區）</td>
-      <td class="num">121</td>
-      <td><span class="note">-</span></td>
-      <td>(115)府使字第00073號</td>
-      <td>115/05/05</td>
-      <td>2026 Q2</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>京耀旭昇</td>
-      <td>湖口鄉</td>
-      <td class="num">124</td>
-      <td>京耀建設</td>
-      <td>(115)府使字第00081號</td>
-      <td>115/05/11</td>
-      <td>2026 Q2</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>浩瀚寬郁</td>
-      <td>竹北市（高鐵特區）</td>
-      <td class="num">123</td>
-      <td>豐邑建設</td>
-      <td>(115)府使字第00093號</td>
-      <td>115/05/19</td>
-      <td>2026 Q2</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>星都匯B區</td>
-      <td>竹東鎮</td>
-      <td class="num">473</td>
-      <td>昇益建設</td>
-      <td>(115)府使字第00112號</td>
-      <td>115/06/01</td>
-      <td>2026 Q2</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>惠宇謙恆</td>
-      <td>竹北市（高鐵特區）</td>
-      <td class="num">123</td>
-      <td>惠宇建設</td>
-      <td>(115)府使字第00121號</td>
-      <td>115/06/08</td>
-      <td>2026 Q2</td>
-      <td class="num">1</td>
-    </tr></tbody>
+      <thead><tr><th>案名</th><th>行政區</th><th style="text-align:right">登記戶數</th><th>起造人</th><th>使照字號</th><th>發照日</th><th>App</th></tr></thead>
+      <tbody>
+        <tr><td>星都匯B區</td><td>竹東鎮</td><td class="num">473</td><td>昇益開發股份有限公司 負責人:陳文熾</td><td>(115)府使字第00112號</td><td>115/06/01</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>富廣和合</td><td>竹東鎮</td><td class="num">336</td><td>台新建築經理股份有限公司  負責人：刁建生</td><td>(115)府使字第00004號</td><td>115/01/16</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>富宇森之樹</td><td>竹北市</td><td class="num">252</td><td>富宇建設股份有限公司 負責人：張世欣</td><td>(115)府使字第00040號</td><td>115/03/25</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>京耀旭昇</td><td>湖口鄉</td><td class="num">124</td><td>京耀建設股份有限公司  代表人：周彥君</td><td>(115)府使字第00081號</td><td>115/05/11</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>竹北市</td><td class="num">123</td><td>浩瀚開發建設股份有限公司 負責人:張雅菁</td><td>(115)府使字第00093號</td><td>115/05/19</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>竹北市</td><td class="num">123</td><td>惠理建設股份有限公司 負責人:莊季雄</td><td>(115)府使字第00121號</td><td>115/06/08</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>協勝大聚</td><td>竹北市</td><td class="num">121</td><td>協勝建設股份有限公司 負責人:李宗熹</td><td>(115)府使字第00073號</td><td>115/05/05</td><td><span class="ok">App✓</span></td></tr>
+      </tbody>
     </table>
   </div>
-  <h3>申請中・推定（0 案）</h3>
-  <p class="note">本次查核無符合「申請中(推定)」條件的案件。</p>
-  
+  <h3>114 年下半核發・參考表（0 案 / 0 戶，僅供對照・不列入官方主表統計）</h3>
+  <p class="note">本池掃描範圍僅涵蓋 115 年（見來源池清單），無 114 年資料可供對照。</p>
+  <h3>申請中（官方推定）：無官方建照/申請開放資料，無法從官方母體推定</h3>
+  <p class="note">新竹縣政府未公開可比對「建照屆期」之逐筆建造執照開放資料集，本報告不對新竹縣進行申請中案件之官方推定，僅呈現已核發（使照）主表。</p>
+
 
   <h2>新竹市</h2>
   <div class="stats">
-    <div class="stat"><div class="n">0 案</div><div class="l">100戶以上・已領+申請中</div></div>
-    <div class="stat"><div class="n">0 戶</div><div class="l">合計住宅戶數</div></div>
-    <div class="stat"><div class="n">0 案 / 0 戶</div><div class="l">已核發</div></div>
-    <div class="stat"><div class="n">0 案 / 0 戶</div><div class="l">申請中(推定)</div></div>
+    <div class="stat"><div class="n">0 案 / 0 戶</div><div class="l">115年（2026）已核發・登記戶數≥100</div></div>
+    <div class="stat"><div class="n">0 / 0</div><div class="l">App 已收錄（0%）</div></div>
+    <div class="stat"><div class="n">87 筆</div><div class="l">官方池母體（原始筆數，未篩選）</div></div>
   </div>
-  <p class="note">新竹市 115 年（2026）1–7 月經全量掃描（87 筆住宅類使照，涵蓋 1–7 月共 7 個月檔），<strong>無一筆戶數達 100 戶</strong>——查證結果為零，非資料缺漏（詳見下方口徑說明③）。App 現追蹤新竹市 6 案 100 戶以上建案，均尚未取得使照亦未達「申請中(推定)」判定門檻。</p>
-  <h3>已核發（0 案）</h3>
-  <p class="note">本次查核無符合條件的已核發案件（見口徑說明）。</p>
-  <h3>申請中・推定（0 案）</h3>
-  <p class="note">本次查核無符合「申請中(推定)」條件的案件。</p>
-  
+  <h3>已核發 115 年主表（0 案）</h3>
+  <p class="note">本次官方池篩選結果：無 115 年、登記戶數 ≥100 之案件——新竹市 115 年 1–7 月全量掃描 87 筆住宅類使照，逐筆核對戶數均未達 100 戶，非資料缺漏（詳口徑說明）。</p>
+  <h3>114 年下半核發・參考表（0 案 / 0 戶，僅供對照・不列入官方主表統計）</h3>
+  <p class="note">本池掃描範圍僅涵蓋 115 年（見來源池清單），無 114 年資料可供對照。</p>
+  <h3>申請中（官方推定）：無官方建照/申請開放資料，無法從官方母體推定</h3>
+  <p class="note">新竹市政府未公開可比對「建照屆期」之逐筆建造執照開放資料集，本報告不對新竹市進行申請中案件之官方推定，僅呈現已核發（使照）主表。</p>
+
 
   <h2>台中市</h2>
   <div class="stats">
-    <div class="stat"><div class="n">105 案</div><div class="l">100戶以上・已領+申請中</div></div>
-    <div class="stat"><div class="n">24,912 戶</div><div class="l">合計住宅戶數</div></div>
-    <div class="stat"><div class="n">55 案 / 14,522 戶</div><div class="l">已核發</div></div>
-    <div class="stat"><div class="n">50 案 / 10,390 戶</div><div class="l">申請中(推定)</div></div>
+    <div class="stat"><div class="n">46 案 / 10,942 戶</div><div class="l">115年（2026）已核發・登記戶數≥100</div></div>
+    <div class="stat"><div class="n">34 / 46</div><div class="l">App 已收錄（74%）</div></div>
+    <div class="stat"><div class="n">324 筆</div><div class="l">官方池母體（原始筆數，未篩選）</div></div>
   </div>
-  
-  <h3>已核發（55 案）</h3>
+  <h3>已核發 115 年主表（46 案）</h3>
   <div class="tablebox">
     <table>
-      <thead><tr><th>案名</th><th>行政區</th><th style="text-align:right">住宅戶數</th><th>建商</th><th>使照字號</th><th>發照日</th><th>完工</th><th style="text-align:right">LINE群數</th></tr></thead>
-      <tbody><tr>
-      <td>登陽釀時光</td>
-      <td>北屯區（捷運機廠重劃區／機廠特區）</td>
-      <td class="num">112</td>
-      <td>登仰建設股份有限公司</td>
-      <td>113中都使字第01353號</td>
-      <td>113/09/11</td>
-      <td>2026 Q2</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>順天One33（單元三）</td>
-      <td>南屯區</td>
-      <td class="num">138</td>
-      <td>順天建設</td>
-      <td>114中都使字第01191號</td>
-      <td>114/08/31</td>
-      <td>2026 Q2</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>協勝洲際ONE</td>
-      <td>北屯區（十四期）</td>
-      <td class="num">168</td>
-      <td><span class="note">-</span></td>
-      <td>114中都使字第01241號</td>
-      <td>114/09/08</td>
-      <td>新成屋</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>茂洋馥域</td>
-      <td>龍井區</td>
-      <td class="num">203</td>
-      <td>茂洋建設股份有限公司</td>
-      <td>114中都使字第01244號</td>
-      <td>114/09/09</td>
-      <td>2026 Q1</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>VVS1</td>
-      <td>西屯區（七期）</td>
-      <td class="num">542</td>
-      <td>潤隆建設股份有限公司</td>
-      <td>114中都使字第01526號</td>
-      <td>114/11/03</td>
-      <td>2026 H1</td>
-      <td class="num">3</td>
-    </tr>
-<tr>
-      <td>登陽未來之丘</td>
-      <td>烏日區</td>
-      <td class="num">414</td>
-      <td>登陽建設股份有限公司</td>
-      <td>114中都使字第01763號</td>
-      <td>114/12/15</td>
-      <td>2026 Q4</td>
-      <td class="num">4</td>
-    </tr>
-<tr>
-      <td>勝美琚</td>
-      <td>南屯區</td>
-      <td class="num">642</td>
-      <td>勝美建設股份有限公司</td>
-      <td>114中都使字第01828號</td>
-      <td>114/12/26</td>
-      <td>2026 Q2</td>
-      <td class="num">5</td>
-    </tr>
-<tr>
-      <td>聚悅澄心</td>
-      <td>太平區</td>
-      <td class="num">151</td>
-      <td>聚悅建設</td>
-      <td>115中都使字第00032號</td>
-      <td>115/01/07</td>
-      <td>新成屋(2026)</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>泰御天鑄II</td>
-      <td>西屯區</td>
-      <td class="num">108</td>
-      <td>泰御建設</td>
-      <td>115中都使字第00035號</td>
-      <td>115/01/08</td>
-      <td>新成屋(2026)</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>昕光之櫻</td>
-      <td>太平區</td>
-      <td class="num">459</td>
-      <td><span class="note">-</span></td>
-      <td>115中都使字第00072號</td>
-      <td>115/01/13</td>
-      <td>2026 H2</td>
-      <td class="num">3</td>
-    </tr>
-<tr>
-      <td>櫻花昕光之櫻</td>
-      <td>太平區</td>
-      <td class="num">448</td>
-      <td>櫻花建設（寶佳機構）</td>
-      <td>115中都使字第00072號</td>
-      <td>115/01/13</td>
-      <td>2026 Q待確認（預估）</td>
-      <td class="num">3</td>
-    </tr>
-<tr>
-      <td>敘山行路</td>
-      <td>南屯區</td>
-      <td class="num">155</td>
-      <td>理和建設</td>
-      <td>115中都使字第00097號</td>
-      <td>115/01/20</td>
-      <td>2026 Q3</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>富宇藏富</td>
-      <td>北屯區（十一期）</td>
-      <td class="num">126</td>
-      <td><span class="note">-</span></td>
-      <td>115中都使字第00109號</td>
-      <td>115/01/21</td>
-      <td>2026 H2</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>豐邑 豐禾</td>
-      <td>北屯區</td>
-      <td class="num">166</td>
-      <td>真道投資股份有限公司（豐邑機構）</td>
-      <td>115中都使字第00131號</td>
-      <td>115/01/26</td>
-      <td>2026 Q1</td>
-      <td class="num">3</td>
-    </tr>
-<tr>
-      <td>亞昕一緻</td>
-      <td>北屯區</td>
-      <td class="num">132</td>
-      <td>亞昕國際開發</td>
-      <td>115中都使字第00153號</td>
-      <td>115/01/28</td>
-      <td>新成屋(2026)</td>
-      <td class="num">3</td>
-    </tr>
-<tr>
-      <td>登陽上清宇</td>
-      <td>北屯區（捷運機廠重劃區／機捷特區）</td>
-      <td class="num">183</td>
-      <td>登悅建設股份有限公司</td>
-      <td>115中都使字第00188號</td>
-      <td>115/02/05</td>
-      <td>2027 H2</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>久樘花漾天鵝</td>
-      <td>沙鹿區</td>
-      <td class="num">164</td>
-      <td>久樘開發</td>
-      <td>115中都使字第00212號</td>
-      <td>115/02/12</td>
-      <td>新成屋(2026)</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>鵬程練武段（案名待正名）</td>
-      <td>東區</td>
-      <td class="num">101</td>
-      <td>鵬程建設</td>
-      <td>115中都使字第00229號</td>
-      <td>115/02/13</td>
-      <td>新成屋(2026)</td>
-      <td class="num">0</td>
-    </tr>
-<tr>
-      <td>THE精銳</td>
-      <td>北屯區</td>
-      <td class="num">108</td>
-      <td>精銳建設</td>
-      <td>115中都使字第00277號</td>
-      <td>115/03/10</td>
-      <td>新成屋(2026)</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>益翔有藝仕</td>
-      <td>梧棲區</td>
-      <td class="num">157</td>
-      <td>益翔建設</td>
-      <td>115中都使字第00294號</td>
-      <td>115/03/12</td>
-      <td>新成屋(2026)</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>鉑金愛悦</td>
-      <td>西屯區</td>
-      <td class="num">271</td>
-      <td>興富發建設股份有限公司</td>
-      <td>115中都使字第00303號</td>
-      <td>115/03/13</td>
-      <td>2027 Q3</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>浩瀚景立方-菁英區</td>
-      <td>北屯區</td>
-      <td class="num">192</td>
-      <td>浩瀚開發建設股份有限公司（豐邑機構）</td>
-      <td>115中都使字第00325號</td>
-      <td>115/03/18</td>
-      <td>2026 Q2</td>
-      <td class="num">4</td>
-    </tr>
-<tr>
-      <td>泓瑞拉拉漾</td>
-      <td>東區</td>
-      <td class="num">135</td>
-      <td>泓瑞建設</td>
-      <td>115中都使字第00399號</td>
-      <td>115/04/03</td>
-      <td>2026 Q2</td>
-      <td class="num">3</td>
-    </tr>
-<tr>
-      <td>允將一著</td>
-      <td>西屯區</td>
-      <td class="num">132</td>
-      <td>允將建設（起造晟億地產）</td>
-      <td>115中都使字第00407號</td>
-      <td>115/04/07</td>
-      <td>2026 Q2</td>
-      <td class="num">4</td>
-    </tr>
-<tr>
-      <td>浩瀚創立方4x4</td>
-      <td>北屯區（捷運機廠重劃區／機捷特區）</td>
-      <td class="num">1,010</td>
-      <td>浩瀚開發建設股份有限公司(豐邑集團)</td>
-      <td>115中都使字第00447號</td>
-      <td>115/04/14</td>
-      <td>2026 Q2</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>中興國宅都更案（大里）</td>
-      <td>大里區</td>
-      <td class="num">222</td>
-      <td>大里市中興國宅都市更新會（自力更新；營造：成中恆營造，單源待複核）</td>
-      <td>115中都使字第00448號</td>
-      <td>115/04/14</td>
-      <td>2026 Q2</td>
-      <td class="num">0</td>
-    </tr>
-<tr>
-      <td>富宇禾悅</td>
-      <td>沙鹿區</td>
-      <td class="num">123</td>
-      <td>富宇建設</td>
-      <td>115中都使字第00523號</td>
-      <td>115/04/23</td>
-      <td>2026 Q2</td>
-      <td class="num">3</td>
-    </tr>
-<tr>
-      <td>坤聯富豐原匯</td>
-      <td>豐原區</td>
-      <td class="num">298</td>
-      <td>坤聯富建設股份有限公司</td>
-      <td>115中都使字第00525號</td>
-      <td>115/04/24</td>
-      <td>2026 Q1</td>
-      <td class="num">3</td>
-    </tr>
-<tr>
-      <td>藍圖UNI</td>
-      <td>梧棲區</td>
-      <td class="num">112</td>
-      <td>藍圖營造股份有限公司（總太集團）</td>
-      <td>115中都使字第00530號</td>
-      <td>115/04/27</td>
-      <td>2026 Q3</td>
-      <td class="num">3</td>
-    </tr>
-<tr>
-      <td>鼎佳興境</td>
-      <td>北屯區</td>
-      <td class="num">169</td>
-      <td>鼎佳建設</td>
-      <td>115中都使字第00586號</td>
-      <td>115/05/07</td>
-      <td>2026 Q2</td>
-      <td class="num">8</td>
-    </tr>
-<tr>
-      <td>坤悅禮御</td>
-      <td>后里區</td>
-      <td class="num">121</td>
-      <td>坤悅開發股份有限公司</td>
-      <td>115中都使字第00595號</td>
-      <td>115/05/10</td>
-      <td>2026 Q2</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>展裕丰格</td>
-      <td>后里區</td>
-      <td class="num">244</td>
-      <td>展裕建設股份有限公司</td>
-      <td>115中都使字第00629號</td>
-      <td>115/05/13</td>
-      <td>2026 Q2</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>登陽大地悅章</td>
-      <td>南區</td>
-      <td class="num">498</td>
-      <td>登悅建設股份有限公司</td>
-      <td>115中都使字第00662號</td>
-      <td>115/05/16</td>
-      <td>2027 Q2</td>
-      <td class="num">4</td>
-    </tr>
-<tr>
-      <td>富宇科研雙星</td>
-      <td>大里區</td>
-      <td class="num">151</td>
-      <td>富宇建設</td>
-      <td>115中都使字第00663號</td>
-      <td>115/05/16</td>
-      <td>新成屋(2026)</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>大毅頌幸福</td>
-      <td>太平區</td>
-      <td class="num">101</td>
-      <td>大毅建設</td>
-      <td>115中都使字第00731號</td>
-      <td>115/05/27</td>
-      <td>新成屋(2026)</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>惠宇國圖館</td>
-      <td>南區</td>
-      <td class="num">271</td>
-      <td>惠宇建設（起造惠昇建設）</td>
-      <td>115中都使字第00726號</td>
-      <td>115/05/28</td>
-      <td>2026 Q2</td>
-      <td class="num">3</td>
-    </tr>
-<tr>
-      <td>宏亞里想國</td>
-      <td>沙鹿區</td>
-      <td class="num">125</td>
-      <td>宏亞建設（大樓77+透天48混合）</td>
-      <td>115中都使字第00764號</td>
-      <td>115/06/03</td>
-      <td>2026 Q2</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>新業大塊藏硯</td>
-      <td>北屯區</td>
-      <td class="num">106</td>
-      <td>新業建設</td>
-      <td>115中都使字第00785號</td>
-      <td>115/06/06</td>
-      <td>2026 Q2</td>
-      <td class="num">3</td>
-    </tr>
-<tr>
-      <td>林鼎樸御</td>
-      <td>北屯區</td>
-      <td class="num">121</td>
-      <td>林鼎建設（含1店面）</td>
-      <td>115中都使字第00804號</td>
-      <td>115/06/08</td>
-      <td>2026 Q2</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>惠宇謙富</td>
-      <td>北屯區</td>
-      <td class="num">169</td>
-      <td>惠宇建設（起造惠昇建設）</td>
-      <td>115中都使字第00829號</td>
-      <td>115/06/13</td>
-      <td>2026 Q2</td>
-      <td class="num">5</td>
-    </tr>
-<tr>
-      <td>冠德崇德綻</td>
-      <td>北屯區</td>
-      <td class="num">173</td>
-      <td>冠德建設</td>
-      <td>115中都使字第00840號</td>
-      <td>115/06/15</td>
-      <td>2026 Q2</td>
-      <td class="num">0</td>
-    </tr>
-<tr>
-      <td>親家中央公園</td>
-      <td>西屯區（水湳）</td>
-      <td class="num">388</td>
-      <td><span class="note">-</span></td>
-      <td>115中都使字第00842號</td>
-      <td>115/06/16</td>
-      <td>2026 H2</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>紀汎希</td>
-      <td>西屯區（七期）</td>
-      <td class="num">346</td>
-      <td>博元建設股份有限公司</td>
-      <td>115中都使字第00881號</td>
-      <td>115/06/22</td>
-      <td>2026 Q3</td>
-      <td class="num">3</td>
-    </tr>
-<tr>
-      <td>坤悅夢想+</td>
-      <td>烏日區</td>
-      <td class="num">111</td>
-      <td>坤悅開發股份有限公司</td>
-      <td>115中都使字第00896號</td>
-      <td>115/06/24</td>
-      <td>2027 Q2</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>鉅陞台灣隱賦</td>
-      <td>西屯區</td>
-      <td class="num">284</td>
-      <td>鉅陞國際開發股份有限公司</td>
-      <td>115中都使字第00911號</td>
-      <td>115/06/25</td>
-      <td>2026 Q2</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>理仁奕舍</td>
-      <td>西屯區</td>
-      <td class="num">157</td>
-      <td>理仁建設</td>
-      <td>115中都使字第00928號</td>
-      <td>115/06/26</td>
-      <td>2026 Q2</td>
-      <td class="num">0</td>
-    </tr>
-<tr>
-      <td>聯聚方瑞大廈</td>
-      <td>西屯區</td>
-      <td class="num">194</td>
-      <td>聯聚建設</td>
-      <td>115中都使字第00929號</td>
-      <td>115/06/30</td>
-      <td>2026 Q2</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>雍悅一方</td>
-      <td>西屯區（水湳）</td>
-      <td class="num">239</td>
-      <td>博元建設股份有限公司（興富發集團）；代辦起造人臺億建築經理股份有限公司</td>
-      <td>115中都使字第00965號</td>
-      <td>115/07/03</td>
-      <td>2028 Q4</td>
-      <td class="num">4</td>
-    </tr>
-<tr>
-      <td>盛築玥</td>
-      <td>北屯區</td>
-      <td class="num">115</td>
-      <td>盛築建設有限公司</td>
-      <td>115中都使字第00959號</td>
-      <td>115/07/03</td>
-      <td>2026 Q3</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>蘿曼蘿蘭</td>
-      <td>西屯區（七期）</td>
-      <td class="num">408</td>
-      <td>興富發建設股份有限公司</td>
-      <td>115中都使字第00964號</td>
-      <td>115/07/03</td>
-      <td>2027 H1</td>
-      <td class="num">2</td>
-    </tr>
-<tr>
-      <td>遠雄藝舍</td>
-      <td>西屯區</td>
-      <td class="num">148</td>
-      <td>遠雄房地產</td>
-      <td>115中都使字第00984號</td>
-      <td>115/07/07</td>
-      <td>2026 Q3</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>富宇德川</td>
-      <td>西區</td>
-      <td class="num">102</td>
-      <td>富宇建設</td>
-      <td>115中都使字第00998號</td>
-      <td>115/07/09</td>
-      <td>新成屋(2026)</td>
-      <td class="num">1</td>
-    </tr>
-<tr>
-      <td>豐邑太原YES</td>
-      <td>北屯區</td>
-      <td class="num">818</td>
-      <td>豐邑建設（豐邑機構）</td>
-      <td>115中都使字第01002號</td>
-      <td>115/07/10</td>
-      <td>2026 Q2</td>
-      <td class="num">5</td>
-    </tr>
-<tr>
-      <td>富宇市政大道</td>
-      <td>南屯區</td>
-      <td class="num">638</td>
-      <td>富宇建設股份有限公司</td>
-      <td>115中都使字第01003號</td>
-      <td>115/07/10</td>
-      <td>2026 Q3</td>
-      <td class="num">4</td>
-    </tr>
-<tr>
-      <td>大華縱橫</td>
-      <td>烏日區（高鐵）</td>
-      <td class="num">1,153</td>
-      <td>大華建設股份有限公司</td>
-      <td>115中都使字第01041號</td>
-      <td>115/07/21</td>
-      <td>2026 Q3</td>
-      <td class="num">10</td>
-    </tr></tbody>
+      <thead><tr><th>案名</th><th>行政區</th><th style="text-align:right">登記戶數</th><th>起造人</th><th>使照字號</th><th>發照日</th><th>App</th></tr></thead>
+      <tbody>
+        <tr><td>大華縱橫</td><td>烏日區</td><td class="num">1,153</td><td>寶國建築經理股份有限公司  負責人:陳正林</td><td>115中都使字第01041號</td><td>115/07/21</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>豐邑太原YES</td><td>北屯區</td><td class="num">818</td><td>豐邑建設股份有限公司 負責人:黃淑美</td><td>115中都使字第01002號</td><td>115/07/10</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>富宇市政大道</td><td>南屯區</td><td class="num">638</td><td>富宇建設股份有限公司  負責人:張世欣</td><td>115中都使字第01003號</td><td>115/07/10</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>登陽大地悅章</td><td>南區</td><td class="num">513</td><td>登悅建設股份有限公司 負責人：林韋仲</td><td>115中都使字第00662號</td><td>115/05/16</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>昕光之櫻</td><td>太平區</td><td class="num">459</td><td>櫻花建設股份有限公司  負責人:陳世英</td><td>115中都使字第00072號</td><td>115/01/13</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>親家中央公園</td><td>西屯區</td><td class="num">452</td><td>親家建設股份有限公司 負責人:張鈞豪</td><td>115中都使字第00842號</td><td>115/06/16</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>蘿曼蘿蘭</td><td>西屯區</td><td class="num">408</td><td>興富發建設股份有限公司 負責人：曹淵博</td><td>115中都使字第00964號</td><td>115/07/03</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>紀汎希</td><td>西屯區</td><td class="num">346</td><td>臺億建築經理股份有限公司  負責人：陳長琪</td><td>115中都使字第00881號</td><td>115/06/22</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>坤聯富豐原匯</td><td>豐原區</td><td class="num">298</td><td>坤聯富建設股份有限公司 負責人:陳丕宗</td><td>115中都使字第00525號</td><td>115/04/24</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>鉅陞台灣隱賦</td><td>西屯區</td><td class="num">284</td><td>鉅陞國際開發股份有限公司　負責人：褚學忠</td><td>115中都使字第00911號</td><td>115/06/25</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>鉑金愛悅</td><td>西屯區</td><td class="num">271</td><td>興富發建設股份有限公司負責人:曹淵博</td><td>115中都使字第00303號</td><td>115/03/13</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>惠宇國圖館</td><td>南區</td><td class="num">271</td><td>惠昇建設股份有限公司  負責人: 莊季雄</td><td>115中都使字第00726號</td><td>115/05/28</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>展裕丰格</td><td>后里區</td><td class="num">244</td><td>中華建築經理股份有限公司 負責人：鍾榮吉</td><td>115中都使字第00629號</td><td>115/05/13</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>雍悅一方</td><td>西屯區</td><td class="num">239</td><td>臺億建築經理股份有限公司 負責人:陳長琪</td><td>115中都使字第00965號</td><td>115/07/03</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>中興國宅都更案（大里）</td><td>大里區</td><td class="num">222</td><td>大里市中興國宅都市更新會 代表人:徐玲慧</td><td>115中都使字第00448號</td><td>115/04/14</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>聯聚方瑞大廈</td><td>西屯區</td><td class="num">194</td><td>聯聚建設股份有限公司 負責人:江韋侖</td><td>115中都使字第00929號</td><td>115/06/30</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>浩瀚景立方-菁英區</td><td>北屯區</td><td class="num">192</td><td>浩瀚開發建設股份有限公司負責人張雅菁</td><td>115中都使字第00325號</td><td>115/03/18</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>登陽上清宇</td><td>北屯區</td><td class="num">183</td><td>登悅建設股份有限公司  負責人:林韋仲</td><td>115中都使字第00188號</td><td>115/02/05</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>冠德崇德綻</td><td>北屯區</td><td class="num">173</td><td>冠德建設股份有限公司 負責人:馬志綱</td><td>115中都使字第00840號</td><td>115/06/15</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>鼎佳興境</td><td>北屯區</td><td class="num">169</td><td>鼎佳建設股份有限公司 負責人：張鈺典</td><td>115中都使字第00586號</td><td>115/05/07</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>惠宇謙富</td><td>北屯區</td><td class="num">169</td><td>惠昇建設股份有限公司  負責人: 莊季雄</td><td>115中都使字第00829號</td><td>115/06/13</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>豐邑 豐禾</td><td>北屯區</td><td class="num">166</td><td>真道投資股份有限公司 負責人:劉樹居</td><td>115中都使字第00131號</td><td>115/01/26</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>久樘花漾天鵝</td><td>沙鹿區</td><td class="num">166</td><td>久漾建設有限公司 代表人：陳俊維</td><td>115中都使字第00212號</td><td>115/02/12</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>敘山行路</td><td>南屯區</td><td class="num">159</td><td>理和建設股份有限公司 負責人：張清宜</td><td>115中都使字第00097號</td><td>115/01/20</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>益翔有藝仕</td><td>梧棲區</td><td class="num">157</td><td>益翔建設股份有限公司 負責人：張少暐</td><td>115中都使字第00294號</td><td>115/03/12</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>理仁奕舍</td><td>西屯區</td><td class="num">157</td><td>理仁建設股份有限公司 負責人：魏鳳姿</td><td>115中都使字第00928號</td><td>115/06/26</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>聚悅澄心</td><td>太平區</td><td class="num">151</td><td>聚悅建設股份有限公司 負責人:陳俊宏</td><td>115中都使字第00032號</td><td>115/01/07</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>富宇科研雙星</td><td>大里區</td><td class="num">151</td><td>富宇建設股份有限公司  負責人:張世欣</td><td>115中都使字第00663號</td><td>115/05/16</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>遠雄藝舍</td><td>西屯區</td><td class="num">148</td><td>中國建築經理股份有限公司 負責人:鄭重</td><td>115中都使字第00984號</td><td>115/07/07</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>泓瑞拉拉漾</td><td>東區</td><td class="num">135</td><td>泓瑞建設股份有限公司 負責人:江建興</td><td>115中都使字第00399號</td><td>115/04/03</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>亞昕一緻</td><td>北屯區</td><td class="num">132</td><td>臺億建築經理股份有限公司 負責人:陳長琪</td><td>115中都使字第00153號</td><td>115/01/28</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>允將一著</td><td>西屯區</td><td class="num">132</td><td>晟億地產股份有限公司 負責人:陳琬琳</td><td>115中都使字第00407號</td><td>115/04/07</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>富宇藏富</td><td>北屯區</td><td class="num">126</td><td>富宇建設股份有限公司  負責人：張世欣</td><td>115中都使字第00109號</td><td>115/01/21</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>宏亞里想國</td><td>沙鹿區</td><td class="num">125</td><td>宏亞建設開發有限公司  負責人：蔡昀澄</td><td>115中都使字第00764號</td><td>115/06/03</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>富宇禾悅</td><td>沙鹿區</td><td class="num">123</td><td>富宇建設股份有限公司 負責人:張世欣</td><td>115中都使字第00523號</td><td>115/04/23</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>坤悅禮御</td><td>后里區</td><td class="num">121</td><td>坤悅開發股份有限公司  負責人：陳丕岳</td><td>115中都使字第00595號</td><td>115/05/10</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>林鼎樸御</td><td>北屯區</td><td class="num">121</td><td>林鼎實業股份有限公司 負責人：林欽榮</td><td>115中都使字第00804號</td><td>115/06/08</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>盛築玥</td><td>北屯區</td><td class="num">115</td><td>盛築建設有限公司 代表人:江游弘</td><td>115中都使字第00959號</td><td>115/07/03</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>THE精銳</td><td>北屯區</td><td class="num">112</td><td>精銳建設股份有限公司 負責人:徐日新</td><td>115中都使字第00277號</td><td>115/03/10</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>泰御天鑄II</td><td>西屯區</td><td class="num">111</td><td>泰御建設股份有限公司 負責人：蔡燕玲</td><td>115中都使字第00035號</td><td>115/01/08</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>藍圖UNI</td><td>梧棲區</td><td class="num">111</td><td>藍圖營造股份有限公司 負責人:唐明忠</td><td>115中都使字第00530號</td><td>115/04/27</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>坤悅夢想+</td><td>烏日區</td><td class="num">111</td><td>坤悅開發股份有限公司 負責人:陳丕岳</td><td>115中都使字第00896號</td><td>115/06/24</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td><span class="miss-name">（查無案名）</span></td><td>北屯區</td><td class="num">106</td><td>昂峰建設股份有限公司 代表人:詹媛斐</td><td>115中都使字第00093號</td><td>115/01/16</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>新業大塊藏硯</td><td>北屯區</td><td class="num">106</td><td>新業建設股份有限公司 負責人:卓勝隆</td><td>115中都使字第00785號</td><td>115/06/06</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>富宇德川</td><td>西區</td><td class="num">103</td><td>富宇建設股份有限公司  負責人:張世欣</td><td>115中都使字第00998號</td><td>115/07/09</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>大毅頌幸福</td><td>太平區</td><td class="num">101</td><td>大毅建設股份有限公司 負責人:魏誠誌</td><td>115中都使字第00731號</td><td>115/05/27</td><td><span class="miss">App✗</span></td></tr>
+      </tbody>
     </table>
   </div>
-  <h3>申請中・推定（50 案）</h3>
+  <h3>114 年下半核發・參考表（33 案 / 8,424 戶，僅供對照・不列入官方主表統計）</h3>
   <div class="tablebox">
     <table>
-      <thead><tr><th>案名</th><th>行政區</th><th style="text-align:right">戶數</th><th>建商</th><th>推定依據摘要</th><th>完工預估</th></tr></thead>
-      <tbody><tr>
-      <td>聯悦馨</td>
-      <td>梧棲區</td>
-      <td class="num">750</td>
-      <td>聯悦建設股份有限公司（聯恆營造）</td>
-      <td class="note">起造人聯悦建設股份有限公司（聯恆營造），台中使照池全查無同名紀錄——完工原定2026 Q4尚…</td>
-      <td>2026 Q4</td>
-    </tr>
-<tr>
-      <td>櫻花大綻</td>
-      <td>烏日區</td>
-      <td class="num">419</td>
-      <td>櫻花建設股份有限公司</td>
-      <td class="note">taichung-2026-usage-permits-100units§5-1#32（建照…</td>
-      <td>2028 Q2</td>
-    </tr>
-<tr>
-      <td>長虹天籟</td>
-      <td>清水區</td>
-      <td class="num">364</td>
-      <td>長虹建設（宏林營造）</td>
-      <td class="note">taichung-2026-usage-permits-100units§5-1#85（建照…</td>
-      <td>待確認</td>
-    </tr>
-<tr>
-      <td>達麗冶翠</td>
-      <td>北區</td>
-      <td class="num">350</td>
-      <td>達麗建設事業股份有限公司</td>
-      <td class="note">taichung-2026-usage-permits-100units§5-1#55（建照…</td>
-      <td>2026 Q2</td>
-    </tr>
-<tr>
-      <td>大毅讚幸福2</td>
-      <td>北屯區</td>
-      <td class="num">328</td>
-      <td>大毅建設</td>
-      <td class="note">建照112中都建字第02035號（112/12/27）屆期未領使照，推定申請中</td>
-      <td>待確認</td>
-    </tr>
-<tr>
-      <td>慶山明仁</td>
-      <td>豐原區</td>
-      <td class="num">322</td>
-      <td>慶山建設股份有限公司</td>
-      <td class="note">taichung-2026-usage-permits-100units§5-1#73（建照…</td>
-      <td>2028 Q3</td>
-    </tr>
-<tr>
-      <td>富旺敦厚</td>
-      <td>后里區</td>
-      <td class="num">317</td>
-      <td>富旺國際開發股份有限公司</td>
-      <td class="note">起造人富旺國際開發股份有限公司，池內2筆同起造人紀錄（195戶西屯區、65戶后里區）均非本案…</td>
-      <td>2026 Q3</td>
-    </tr>
-<tr>
-      <td>X CITY昌祐雲之境</td>
-      <td>南區</td>
-      <td class="num">293</td>
-      <td>永利鑫地產開發股份有限公司</td>
-      <td class="note">起造人永利鑫地產開發股份有限公司，台中使照池全查無同名紀錄；池內昌祐建設（太平100戶）、昆…</td>
-      <td>2026 H2</td>
-    </tr>
-<tr>
-      <td>大毅「創研段2」（案名待正名）</td>
-      <td>北屯區</td>
-      <td class="num">276</td>
-      <td>大毅建設</td>
-      <td class="note">建照112中都建字第01153號（112/07/29發照）屆期未領使照，推定申請中</td>
-      <td>待確認</td>
-    </tr>
-<tr>
-      <td>惠宇大悅（惠宇FINE）</td>
-      <td>北屯區</td>
-      <td class="num">266</td>
-      <td>鈞翰建設（惠宇機構）</td>
-      <td class="note">taichung-2026-usage-permits-100units§5-1#77（建照…</td>
-      <td>2028（預估，季度待確認）</td>
-    </tr>
-<tr>
-      <td>勝麗天廈</td>
-      <td>梧棲區</td>
-      <td class="num">264</td>
-      <td>勝麗建設</td>
-      <td class="note">建照111中都建字第02359號（112/04/25）屆期未領使照，推定申請中</td>
-      <td>2028 H2</td>
-    </tr>
-<tr>
-      <td>聚佳豐美</td>
-      <td>潭子區</td>
-      <td class="num">257</td>
-      <td>聚佳建設股份有限公司</td>
-      <td class="note">taichung-2026-usage-permits-100units§5-1#36（建照…</td>
-      <td>2027 Q2</td>
-    </tr>
-<tr>
-      <td>拓建悅見山</td>
-      <td>太平區（新光）</td>
-      <td class="num">252</td>
-      <td>拓建建設有限公司</td>
-      <td class="note">taichung-2026-usage-permits-100units§5-1#26（建照…</td>
-      <td>2026 Q2</td>
-    </tr>
-<tr>
-      <td>昌祐 幸福大里</td>
-      <td>大里區</td>
-      <td class="num">237</td>
-      <td>昌祐建設</td>
-      <td class="note">taichung-2026-usage-permits-100units§5-1#14（建照…</td>
-      <td>2026 Q2</td>
-    </tr>
-<tr>
-      <td>協勝港心</td>
-      <td>梧棲區</td>
-      <td class="num">228</td>
-      <td>協勝建設股份有限公司</td>
-      <td class="note">起造人協勝建設股份有限公司，池內僅2筆同起造人紀錄（146戶太平區113/12、168戶北屯…</td>
-      <td>2026 Q4</td>
-    </tr>
-<tr>
-      <td>新業微丘森鄰</td>
-      <td>沙鹿區</td>
-      <td class="num">224</td>
-      <td>新業建設股份有限公司</td>
-      <td class="note">起造人新業建設股份有限公司，池內3筆同起造人紀錄（56戶東區、84戶及106戶北屯區）均非沙…</td>
-      <td>2026 Q4</td>
-    </tr>
-<tr>
-      <td>成功好好</td>
-      <td>大里區</td>
-      <td class="num">223</td>
-      <td>豐墅建設</td>
-      <td class="note">起造人豐墅建設，台中使照池全查無同名紀錄；大里區僅115中都使字第00448號222戶但起造…</td>
-      <td>2026 Q1</td>
-    </tr>
-<tr>
-      <td>元城上萃</td>
-      <td>南區</td>
-      <td class="num">223</td>
-      <td>元城建設</td>
-      <td class="note">建照111中都建字第02221號（111/10/31）屆期未領使照，推定申請中</td>
-      <td>2027 H1</td>
-    </tr>
-<tr>
-      <td>德光興境</td>
-      <td>沙鹿區</td>
-      <td class="num">222</td>
-      <td>德光建設股份有限公司</td>
-      <td class="note">taichung-2026-usage-permits-100units§5-1#47（建照…</td>
-      <td>2028 Q3</td>
-    </tr>
-<tr>
-      <td>明日享享</td>
-      <td>清水區</td>
-      <td class="num">221</td>
-      <td>春虹建設股份有限公司</td>
-      <td class="note">起造人春虹建設股份有限公司，台中使照池全查無同名紀錄——完工原定2026 Q3尚未屆，推定申…</td>
-      <td>2026 Q3</td>
-    </tr>
-<tr>
-      <td>春福安波</td>
-      <td>東區（六期）</td>
-      <td class="num">216</td>
-      <td><span class="note">-</span></td>
-      <td class="note">起造人春曉建設有限公司（591確認），台中使照池（113-115年）全查無同名或同起造人紀錄…</td>
-      <td>2026 H2</td>
-    </tr>
-<tr>
-      <td>富宇時代花園</td>
-      <td>沙鹿區</td>
-      <td class="num">202</td>
-      <td>富宇建設股份有限公司</td>
-      <td class="note">起造人富宇建設股份有限公司，池內12筆同起造人紀錄遍佈全市（含沙鹿區123戶另案）均非本案2…</td>
-      <td>2026 H2</td>
-    </tr>
-<tr>
-      <td>櫻花柳川之櫻</td>
-      <td>北屯區</td>
-      <td class="num">196</td>
-      <td>櫻花建設股份有限公司</td>
-      <td class="note">taichung-2026-usage-permits-100units§5-1#22（建照…</td>
-      <td>2026 Q2</td>
-    </tr>
-<tr>
-      <td>大城知丘</td>
-      <td>北屯區</td>
-      <td class="num">192</td>
-      <td>大城地產股份有限公司</td>
-      <td class="note">起造人大城地產股份有限公司，池內僅2筆同起造人紀錄（241戶113/06、80戶114/03…</td>
-      <td>2026 Q3</td>
-    </tr>
-<tr>
-      <td>鴻承壹流</td>
-      <td>北屯區</td>
-      <td class="num">190</td>
-      <td>鴻承建設股份有限公司</td>
-      <td class="note">taichung-2026-usage-permits-100units§5-1#45（建照…</td>
-      <td>2027 Q2</td>
-    </tr>
-<tr>
-      <td>大城吾界</td>
-      <td>北屯區</td>
-      <td class="num">190</td>
-      <td>大城建設</td>
-      <td class="note">建照111中都建字第02240號（112/09/12）屆期未領使照，推定申請中</td>
-      <td>2027 Q4</td>
-    </tr>
-<tr>
-      <td>昌祐U City</td>
-      <td>梧棲區</td>
-      <td class="num">186</td>
-      <td>昌祐建設</td>
-      <td class="note">建照111中都建字第01477號（112/01/09）屆期未領使照，推定申請中</td>
-      <td>2028 H2</td>
-    </tr>
-<tr>
-      <td>佳鋐首耀</td>
-      <td>梧棲區</td>
-      <td class="num">182</td>
-      <td>佳鋐建設</td>
-      <td class="note">建照111中都建字第00895號（111/04/30）屆期未領使照，推定申請中</td>
-      <td>2026 Q3</td>
-    </tr>
-<tr>
-      <td>坤悅涵仰</td>
-      <td>太平區</td>
-      <td class="num">167</td>
-      <td>坤悅開發股份有限公司</td>
-      <td class="note">taichung-2026-usage-permits-100units§5-1#59（建照…</td>
-      <td>2028 Q2</td>
-    </tr>
-<tr>
-      <td>長安大序</td>
-      <td>北區</td>
-      <td class="num">166</td>
-      <td>長青開發建設股份有限公司（長安建設）</td>
-      <td class="note">taichung-2026-usage-permits-100units§5-1#67（建照…</td>
-      <td>2028 Q2</td>
-    </tr>
-<tr>
-      <td>德鑫森PARK</td>
-      <td>北屯區</td>
-      <td class="num">162</td>
-      <td>德鑫建設股份有限公司</td>
-      <td class="note">taichung-2026-usage-permits-100units§5-1#58（建照…</td>
-      <td>2028 Q1</td>
-    </tr>
-<tr>
-      <td>巨鼎TOWER花園</td>
-      <td>烏日區</td>
-      <td class="num">156</td>
-      <td>巨鼎建設</td>
-      <td class="note">建照112中都建字第00089號（112/01/17）屆期未領使照，推定申請中</td>
-      <td>2028</td>
-    </tr>
-<tr>
-      <td>勝美.向上</td>
-      <td>沙鹿區</td>
-      <td class="num">155</td>
-      <td>勝美建設股份有限公司</td>
-      <td class="note">taichung-2026-usage-permits-100units§5-1#65（建照…</td>
-      <td>2027 Q3</td>
-    </tr>
-<tr>
-      <td>精銳WORLD</td>
-      <td>龍井區</td>
-      <td class="num">144</td>
-      <td>精銳建設</td>
-      <td class="note">建照111中都建字第02137號（111/10/19）屆期未領使照，推定申請中</td>
-      <td>2028 H1</td>
-    </tr>
-<tr>
-      <td>萬泰德興</td>
-      <td>大甲區</td>
-      <td class="num">140</td>
-      <td>萬泰雍建設股份有限公司</td>
-      <td class="note">taichung-2026-usage-permits-100units§5-1#83（建照…</td>
-      <td>待確認</td>
-    </tr>
-<tr>
-      <td>惠宇上峰</td>
-      <td>北區</td>
-      <td class="num">139</td>
-      <td>惠宇建設</td>
-      <td class="note">建照112中都建字第01191號（112/08/08發照）屆期未領使照，推定申請中；戶數13…</td>
-      <td>待確認</td>
-    </tr>
-<tr>
-      <td>德光聚</td>
-      <td>沙鹿區</td>
-      <td class="num">135</td>
-      <td>德光建設</td>
-      <td class="note">起造人德光建設，池內3筆同起造人紀錄（62戶沙鹿113/02、122戶梧棲113/07、92…</td>
-      <td>2026 Q4</td>
-    </tr>
-<tr>
-      <td>鴻豫境</td>
-      <td>沙鹿區</td>
-      <td class="num">132</td>
-      <td>鴻豫建設股份有限公司</td>
-      <td class="note">taichung-2026-usage-permits-100units§5-1#35（建照…</td>
-      <td>2026 Q4</td>
-    </tr>
-<tr>
-      <td>謙18</td>
-      <td>東區</td>
-      <td class="num">123</td>
-      <td>豐謙建設</td>
-      <td class="note">起造人豐謙建設，池內查無同名紀錄；東區僅1筆115中都使字第00399號135戶（起造人泓瑞…</td>
-      <td>2026 Q4</td>
-    </tr>
-<tr>
-      <td>東方大苑</td>
-      <td>豐原區</td>
-      <td class="num">119</td>
-      <td>育堂建設股份有限公司</td>
-      <td class="note">taichung-2026-usage-permits-100units§5-1#18（建照…</td>
-      <td>2027 Q4</td>
-    </tr>
-<tr>
-      <td>總誼建設「樹子腳段525」（案名待正名）</td>
-      <td>南區</td>
-      <td class="num">117</td>
-      <td>總誼建設</td>
-      <td class="note">建照112中都建字第01470號（112/09/23發照）屆期未領使照，推定申請中</td>
-      <td>待確認</td>
-    </tr>
-<tr>
-      <td>富宇云集</td>
-      <td>沙鹿區</td>
-      <td class="num">111</td>
-      <td>富宇建設股份有限公司</td>
-      <td class="note">taichung-2026-usage-permits-100units§5-1#61（建照…</td>
-      <td>2027 Q4</td>
-    </tr>
-<tr>
-      <td>兆登櫻</td>
-      <td>沙鹿區</td>
-      <td class="num">110</td>
-      <td>兆登建設股份有限公司</td>
-      <td class="note">taichung-2026-usage-permits-100units§5-1#33（建照…</td>
-      <td>2026 Q3</td>
-    </tr>
-<tr>
-      <td>泓瑞5號樂章</td>
-      <td>南屯區</td>
-      <td class="num">110</td>
-      <td>泓瑞建設</td>
-      <td class="note">建照111中都建字第02572號（111/12/26）屆期未領使照，推定申請中</td>
-      <td>待確認</td>
-    </tr>
-<tr>
-      <td>山里時晴</td>
-      <td>南屯區</td>
-      <td class="num">104</td>
-      <td>宏銓建設</td>
-      <td class="note">建照111中都建字第02340號（111/11/15）屆期未領使照，推定申請中</td>
-      <td>待確認</td>
-    </tr>
-<tr>
-      <td>昂峰謙禾</td>
-      <td>南區</td>
-      <td class="num">104</td>
-      <td>峰舜建設</td>
-      <td class="note">建照112中都建字第02013號（112/12/24）屆期未領使照，推定申請中</td>
-      <td>待確認</td>
-    </tr>
-<tr>
-      <td>昌祐「烏日三民段211」（案名待正名）</td>
-      <td>烏日區</td>
-      <td class="num">104</td>
-      <td>昌祐建設</td>
-      <td class="note">建照112中都建字第01262號（112/08/19發照）屆期未領使照，推定申請中</td>
-      <td>待確認</td>
-    </tr>
-<tr>
-      <td>日出后科</td>
-      <td>后里區</td>
-      <td class="num">102</td>
-      <td>上好開發實業</td>
-      <td class="note">起造人上好開發實業，台中使照池全查無同名紀錄——完工原定2026 Q3尚未屆，推定申請中；備…</td>
-      <td>2026 Q3</td>
-    </tr>
-<tr>
-      <td>漢宇雲森</td>
-      <td>北屯區（單元十二）</td>
-      <td class="num">100</td>
-      <td><span class="note">-</span></td>
-      <td class="note">起造人漢宇開發建設股份有限公司（與id413同建商），台中使照池全查無「漢宇」相關紀錄——完…</td>
-      <td>2026 H2</td>
-    </tr>
-<tr>
-      <td>漢宇雲森SKYPARK ONE</td>
-      <td>北屯區</td>
-      <td class="num">100</td>
-      <td>漢宇開發建設股份有限公司</td>
-      <td class="note">起造人漢宇開發建設股份有限公司，台中使照池全查無「漢宇」相關紀錄——完工原定2026 Q3尚…</td>
-      <td>2026 Q3</td>
-    </tr></tbody>
+      <thead><tr><th>行政區</th><th style="text-align:right">登記戶數</th><th>起造人</th><th>使照字號</th><th>發照日</th></tr></thead>
+      <tbody>
+        <tr><td>西屯區</td><td class="num">1,244</td><td>臺億建築經理股份有限公司負責人:陳長琪</td><td>114中都使字第01513號</td><td>114/10/28</td></tr>
+        <tr><td>南屯區</td><td class="num">642</td><td>勝美建設股份有限公司  負責人：曾周信</td><td>114中都使字第01828號</td><td>114/12/26</td></tr>
+        <tr><td>西屯區</td><td class="num">542</td><td>潤隆建設股份有限公司  負責人：邱秉澤</td><td>114中都使字第01526號</td><td>114/11/03</td></tr>
+        <tr><td>清水區</td><td class="num">461</td><td>櫻花建設股份有限公司  負責人:陳世英</td><td>114中都使字第01345號</td><td>114/10/02</td></tr>
+        <tr><td>太平區</td><td class="num">423</td><td>和築建設股份有限公司 負責人:李元華</td><td>114中都使字第01267號</td><td>114/09/11</td></tr>
+        <tr><td>烏日區</td><td class="num">414</td><td>登陽建設股份有限公司  負責人:郭美慧</td><td>114中都使字第01763號</td><td>114/12/15</td></tr>
+        <tr><td>西屯區</td><td class="num">359</td><td>興富發建設股份有限公司 負責人：曹淵博</td><td>114中都使字第01091號</td><td>114/08/11</td></tr>
+        <tr><td>烏日區</td><td class="num">279</td><td>臺中市政府住宅發展工程處  法定代理人：陳煒壬</td><td>114中都使字第01503號</td><td>114/10/28</td></tr>
+        <tr><td>大里區</td><td class="num">258</td><td>昆祐建設股份有限公司 負責人:林其霖</td><td>114中都使字第01012號</td><td>114/07/24</td></tr>
+        <tr><td>太平區</td><td class="num">252</td><td>臺中市政府住宅發展工程處 負責人:陳煒壬</td><td>114中都使字第01835號</td><td>114/12/30</td></tr>
+        <tr><td>清水區</td><td class="num">246</td><td>協和建設股份有限公司  負責人:范秋芬</td><td>114中都使字第01098號</td><td>114/08/11</td></tr>
+        <tr><td>梧棲區</td><td class="num">245</td><td>佳鋐建設股份有限公司 負責人:陳柏宏</td><td>114中都使字第01272號</td><td>114/09/11</td></tr>
+        <tr><td>龍井區</td><td class="num">203</td><td>合眾建築經理股份有限公司 代表人：顏文澤</td><td>114中都使字第01244號</td><td>114/09/09</td></tr>
+        <tr><td>西屯區</td><td class="num">195</td><td>富旺國際開發股份有限公司 負責人:林宗毅</td><td>114中都使字第01165號</td><td>114/08/26</td></tr>
+        <tr><td>梧棲區</td><td class="num">188</td><td>崧永建設股份有限公司  負責人：童淑芬</td><td>114中都使字第01045號</td><td>114/07/30</td></tr>
+        <tr><td>北屯區</td><td class="num">186</td><td>德鑫建設股份有限公司 負責人：林汶宗</td><td>114中都使字第01158號</td><td>114/08/22</td></tr>
+        <tr><td>北屯區</td><td class="num">185</td><td>大毅建設股份有限公司 負責人：魏誠誌</td><td>114中都使字第01621號</td><td>114/11/19</td></tr>
+        <tr><td>北屯區</td><td class="num">182</td><td>合眾建築經理股份有限公司 負責人：顏文澤</td><td>114中都使字第01057號</td><td>114/08/04</td></tr>
+        <tr><td>西區</td><td class="num">178</td><td>臺億建築經理股份有限公司；負責人：陳長琪</td><td>114中都使字第01296號</td><td>114/09/17</td></tr>
+        <tr><td>北屯區</td><td class="num">168</td><td>協勝建設股份有限公司  負責人:李宗熹</td><td>114中都使字第01241號</td><td>114/09/08</td></tr>
+        <tr><td>北屯區</td><td class="num">142</td><td>大映建設股份有限公司  負責人：賴文玲</td><td>114中都使字第01237號</td><td>114/09/05</td></tr>
+        <tr><td>沙鹿區</td><td class="num">136</td><td>德邑建設股份有限公司 負責人 陳祐德</td><td>114中都使字第01412號</td><td>114/10/15</td></tr>
+        <tr><td>南屯區</td><td class="num">133</td><td>順天建設股份有限公司 負責人:柯興樹</td><td>114中都使字第01191號</td><td>114/08/31</td></tr>
+        <tr><td>南屯區</td><td class="num">132</td><td>悅騰建設股份有限公司 負責人:吳秋</td><td>114中都使字第01378號</td><td>114/10/08</td></tr>
+        <tr><td>大里區</td><td class="num">129</td><td>達興建設有限公司  負責人：程文祐</td><td>114中都使字第00919號</td><td>114/07/02</td></tr>
+        <tr><td>南區</td><td class="num">126</td><td>坤聯發建設股份有限公司  負責人：陳丕育</td><td>114中都使字第01179號</td><td>114/08/27</td></tr>
+        <tr><td>龍井區</td><td class="num">120</td><td>國聚建設股份有限公司 負責人：施純弘</td><td>114中都使字第00940號</td><td>114/07/08</td></tr>
+        <tr><td>潭子區</td><td class="num">120</td><td>櫻花建設股份有限公司  負責人:陳世英</td><td>114中都使字第01381號</td><td>114/10/08</td></tr>
+        <tr><td>南區</td><td class="num">112</td><td>同興協記建設股份有限公司 負責人:陳世楨</td><td>114中都使字第00939號</td><td>114/07/09</td></tr>
+        <tr><td>西屯區</td><td class="num">112</td><td>僑馥建築經理股份有限公司 負責人：林中文</td><td>114中都使字第01529號</td><td>114/11/03</td></tr>
+        <tr><td>北屯區</td><td class="num">108</td><td>國泰建設股份有限公司 負責人:張清櫆</td><td>114中都使字第01328號</td><td>114/09/26</td></tr>
+        <tr><td>北屯區</td><td class="num">104</td><td>臺億建築經理股份有限公司-負責人：陳長琪</td><td>114中都使字第01020號</td><td>114/07/28</td></tr>
+        <tr><td>太平區</td><td class="num">100</td><td>順天建設股份有限公司 負責人:柯興樹</td><td>114中都使字第01426號</td><td>114/10/16</td></tr>
+      </tbody>
     </table>
   </div>
-  
+  <h3>申請中（官方推定，建照屆期法）：66 案 / 14,317 戶</h3>
+  <p class="note">母體＝111–112年核發、戶數≥100之建造執照原始88案（20,450戶），經2026-07-29兩輪逐案覆核排除22案／6,133戶「建照字號前綴年陷阱」（原核發年份與表列發照日不符、實已完工或已領照），修正後在即母體＝66案／14,317戶（含3案/550戶待確認，詳見<a href="https://fennixchou.github.io/gp-taichung-permits-2026/">gp-taichung-permits-2026 定版報告</a>5-1節）。</p>
+  <div class="tablebox">
+    <table>
+      <thead><tr><th>#</th><th>案名（研究解名）</th><th>行政區</th><th style="text-align:right">戶數</th><th>起造人</th><th>建照字號</th><th>建照發照日</th><th>App</th></tr></thead>
+      <tbody>
+        <tr><td>8</td><td>新業自由居（591與官網一致，無異名）</td><td>東</td><td class="num">154</td><td>新業建設</td><td>108中都建字第02167號</td><td>111/04/01</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>12</td><td>佳鋐首耀（591與source_name一致，無異名）</td><td>梧棲</td><td class="num">186</td><td>佳鋐建設</td><td>111中都建字第00895號</td><td>111/04/30</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>13</td><td>富宇「寶山段1053」（暫稱）</td><td>南屯</td><td class="num">268</td><td>富宇建設</td><td>106中都建字第02068號</td><td>111/05/03</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>14</td><td>昌祐 幸福大里</td><td>大里</td><td class="num">237</td><td>昆祐建設</td><td>111中都建字第01011號</td><td>111/05/07</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>18</td><td>東方大苑</td><td>豐原</td><td class="num">119</td><td>育堂建設</td><td>111中都建字第01145號</td><td>111/06/07</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>20</td><td>富宇富嶼</td><td>梧棲</td><td class="num">180</td><td>富宇建設</td><td>111中都建字第01161號</td><td>111/06/10</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>22</td><td>櫻花柳川之櫻</td><td>北屯</td><td class="num">200</td><td>櫻花建設</td><td>111中都建字第01322號</td><td>111/06/21</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>24</td><td><span class="miss-name">（查無案名）</span></td><td>南屯</td><td class="num">224</td><td>惠昇建設</td><td>111中都建字第01373號</td><td>111/06/29</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>26</td><td>拓建悅見山</td><td>太平</td><td class="num">252</td><td>拓建建設</td><td>111中都建字第01417號</td><td>111/07/04</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>28</td><td><span class="miss-name">（查無案名）</span></td><td>南屯</td><td class="num">161</td><td>大城建設</td><td>111中都建字第01505號</td><td>111/07/19</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>30</td><td><span class="miss-name">（查無案名）</span></td><td>南屯</td><td class="num">134</td><td>大城建設</td><td>111中都建字第01523號</td><td>111/07/31</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>32</td><td>櫻花大綻</td><td>烏日</td><td class="num">428</td><td>櫻花建設</td><td>111中都建字第01721號</td><td>111/08/18</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>33</td><td>兆登櫻</td><td>沙鹿</td><td class="num">110</td><td>兆登建設</td><td>111中都建字第01722號</td><td>111/08/18</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>34</td><td><span class="miss-name">（查無案名）</span></td><td>西屯</td><td class="num">164</td><td>豐邑百貨</td><td>111中都建字第01560號</td><td>111/08/22</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>35</td><td>鴻豫境</td><td>沙鹿</td><td class="num">132</td><td>鴻豫建設</td><td>111中都建字第01838號</td><td>111/09/08</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>36</td><td>聚佳豐美</td><td>潭子</td><td class="num">260</td><td>聚佳建設</td><td>110中都建字第02597號</td><td>111/09/08</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>37</td><td>大道之星（591正式頁面名稱；又稱「大道100-2」）</td><td>梧棲</td><td class="num">100</td><td>承玳營造</td><td>111中都建字第02027號</td><td>111/09/23</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>38</td><td><span class="miss-name">（查無案名）</span></td><td>清水</td><td class="num">580</td><td>長虹建設</td><td>111中都建字第01948號</td><td>111/09/30</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>39</td><td>精銳WORLD</td><td>龍井</td><td class="num">144</td><td>精銳建設</td><td>111中都建字第02137號</td><td>111/10/19</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>41</td><td>元城上萃</td><td>南</td><td class="num">223</td><td>元城建設</td><td>111中都建字第02221號</td><td>111/10/31</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>42</td><td>山里時晴（591/市場稱呼不冠建商字首，與建照登記同一案）</td><td>南屯</td><td class="num">112</td><td>宏銓建設</td><td>111中都建字第02340號</td><td>111/11/15</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>43</td><td>新高鐵</td><td>烏日</td><td class="num">1,229</td><td>達麗建設事業</td><td>111中都建字第02453號</td><td>111/11/30</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>44</td><td>浩瀚文心O'LIVE</td><td>北屯</td><td class="num">170</td><td>浩瀚開發建設</td><td>111中都建字第02503號</td><td>111/12/12</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>45</td><td>鴻承壹流</td><td>北屯</td><td class="num">190</td><td>鴻承建設</td><td>111中都建字第02558號</td><td>111/12/20</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>46</td><td>泓瑞5號樂章</td><td>南屯</td><td class="num">117</td><td>泓瑞建設</td><td>111中都建字第02572號</td><td>111/12/26</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>47</td><td>德光興境</td><td>沙鹿</td><td class="num">222</td><td>德光建設</td><td>111中都建字第02597號</td><td>111/12/27</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>48</td><td>昌祐U City</td><td>梧棲</td><td class="num">186</td><td>昆祐建設</td><td>111中都建字第01477號</td><td>112/01/09</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>49</td><td><span class="miss-name">（查無案名）</span></td><td>西</td><td class="num">128</td><td>總誼建設</td><td>110中都建字第02603號</td><td>112/01/09</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>50</td><td>巨鼎TOWER花園</td><td>烏日</td><td class="num">158</td><td>巨鼎建設</td><td>112中都建字第00089號</td><td>112/01/17</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>51</td><td>鴻邑雲山硯</td><td>北屯</td><td class="num">205</td><td>鴻邑建設</td><td>112中都建字第00268號</td><td>112/02/08</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>52</td><td>浩瀚景立方-層峰區</td><td>北屯</td><td class="num">114</td><td>浩瀚開發建設</td><td>112中都建字第00311號</td><td>112/02/18</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>53</td><td>春虹建設市鎮北段案（暫定名，尚未正式命名）</td><td>清水</td><td class="num">132</td><td>春虹建設</td><td>112中都建字第00346號</td><td>112/02/24</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>54</td><td>坤悅語文心</td><td>南</td><td class="num">254</td><td>坤悅開發</td><td>111中都建字第00315號</td><td>112/03/22</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>55</td><td>達麗冶翠</td><td>北</td><td class="num">354</td><td>達麗建設事業</td><td>083中工建建字第00313號</td><td>112/04/07</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>56</td><td>勝麗天廈</td><td>梧棲</td><td class="num">269</td><td>勝麗建設</td><td>111中都建字第02359號</td><td>112/04/25</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>57</td><td><span class="miss-name">（查無案名）</span></td><td>北屯</td><td class="num">105</td><td>龍寶建設</td><td>112中都建字第00720號</td><td>112/05/07</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>58</td><td>德鑫森PARK</td><td>北屯</td><td class="num">162</td><td>德鑫建設</td><td>112中都建字第00805號</td><td>112/05/24</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>59</td><td>坤悅涵仰</td><td>太平</td><td class="num">167</td><td>坤悅開發</td><td>112中都建字第00807號</td><td>112/05/24</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>60</td><td>西屯市政好宅（惠來厝段社會住宅，原名西屯區惠來厝）</td><td>西屯</td><td class="num">213</td><td>國家住宅及都市更新中心</td><td>112中都建字第00861號</td><td>112/06/01</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>61</td><td>富宇云集</td><td>沙鹿</td><td class="num">111</td><td>富宇建設</td><td>111中都建字第01630號</td><td>112/06/03</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>62</td><td>泓瑞洲際之森</td><td>北屯</td><td class="num">100</td><td>泓瑞建設</td><td>112中都建字第00868號</td><td>112/06/03</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>63</td><td><span class="miss-name">（查無案名）</span></td><td>北屯</td><td class="num">783</td><td>登陽建設</td><td>112中都建字第00951號</td><td>112/06/13</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>64</td><td>金林梧境</td><td>北屯</td><td class="num">104</td><td>金林建設開發</td><td>112中都建字第00945號</td><td>112/06/16</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>65</td><td>勝美.向上</td><td>沙鹿</td><td class="num">155</td><td>勝美建設</td><td>111中都建字第01787號</td><td>112/07/08</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>66</td><td><span class="miss-name">（查無案名）</span></td><td>北屯</td><td class="num">225</td><td>大城建設</td><td>112中都建字第01068號</td><td>112/07/11</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>67</td><td>長安大序</td><td>北</td><td class="num">166</td><td>長青開發建設</td><td>112中都建字第01092號</td><td>112/07/18</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>68</td><td>大毅「創研段2」（暫稱）</td><td>北屯</td><td class="num">276</td><td>大毅建設</td><td>112中都建字第01153號</td><td>112/07/29</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>69</td><td>惠宇上峰</td><td>北</td><td class="num">139</td><td>均翰建設</td><td>112中都建字第01191號</td><td>112/08/08</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>70</td><td>昌祐建設「三民段211」（暫稱）</td><td>烏日</td><td class="num">104</td><td>昆祐建設</td><td>112中都建字第01262號</td><td>112/08/19</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>71</td><td><span class="miss-name">（查無案名）</span></td><td>北屯</td><td class="num">112</td><td>登仰建設</td><td>112中都建字第01284號</td><td>112/08/22</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>72</td><td><span class="miss-name">（查無案名）</span></td><td>北屯</td><td class="num">144</td><td>登仰建設</td><td>112中都建字第00978號</td><td>112/08/25</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>73</td><td>慶山明仁</td><td>豐原</td><td class="num">329</td><td>慶山建設</td><td>111中都建字第01771號</td><td>112/09/05</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>74</td><td>雙橡園4117</td><td>西屯</td><td class="num">378</td><td>雙橡園開發</td><td>106中都建字第00187號</td><td>112/09/05</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>75</td><td>大城吾界</td><td>北屯</td><td class="num">190</td><td>大城建設</td><td>111中都建字第02240號</td><td>112/09/12</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>76</td><td>總誼建設「樹子腳段525」（暫稱）</td><td>南</td><td class="num">117</td><td>總誼建設</td><td>112中都建字第01470號</td><td>112/09/23</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>77</td><td>惠宇大悅（惠宇FINE）</td><td>北屯</td><td class="num">266</td><td>均翰建設</td><td>112中都建字第01213號</td><td>112/10/04</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>78</td><td><span class="miss-name">（查無案名）</span></td><td>沙鹿</td><td class="num">146</td><td>佳鏵建設</td><td>112中都建字第01522號</td><td>112/10/09</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>79</td><td>親家青海道（未正式公開，5168登錄名「親家中正段195」）</td><td>西屯</td><td class="num">234</td><td>親家地產</td><td>110中都建字第02617號</td><td>112/10/13</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>81</td><td><span class="miss-name">（查無案名）</span></td><td>烏日</td><td class="num">105</td><td>登悅建設</td><td>112中都建字第01858號</td><td>112/12/01</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>82</td><td><span class="miss-name">（查無案名）</span></td><td>梧棲</td><td class="num">215</td><td>佳鋐建設</td><td>112中都建字第01853號</td><td>112/12/03</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>83</td><td>萬泰德興</td><td>大甲</td><td class="num">140</td><td>萬泰雍建設</td><td>112中都建字第01855號</td><td>112/12/03</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>84</td><td>勝華建設溝背段案（預售前置暫定名，尚未正式公開命名/未開賣）</td><td>北屯</td><td class="num">128</td><td>勝華建設</td><td>112中都建字第01033號</td><td>112/12/24</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>85</td><td>長虹天籟</td><td>清水</td><td class="num">373</td><td>長虹建設</td><td>112中都建字第02011號</td><td>112/12/24</td><td><span class="ok">App✓</span></td></tr>
+        <tr><td>86</td><td><span class="miss-name">（查無案名）</span></td><td>潭子</td><td class="num">102</td><td>恆山建設</td><td>112中都建字第02010號</td><td>112/12/24</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>87</td><td>昂峰謙禾</td><td>南</td><td class="num">104</td><td>峰舜建設</td><td>112中都建字第02013號</td><td>112/12/24</td><td><span class="miss">App✗</span></td></tr>
+        <tr><td>88</td><td>大毅讚幸福2（591/houseprice標示多一「2」字，與同名舊案不同）</td><td>北屯</td><td class="num">328</td><td>大毅建設</td><td>112中都建字第02035號</td><td>112/12/27</td><td><span class="miss">App✗</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <h2>官方有・App無：差異清單（170 案／33,467 戶）</h2>
+  <div class="verdict">
+    <div class="headline">這是本次改版要老闆看的重點——政府登記在案、但如菓建案追蹤App目前完全沒有收錄的建案</div>
+    <p>依戶數由大到小排序，含「已核發115年」與「申請中(官方推定，台中/桃園)」兩類。「（查無案名）」表示已比對known_permit_cases／txg-tyc-ntpc named_match／App buildings.json 三路均join不上，僅能以字號+起造人呈現——即便查無案名，官方登記事實仍成立，不因無名而剔除。</p>
+  </div>
+  <div class="tablebox">
+    <table>
+      <thead><tr><th>縣市</th><th>類型</th><th>案名</th><th>行政區</th><th style="text-align:right">戶數</th><th>起造人</th><th>字號</th><th>發照日</th></tr></thead>
+      <tbody>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>龜山區</td><td class="num">1,063</td><td>僑馥建築經理股份有限公司 代表人:林中文</td><td>(111)桃市都建執照字第會龜01329-02號（建照）</td><td>114/12/19</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>北屯</td><td class="num">783</td><td>登陽建設</td><td>112中都建字第00951號（建照）</td><td>112/06/13</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">596</td><td>合一建築股份有限公司　負責人：楊題銓</td><td>(112)桃市都建執照字第會桃00807號（建照）</td><td>112/09/25</td></tr>
+        <tr><td>桃園市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>龜山區</td><td class="num">595</td><td>群泰開發有限公司 負責人:王芳怡</td><td>(115)桃市都施使字第龜00705號</td><td>115/07/28</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>清水</td><td class="num">580</td><td>長虹建設</td><td>111中都建字第01948號（建照）</td><td>111/09/30</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td>合環LANDMARK（合環LANDMAR）</td><td>新店區</td><td class="num">546</td><td>大陸工程股份有限公司,負責人：欣陸投資控股股份有限公司</td><td>115店使字第00066號</td><td>115/03/05</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td>日初不老莊園(樂陶居)</td><td>三芝區</td><td class="num">541</td><td>泰誠發展營造股份有限公司</td><td>115芝使字第00005號</td><td>115/01/08</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>淡水區</td><td class="num">532</td><td>齊陞營造股份有限公司</td><td>115淡使字第00157號</td><td>115/05/25</td></tr>
+        <tr><td>桃園市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>八德區</td><td class="num">522</td><td>合雄建設股份有限公司  負責人:陳清基</td><td>(115)桃市都施使字第德00458號</td><td>115/05/14</td></tr>
+        <tr><td>台北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>文山區</td><td class="num">504</td><td>新亞建設開發股份有限公司</td><td>115使字第0080號</td><td>115/05/15</td></tr>
+        <tr><td>桃園市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>龜山區</td><td class="num">465</td><td>潤隆建設股份有限公司 代表人:邱秉澤</td><td>(115)桃市都施使字第龜00695號</td><td>115/07/27</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">388</td><td>臺億建築經理股份有限公司負責人：陳長琪</td><td>(111)桃市都建執照字第會桃00438-02號（建照）</td><td>113/11/07</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>雙橡園4117</td><td>西屯</td><td class="num">378</td><td>雙橡園開發</td><td>106中都建字第00187號（建照）</td><td>112/09/05</td></tr>
+        <tr><td>桃園市</td><td>已核發115年</td><td>佳陞豐川</td><td>蘆竹區</td><td class="num">376</td><td>佳陞建設股份有限公司  負責人:彭仁煥</td><td>(115)桃市都施使字第蘆00103號</td><td>115/01/28</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>土城區</td><td class="num">373</td><td>鴻信營造股份有限公司</td><td>115土使字第00134號</td><td>115/05/05</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td>宏普青芝段146(未公開，暫稱)</td><td>中壢區</td><td class="num">364</td><td>宏普建設股份有限公司　代表人：華展投資股份有限公司</td><td>(112)桃市都建執照字第會壢01225-01號（建照）</td><td>114/05/19</td></tr>
+        <tr><td>桃園市</td><td>已核發115年</td><td>鼎藏學苑</td><td>楊梅區</td><td class="num">346</td><td>鼎晟建設有限公司 負責人：賴佩亞</td><td>(115)桃市都施使字第楊00135號</td><td>115/02/04</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>楊梅區</td><td class="num">333</td><td>台新建築經理股份有限公司  代表人：刁建生</td><td>(112)桃市都建執照字第會楊00962-02號（建照）</td><td>115/04/27</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>大毅讚幸福2（591/houseprice標示多一「2」字，與同名舊案不同）</td><td>北屯</td><td class="num">328</td><td>大毅建設</td><td>112中都建字第02035號（建照）</td><td>112/12/27</td></tr>
+        <tr><td>桃園市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>龜山區</td><td class="num">320</td><td>法邑建設有限公司  負責人:周育賢</td><td>(115)桃市都施使字第龜00240號</td><td>115/03/17</td></tr>
+        <tr><td>桃園市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">303</td><td>聚泰建設股份有限公司 負責人:黃宗錦</td><td>(115)桃市都施使字第壢00714號</td><td>115/07/28</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">299</td><td>桃園市政府 市長張善政</td><td>(111)桃市都建執照字第會桃01268-01號（建照）</td><td>114/07/17</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td>協勝中央公園</td><td>大園區</td><td class="num">296</td><td>協勝建設股份有限公司負責人:李宗熹</td><td>(111)桃市都建執照字第會園00835-03號（建照）</td><td>113/06/20</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>八德區</td><td class="num">294</td><td>秉和建設股份有限公司  負責人:李佳恂</td><td>(112)桃市都建執照字第會德00455-02號（建照）</td><td>114/06/26</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>大毅「創研段2」（暫稱）</td><td>北屯</td><td class="num">276</td><td>大毅建設</td><td>112中都建字第01153號（建照）</td><td>112/07/29</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td>合展悅恬</td><td>大園區</td><td class="num">273</td><td>合展建設股份有限公司負責人:曾國修</td><td>(112)桃市都建執照字第會園00385號（建照）</td><td>112/04/26</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td>瓏山林上城苑</td><td>三重區</td><td class="num">270</td><td>瓏山林營建股份有限公司</td><td>115重使字第00062號</td><td>115/02/25</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>勝麗天廈</td><td>梧棲</td><td class="num">269</td><td>勝麗建設</td><td>111中都建字第02359號（建照）</td><td>112/04/25</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>富宇「寶山段1053」（暫稱）</td><td>南屯</td><td class="num">268</td><td>富宇建設</td><td>106中都建字第02068號（建照）</td><td>111/05/03</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>龍潭區</td><td class="num">254</td><td>慶盛建設有限公司代表人：邱奕森</td><td>(112)桃市都建執照字第會龍00975號（建照）</td><td>112/09/25</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>土城區</td><td class="num">240</td><td>洛城營造有限公司</td><td>115土使字第00175號</td><td>115/06/12</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>親家青海道（未正式公開，5168登錄名「親家中正段195」）</td><td>西屯</td><td class="num">234</td><td>親家地產</td><td>110中都建字第02617號（建照）</td><td>112/10/13</td></tr>
+        <tr><td>桃園市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">232</td><td>鴻廣建設股份有限公司 負責人：鄭鴻慶</td><td>(115)桃市都施使字第壢00589號</td><td>115/06/24</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>北屯</td><td class="num">225</td><td>大城建設</td><td>112中都建字第01068號（建照）</td><td>112/07/11</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>三重區</td><td class="num">224</td><td>嘉頡營造股份有限公司</td><td>115重使字第00041號</td><td>115/02/06</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>南屯</td><td class="num">224</td><td>惠昇建設</td><td>111中都建字第01373號（建照）</td><td>111/06/29</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>元城上萃</td><td>南</td><td class="num">223</td><td>元城建設</td><td>111中都建字第02221號（建照）</td><td>111/10/31</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td>和發水慕白</td><td>中壢區</td><td class="num">221</td><td>和發建設股份有限公司 負責人：方敬元</td><td>(111)桃市都建執照字第會壢00377-03號（建照）</td><td>115/06/03</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td>竹城.日和</td><td>林口區</td><td class="num">218</td><td>大裕營造有限公司</td><td>115林使字第00045號</td><td>115/02/09</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td>君邑莫內</td><td>楊梅區</td><td class="num">216</td><td>富邑建設有限公司 負責人：陳根添</td><td>(111)桃市都建執照字第會楊00710-02號（建照）</td><td>114/12/22</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>梧棲</td><td class="num">215</td><td>佳鋐建設</td><td>112中都建字第01853號（建照）</td><td>112/12/03</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>西屯市政好宅（惠來厝段社會住宅，原名西屯區惠來厝）</td><td>西屯</td><td class="num">213</td><td>國家住宅及都市更新中心</td><td>112中都建字第00861號（建照）</td><td>112/06/01</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>蘆竹區</td><td class="num">212</td><td>和峻建設股份有限公司 負責人:張展溢</td><td>(112)桃市都建執照字第會蘆00863-01號（建照）</td><td>114/08/12</td></tr>
+        <tr><td>台北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>大同區</td><td class="num">209</td><td>中福營造股份有限公司</td><td>115使字第0063號</td><td>115/04/24</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>三重區</td><td class="num">207</td><td>承優營造股份有限公司</td><td>115重使字第00172號</td><td>115/06/08</td></tr>
+        <tr><td>台北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>士林區</td><td class="num">206</td><td>祝旺開發股份有限公司</td><td>115使字第0059號</td><td>115/04/21</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>鴻邑雲山硯</td><td>北屯</td><td class="num">205</td><td>鴻邑建設</td><td>112中都建字第00268號（建照）</td><td>112/02/08</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">202</td><td>興樹建設有限公司負責人:李淑芬</td><td>(112)桃市都建執照字第會壢01248號（建照）</td><td>112/12/19</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>平鎮區</td><td class="num">200</td><td>新纖工業股份有限公司代表人：歐金達</td><td>(112)桃市都建執照字第會平00958號（建照）</td><td>112/09/28</td></tr>
+        <tr><td>桃園市</td><td>已核發115年</td><td>鴻築玥</td><td>龜山區</td><td class="num">199</td><td>鴻築建設股份有限公司 負責人:吳裕國</td><td>(115)桃市都施使字第龜00492號</td><td>115/05/26</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>八里區</td><td class="num">198</td><td>春城營造股份有限公司</td><td>115八使字第00100號</td><td>115/04/08</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>大園區</td><td class="num">196</td><td>力馥建設股份有限公司 負責人：蔡宗良</td><td>(112)桃市都建執照字第會園01008-02號（建照）</td><td>115/06/10</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>大城吾界</td><td>北屯</td><td class="num">190</td><td>大城建設</td><td>111中都建字第02240號（建照）</td><td>112/09/12</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>佳鋐首耀（591與source_name一致，無異名）</td><td>梧棲</td><td class="num">186</td><td>佳鋐建設</td><td>111中都建字第00895號（建照）</td><td>111/04/30</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>昌祐U City</td><td>梧棲</td><td class="num">186</td><td>昆祐建設</td><td>111中都建字第01477號（建照）</td><td>112/01/09</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>平鎮區</td><td class="num">185</td><td>鴻騰建設股份有限公司　負責人:林洺鋒</td><td>(111)桃市都建執照字第會平00022號（建照）</td><td>111/01/07</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">185</td><td>悅萊建設股份有限公司負責人:翁茂槐</td><td>(112)桃市都建執照字第會壢00562-02號（建照）</td><td>113/11/25</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>大園區</td><td class="num">185</td><td>上順房屋開發股份有限公司負責人:李南山</td><td>(112)桃市都建執照字第會園00596-01號（建照）</td><td>113/03/13</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>五股區</td><td class="num">184</td><td>昇宏工程企業有限公司</td><td>115股使字第00037號</td><td>115/02/05</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>大園區</td><td class="num">183</td><td>創景建設股份有限公司 負責人：吳美順</td><td>(112)桃市都建執照字第會園01063-01號（建照）</td><td>115/01/02</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>富宇富嶼</td><td>梧棲</td><td class="num">180</td><td>富宇建設</td><td>111中都建字第01161號（建照）</td><td>111/06/10</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>蘆竹區</td><td class="num">172</td><td>佳昕建設股份有限公司負責人：柯文琦</td><td>(111)桃市都建執照字第會蘆01381-01號（建照）</td><td>113/04/18</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>浩瀚文心O'LIVE</td><td>北屯</td><td class="num">170</td><td>浩瀚開發建設</td><td>111中都建字第02503號（建照）</td><td>111/12/12</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>泰山區</td><td class="num">168</td><td>品興營造股份有限公司</td><td>115泰使字第00171號</td><td>115/06/05</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>蘆竹區</td><td class="num">168</td><td>寶佳建設股份有限公司負責人:孔令儀</td><td>(112)桃市都建執照字第會蘆00439-01號（建照）</td><td>112/10/26</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>新店區</td><td class="num">167</td><td>清林營造有限公司</td><td>115店使字第00035號</td><td>115/02/04</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>觀音區</td><td class="num">167</td><td>佳昕建設股份有限公司負責人：柯文琦</td><td>(111)桃市都建執照字第會觀00913-01號（建照）</td><td>114/05/15</td></tr>
+        <tr><td>台北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>中正區</td><td class="num">166</td><td>銘倫營造股份有限公司</td><td>115使字第0055號</td><td>115/04/02</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>三重區</td><td class="num">166</td><td>祝旺開發股份有限公司</td><td>115重使字第00093號</td><td>115/03/31</td></tr>
+        <tr><td>台中市</td><td>已核發115年</td><td>久樘花漾天鵝</td><td>沙鹿區</td><td class="num">166</td><td>久漾建設有限公司 代表人：陳俊維</td><td>115中都使字第00212號</td><td>115/02/12</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">166</td><td>和耀建設股份有限公司  負責人:邊宜威</td><td>(111)桃市都建執照字第會桃00627-02號（建照）</td><td>114/12/22</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>西屯</td><td class="num">164</td><td>豐邑百貨</td><td>111中都建字第01560號（建照）</td><td>111/08/22</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>龜山區</td><td class="num">164</td><td>秉和建設股份有限公司負責人:李佳恂</td><td>(112)桃市都建執照字第會龜00445-02號（建照）</td><td>113/06/14</td></tr>
+        <tr><td>台北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>文山區</td><td class="num">163</td><td>森城建設股份有限公司</td><td>115使字第0105號</td><td>115/06/16</td></tr>
+        <tr><td>桃園市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">163</td><td>合輝建設開發股份有限公司負責人:林彩雲</td><td>(115)桃市都施使字第桃00691號</td><td>115/07/24</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>南屯</td><td class="num">161</td><td>大城建設</td><td>111中都建字第01505號（建照）</td><td>111/07/19</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>龜山區</td><td class="num">161</td><td>寶國建築經理股份有限公司 負責人:陳正林</td><td>(111)桃市都建執照字第會龜00227-02號（建照）</td><td>114/12/30</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>大園區</td><td class="num">161</td><td>承瑞開發股份有限公司負責人:陳民崇</td><td>(112)桃市都建執照字第會園00269-01號（建照）</td><td>113/07/29</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>龍潭區</td><td class="num">161</td><td>合睦建設有限公司 負責人：黃宗彬</td><td>(111)桃市都建執照字第會龍00738-02號（建照）</td><td>114/10/23</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>土城區</td><td class="num">160</td><td>達偉營造股份有限公司</td><td>115土使字第00021號</td><td>115/01/23</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>新莊區</td><td class="num">160</td><td>詮發營造股份有限公司</td><td>115莊使字第00086號</td><td>115/03/27</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">160</td><td>寶誠建設股份有限公司負責人:李法穆</td><td>(112)桃市都建執照字第會壢00073-02號（建照）</td><td>113/08/14</td></tr>
+        <tr><td>台中市</td><td>已核發115年</td><td>敘山行路</td><td>南屯區</td><td class="num">159</td><td>理和建設股份有限公司 負責人：張清宜</td><td>115中都使字第00097號</td><td>115/01/20</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>巨鼎TOWER花園</td><td>烏日</td><td class="num">158</td><td>巨鼎建設</td><td>112中都建字第00089號（建照）</td><td>112/01/17</td></tr>
+        <tr><td>台中市</td><td>已核發115年</td><td>益翔有藝仕</td><td>梧棲區</td><td class="num">157</td><td>益翔建設股份有限公司 負責人：張少暐</td><td>115中都使字第00294號</td><td>115/03/12</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">157</td><td>麗寶建設股份有限公司負責人:吳寶田</td><td>(111)桃市都建執照字第會桃00690號（建照）</td><td>111/06/24</td></tr>
+        <tr><td>桃園市</td><td>已核發115年</td><td>威均園舞曲</td><td>中壢區</td><td class="num">156</td><td>僑馥建築經理股份有限公司 負責人:林中文</td><td>(115)桃市都施使字第壢00260號</td><td>115/03/23</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">156</td><td>益展建設股份有限公司負責人:范振成</td><td>(112)桃市都建執照字第會桃00359-01號（建照）</td><td>114/02/26</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td>豐盛（家泰∞向田「豐盛」，亦稱家泰豐盛/秀泰豐盛）</td><td>新莊區</td><td class="num">154</td><td>青鈿營造股份有限公司</td><td>115莊使字第00077號</td><td>115/03/18</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>新業自由居（591與官網一致，無異名）</td><td>東</td><td class="num">154</td><td>新業建設</td><td>108中都建字第02167號（建照）</td><td>111/04/01</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">152</td><td>合遠建設股份有限公司負責人:李明慶</td><td>(111)桃市都建執照字第會桃00636-01號（建照）</td><td>112/02/14</td></tr>
+        <tr><td>台中市</td><td>已核發115年</td><td>聚悅澄心</td><td>太平區</td><td class="num">151</td><td>聚悅建設股份有限公司 負責人:陳俊宏</td><td>115中都使字第00032號</td><td>115/01/07</td></tr>
+        <tr><td>台中市</td><td>已核發115年</td><td>富宇科研雙星</td><td>大里區</td><td class="num">151</td><td>富宇建設股份有限公司  負責人:張世欣</td><td>115中都使字第00663號</td><td>115/05/16</td></tr>
+        <tr><td>桃園市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>平鎮區</td><td class="num">150</td><td>廣泰鑫建設有限公司  負責人：蔡玉璋</td><td>(115)桃市都施使字第平00066號</td><td>115/01/20</td></tr>
+        <tr><td>桃園市</td><td>已核發115年</td><td>三本四季</td><td>桃園區</td><td class="num">149</td><td>三麒建設股份有限公司 負責人：黃鈺錂</td><td>(115)桃市都施使字第桃00274號</td><td>115/03/26</td></tr>
+        <tr><td>台中市</td><td>已核發115年</td><td>遠雄藝舍</td><td>西屯區</td><td class="num">148</td><td>中國建築經理股份有限公司 負責人:鄭重</td><td>115中都使字第00984號</td><td>115/07/07</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>沙鹿</td><td class="num">146</td><td>佳鏵建設</td><td>112中都建字第01522號（建照）</td><td>112/10/09</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">146</td><td>櫻花建設股份有限公司負責人:陳世英</td><td>(111)桃市都建執照字第會壢01435-01號（建照）</td><td>113/04/23</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>精銳WORLD</td><td>龍井</td><td class="num">144</td><td>精銳建設</td><td>111中都建字第02137號（建照）</td><td>111/10/19</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>北屯</td><td class="num">144</td><td>登仰建設</td><td>112中都建字第00978號（建照）</td><td>112/08/25</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>大園區</td><td class="num">144</td><td>寶佳建設股份有限公司負責人：孔令儀</td><td>(112)桃市都建執照字第會園00258號（建照）</td><td>112/03/22</td></tr>
+        <tr><td>桃園市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>龜山區</td><td class="num">142</td><td>台新建築經理股份有限公司 代表人:刁建生</td><td>(115)桃市都施使字第龜00399號</td><td>115/04/28</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">140</td><td>大維建設股份有限公司 負責人：葉洋澤</td><td>(111)桃市都建執照字第會壢00952-03號（建照）</td><td>114/10/22</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>惠宇上峰</td><td>北</td><td class="num">139</td><td>均翰建設</td><td>112中都建字第01191號（建照）</td><td>112/08/08</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">137</td><td>永聆興業有限公司負責人:唐永正</td><td>(111)桃市都建執照字第會桃01275號（建照）</td><td>111/11/09</td></tr>
+        <tr><td>桃園市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>觀音區</td><td class="num">136</td><td>和境建設股份有限公司  負責人:曾繁碩</td><td>(115)桃市都施使字第觀00132號</td><td>115/02/04</td></tr>
+        <tr><td>桃園市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">136</td><td>澄果建設有限公司 負責人:葉泰利</td><td>(115)桃市都施使字第桃00228號</td><td>115/03/12</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">136</td><td>遠傳建設股份有限公司負責人:葉維宗</td><td>(111)桃市都建執照字第會桃00505號（建照）</td><td>111/05/12</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">135</td><td>廣承建設股份有限公司負責人:張仙憶</td><td>(111)桃市都建執照字第會桃01109-01號（建照）</td><td>112/04/14</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>南屯</td><td class="num">134</td><td>大城建設</td><td>111中都建字第01523號（建照）</td><td>111/07/31</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>大園區</td><td class="num">134</td><td>旺坤建設股份有限公司負責人：劉詩筠</td><td>(112)桃市都建執照字第會園00845-02號（建照）</td><td>113/08/07</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>三峽區</td><td class="num">133</td><td>松銘營造股份有限公司</td><td>115峽使字第00142號</td><td>115/05/11</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>平鎮區</td><td class="num">133</td><td>合眾建築經理股份有限公司 負責人：顏文澤</td><td>(112)桃市都建執照字第會平01281-02號（建照）</td><td>115/03/24</td></tr>
+        <tr><td>台中市</td><td>已核發115年</td><td>亞昕一緻</td><td>北屯區</td><td class="num">132</td><td>臺億建築經理股份有限公司 負責人:陳長琪</td><td>115中都使字第00153號</td><td>115/01/28</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>春虹建設市鎮北段案（暫定名，尚未正式命名）</td><td>清水</td><td class="num">132</td><td>春虹建設</td><td>112中都建字第00346號（建照）</td><td>112/02/24</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">132</td><td>誠永營造股份有限公司代表人：李玉雲</td><td>(112)桃市都建執照字第會桃00331號（建照）</td><td>112/04/17</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>蘆竹區</td><td class="num">131</td><td>合雄建設股份有限公司  負責人:陳清基</td><td>(112)桃市都建執照字第會蘆00437-01號（建照）</td><td>114/09/05</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>西</td><td class="num">128</td><td>總誼建設</td><td>110中都建字第02603號（建照）</td><td>112/01/09</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>勝華建設溝背段案（預售前置暫定名，尚未正式公開命名/未開賣）</td><td>北屯</td><td class="num">128</td><td>勝華建設</td><td>112中都建字第01033號（建照）</td><td>112/12/24</td></tr>
+        <tr><td>台北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>中山區</td><td class="num">127</td><td>盛德營造股份有限公司</td><td>115使字第0888號</td><td>115/03/26</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>新莊區</td><td class="num">125</td><td>億東營造股份有限公司</td><td>115莊使字第00102號</td><td>115/04/09</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">125</td><td>國灝建設有限公司代表人:章白天</td><td>(111)桃市都建執照字第會壢00910號（建照）</td><td>111/08/18</td></tr>
+        <tr><td>台北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>信義區</td><td class="num">124</td><td>金弘承營造股份有限公司</td><td>115使字第0028號</td><td>115/02/11</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">124</td><td>佳昕建設股份有限公司 負責人：柯文琦</td><td>(112)桃市都建執照字第會壢00675-01號（建照）</td><td>114/06/12</td></tr>
+        <tr><td>桃園市</td><td>已核發115年</td><td>陶然自若</td><td>龍潭區</td><td class="num">123</td><td>僑馥建築經理股份有限公司 負責人：林中文</td><td>(115)桃市都施使字第龍00233號</td><td>115/03/13</td></tr>
+        <tr><td>新竹縣</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>竹北市</td><td class="num">123</td><td>浩瀚開發建設股份有限公司 負責人:張雅菁</td><td>(115)府使字第00093號</td><td>115/05/19</td></tr>
+        <tr><td>新竹縣</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>竹北市</td><td class="num">123</td><td>惠理建設股份有限公司 負責人:莊季雄</td><td>(115)府使字第00121號</td><td>115/06/08</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">122</td><td>和峻建設股份有限公司負責人:張展溢</td><td>(112)桃市都建執照字第會壢00217號（建照）</td><td>112/03/14</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">121</td><td>益欣建設股份有限公司負責人:蔡威漢</td><td>(112)桃市都建執照字第會壢00788-01號（建照）</td><td>113/05/13</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>泓瑞5號樂章</td><td>南屯</td><td class="num">117</td><td>泓瑞建設</td><td>111中都建字第02572號（建照）</td><td>111/12/26</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>總誼建設「樹子腳段525」（暫稱）</td><td>南</td><td class="num">117</td><td>總誼建設</td><td>112中都建字第01470號（建照）</td><td>112/09/23</td></tr>
+        <tr><td>台北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>中山區</td><td class="num">115</td><td>信創營造股份有限公司</td><td>115使字第0041號</td><td>115/03/12</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>觀音區</td><td class="num">115</td><td>思程建設股份有限公司負責人:陳燈義</td><td>(112)桃市都建執照字第會觀00607號（建照）</td><td>112/06/26</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>浩瀚景立方-層峰區</td><td>北屯</td><td class="num">114</td><td>浩瀚開發建設</td><td>112中都建字第00311號（建照）</td><td>112/02/18</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">114</td><td>興樹建設有限公司負責人:李淑芬</td><td>(112)桃市都建執照字第會壢01260號（建照）</td><td>112/12/20</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>三重區</td><td class="num">113</td><td>台成營造有限公司</td><td>115重使字第00138號</td><td>115/05/08</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>板橋區</td><td class="num">113</td><td>宏昇營造股份有限公司</td><td>115板使字第00177號</td><td>115/06/12</td></tr>
+        <tr><td>台中市</td><td>已核發115年</td><td>THE精銳</td><td>北屯區</td><td class="num">112</td><td>精銳建設股份有限公司 負責人:徐日新</td><td>115中都使字第00277號</td><td>115/03/10</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>山里時晴（591/市場稱呼不冠建商字首，與建照登記同一案）</td><td>南屯</td><td class="num">112</td><td>宏銓建設</td><td>111中都建字第02340號（建照）</td><td>111/11/15</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>北屯</td><td class="num">112</td><td>登仰建設</td><td>112中都建字第01284號（建照）</td><td>112/08/22</td></tr>
+        <tr><td>台中市</td><td>已核發115年</td><td>泰御天鑄II</td><td>西屯區</td><td class="num">111</td><td>泰御建設股份有限公司 負責人：蔡燕玲</td><td>115中都使字第00035號</td><td>115/01/08</td></tr>
+        <tr><td>台北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>士林區</td><td class="num">108</td><td>億東營造股份有限公司</td><td>115使字第0031號</td><td>115/02/26</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>大園區</td><td class="num">108</td><td>嘉駿建設股份有限公司負責人:黃國明</td><td>(111)桃市都建執照字第會園00996-01號（建照）</td><td>111/11/23</td></tr>
+        <tr><td>台北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>中山區</td><td class="num">107</td><td>盛德營造股份有限公司</td><td>115使字第0083號</td><td>115/05/20</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>新店區</td><td class="num">106</td><td>寶路營造股份有限公司</td><td>115店使字第00166號</td><td>115/05/28</td></tr>
+        <tr><td>台中市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>北屯區</td><td class="num">106</td><td>昂峰建設股份有限公司 代表人:詹媛斐</td><td>115中都使字第00093號</td><td>115/01/16</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>楊梅區</td><td class="num">106</td><td>合眾建築經理股份有限公司 負責人：顏文澤</td><td>(112)桃市都建執照字第會楊00263-02號（建照）</td><td>114/08/04</td></tr>
+        <tr><td>台北市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>松山區</td><td class="num">105</td><td>泛亞工程建設股份有限公司</td><td>115使字第0076號</td><td>115/05/08</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>北屯</td><td class="num">105</td><td>龍寶建設</td><td>112中都建字第00720號（建照）</td><td>112/05/07</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>烏日</td><td class="num">105</td><td>登悅建設</td><td>112中都建字第01858號（建照）</td><td>112/12/01</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>大園區</td><td class="num">105</td><td>惠田開發股份有限公司 負責人:邱黎光</td><td>(112)桃市都建執照字第會園00450-01號（建照）</td><td>114/07/28</td></tr>
+        <tr><td>桃園市</td><td>已核發115年</td><td><span class="miss-name">（查無案名）</span></td><td>觀音區</td><td class="num">104</td><td>寶國建築經理股份有限公司 負責人:陳正林</td><td>(115)桃市都施使字第觀00704號</td><td>115/07/28</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>金林梧境</td><td>北屯</td><td class="num">104</td><td>金林建設開發</td><td>112中都建字第00945號（建照）</td><td>112/06/16</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>昌祐建設「三民段211」（暫稱）</td><td>烏日</td><td class="num">104</td><td>昆祐建設</td><td>112中都建字第01262號（建照）</td><td>112/08/19</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>昂峰謙禾</td><td>南</td><td class="num">104</td><td>峰舜建設</td><td>112中都建字第02013號（建照）</td><td>112/12/24</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td>立軒天玥</td><td>林口區</td><td class="num">103</td><td>鴻軒營造股份有限公司</td><td>115林使字第00057號</td><td>115/02/13</td></tr>
+        <tr><td>桃園市</td><td>已核發115年</td><td>藏月泱</td><td>中壢區</td><td class="num">103</td><td>台灣金聯資產管理股份有限公司  代表人：宮文萍</td><td>(115)桃市都施使字第壢00253號</td><td>115/03/19</td></tr>
+        <tr><td>台中市</td><td>已核發115年</td><td>富宇德川</td><td>西區</td><td class="num">103</td><td>富宇建設股份有限公司  負責人:張世欣</td><td>115中都使字第00998號</td><td>115/07/09</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>中壢區</td><td class="num">103</td><td>臺灣金融聯合都市更新服務股份有限公司負責人：林旺根</td><td>(111)桃市都建執照字第會壢01006-03號（建照）</td><td>114/03/05</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>潭子</td><td class="num">102</td><td>恆山建設</td><td>112中都建字第02010號（建照）</td><td>112/12/24</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">102</td><td>杭特建設股份有限公司負責人:李家銘</td><td>(112)桃市都建執照字第會桃00038-01號（建照）</td><td>113/11/18</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>大園區</td><td class="num">102</td><td>益欣建設股份有限公司負責人:蔡威漢</td><td>(112)桃市都建執照字第會園00245號（建照）</td><td>112/03/20</td></tr>
+        <tr><td>新北市</td><td>已核發115年</td><td>城德華福</td><td>板橋區</td><td class="num">101</td><td>利華營造股份有限公司</td><td>115板使字第00044號</td><td>115/02/09</td></tr>
+        <tr><td>桃園市</td><td>已核發115年</td><td>昭揚天賦</td><td>桃園區</td><td class="num">101</td><td>昕陽建設股份有限公司 負責人:呂雅蕙</td><td>(115)桃市都施使字第桃00148號</td><td>115/02/06</td></tr>
+        <tr><td>台中市</td><td>已核發115年</td><td>大毅頌幸福</td><td>太平區</td><td class="num">101</td><td>大毅建設股份有限公司 負責人:魏誠誌</td><td>115中都使字第00731號</td><td>115/05/27</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">101</td><td>璞揚建設股份有限公司 負責人:蕭立志</td><td>(111)桃市都建執照字第會桃00726-02號（建照）</td><td>114/09/10</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>大道之星（591正式頁面名稱；又稱「大道100-2」）</td><td>梧棲</td><td class="num">100</td><td>承玳營造</td><td>111中都建字第02027號（建照）</td><td>111/09/23</td></tr>
+        <tr><td>台中市</td><td>申請中(官方推定)</td><td>泓瑞洲際之森</td><td>北屯</td><td class="num">100</td><td>泓瑞建設</td><td>112中都建字第00868號（建照）</td><td>112/06/03</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>楊梅區</td><td class="num">100</td><td>保利開發建設有限公司負責人：陳芷淳</td><td>(112)桃市都建執照字第會楊01247號（建照）</td><td>112/12/18</td></tr>
+        <tr><td>桃園市</td><td>申請中(官方推定)</td><td><span class="miss-name">（查無案名）</span></td><td>桃園區</td><td class="num">100</td><td>川和發建設股份有限公司負責人:陳美福</td><td>(112)桃市都建執照字第會桃00203-01號（建照）</td><td>113/02/02</td></tr>
+      </tbody>
+    </table>
+  </div>
+
 
   <h2>口徑說明</h2>
   <div class="caveat">
-    <h3>① 已領使照的年份口徑</h3>
-    <p>「已領」欄含民國 113–115 年發照案件，實際年份看各表「發照日」欄可辨。本次 141 案已領中，115 年（2026）新領 130 案（92%）、114 年 10 案、113 年 1 案——113–114 年案件是舊領但完工／交屋排程仍落在 App 追蹤區間內，故一併收錄，非誤植。</p>
-    <h3>② 「申請中(推定)」是推定口徑，非官方申請紀錄</h3>
-    <p>六縣市使照開放資料均<strong>不對外公開「已受理申請中」的案件清單</strong>（僅公告已核發者）。「申請中(推定)」欄的判定邏輯：原領建照工期已屆滿、或 App 完工排程已屆期／逼近，但比對 113–115 年使照開放資料池查無對應核發紀錄，因而<strong>推定</strong>該案已送件審查中。這是如菓依公開資料交叉比對後的研判，<strong>不是政府公告的官方「申請中」狀態</strong>，各案推定依據摘要已列於各表，完整比對脈絡見 usage_permit.source 欄。</p>
-    <h3>③ 兩個「查無」不是缺漏</h3>
-    <p><strong>新竹市</strong>：115 年（2026）1–7 月使照全量掃描 87 筆住宅類核發紀錄，<strong>無一筆達 100 戶</strong>——這是掃描後的查證結果，不是「尚未掃描」的資料缺口。<strong>台北市</strong>：使照資料源為 data.taipei 逐年獨立檔（一年一個 dataset／rid），本次僅定位並掃描 115 年度（2026）檔案，<strong>未回溯 113–114 年歷年檔</strong>，故台北表僅反映 115 年新領案件，涵蓋窗口較其他五縣市（113–115 年）窄，可能遺漏台北市 113–114 年已領但仍在追蹤中的案件。</p>
+    <h3>①母體定義與篩選口徑</h3>
+    <p>主表篩選＝「發照日115年（2026核發）」＋「登記總戶數≥100」，兩條件皆取自各縣市政府使用執照開放資料/建築執照存根API原始欄位（非App二次整理），為官方登記口徑；部分案件登記總戶數含店面/辦公混合用途，與純住宅戶數可能有落差，未逐案拆分，於個案建商欄可見用途線索（如台中池的_building_use_raw欄位）。另設「114年下半核發參考表」（114年7月起、≥100戶），僅供對照完工期趨勢，<strong>不列入官方母體主表統計</strong>；新竹縣／新竹市之官方掃描僅涵蓋115年區間，無114年可比對資料。</p>
+    <h3>②申請中(官方推定)僅台中、桃園可行</h3>
+    <p>台中、桃園兩市政府另外公開「建造執照」逐筆開放資料，可用「111–112年核發建照、迄未查得對應使照」的建照屆期法推定「申請中」；新北、台北、新竹縣、新竹市政府<strong>未公開可比對的建造執照逐筆資料集</strong>，故本報告不對這四縣市進行官方推定，主表申請中留白。新北市既有App口徑5案（非官方來源）移列該市章節「參考（非官方母體）」小節，不計入官方合計。</p>
+    <h3>③台中「申請中」66案的由來</h3>
+    <p>建照屆期法原始母體88案（111–112年建照、20,450戶），2026-07-29經兩輪逐案覆核發現其中22案／6,133戶「建照字號前綴年陷阱」——即建照字號本身的原始核發年份與存根表列發照日不符（多為舊建照經變更設計後重新登記，案件早已完工或已領使照），故予以排除，修正後在即母體為66案／14,317戶（詳見<a href="https://fennixchou.github.io/gp-taichung-permits-2026/">gp-taichung-permits-2026</a>定版報告5-1節，含3案/550戶「待確認」未完全排除陷阱疑慮者）。</p>
+    <h3>④桃園「申請中」84案</h3>
+    <p>同建照屆期法（111–112年核發、≥100戶）原始85案，比對後排除1案「丹佛花都」（已領115使字第00502號龜，已完工），餘84案／17,928戶。App✓27案（含7案為WebSearch解名後回頭確認已在App）、App✗57案（5案WebSearch解出案名但App尚未收錄，52案僅有建照字號/地址/起造人）。</p>
+    <h3>⑤新竹市115年查無100戶+案件，非資料缺漏</h3>
+    <p>新竹市政府都發局115年1–7月使用執照全量掃描（7個月檔逐月核對），共111筆全類別執照、87筆住宅類，逐筆核對戶數欄後<strong>無一筆達100戶</strong>——查證結果，非撈取範圍或欄位缺漏。</p>
+    <h3>⑥新竹縣2筆「疑似對應但建商欄不符」，未強行配對</h3>
+    <p>新竹縣2筆115年100戶+使照（府使字第00093號123戶／竹北、府使字第00121號123戶／竹北）與App庫內同區同戶數案件（浩瀚寬郁、惠宇謙恆）行政區與戶數相符，但官方起造人（浩瀚開發建設、惠理建設）與App建商欄（豐邑建設、惠宇建設）不一致，為避免誤配未強行連結，暫列「App✗／查無案名」，如需人工複核可提供地址進一步比對。</p>
+    <h3>⑦App✓/✗判定方式</h3>
+    <p>依序比對 known_permit_cases.json（90筆既知配對）→ txg_granted_gap／txg_pending_gap（台中兩輪覆核專案，共54筆）→ tyc_named_match／ntpc_named_match（桃園/新北WebSearch解名，含in_app與new_cases）→ App buildings.json（案名/建商/社群數），只要任一來源確認該筆使照對應到App既有案件即標「App✓」；查得案名但未對應App案件標「App✗」＋顯示名稱；完全查無則「App✗」＋「（查無案名）」。所有判定皆保留來源可追溯（各表name_source欄，內部工作檔留存，未寫入對外HTML）。</p>
   </div>
 
+  <h2>來源池清單</h2>
+  <div class="tablebox poolbox">
+    <table>
+      <thead><tr><th>縣市</th><th>檔案</th><th style="text-align:right">母體筆數</th><th>涵蓋範圍</th><th>池內最新紀錄</th><th>抓取法</th></tr></thead>
+      <tbody>
+        <tr><td>台北市</td><td>permits_tpe.json</td><td class="num">149</td><td>113–115年，≥50戶</td><td>115/06/18</td><td>台北市政府使用執照歷年檔開放資料API</td></tr>
+        <tr><td>新北市</td><td>permits_ntpc.json</td><td class="num">332</td><td>113–115年</td><td>115/06/12</td><td>新北市使用執照開放資料，7/30健檢乾淨可信</td></tr>
+        <tr><td>桃園市</td><td>permits_tyc_hsc_fixed.json</td><td class="num">333</td><td>113–115年（修復版）</td><td>115/07/28</td><td>桃園市都發局使用執照存根開放資料，7/29修復重抓</td></tr>
+        <tr><td>新竹縣</td><td>permits_hsc_115_all.json</td><td class="num">176</td><td>115年1–7月（使字候選全量）</td><td>115/07/30</td><td>新竹縣政府bupic建築執照存根查詢系統逐日掃描</td></tr>
+        <tr><td>新竹市</td><td>permits_hccg_115_residential.json</td><td class="num">87</td><td>115年1–7月住宅類</td><td>115/07/29</td><td>新竹市政府都發局使用執照開放資料，7個月檔全量</td></tr>
+        <tr><td>台中市</td><td>permits_txg.json</td><td class="num">324</td><td>113–115年</td><td>115/07/24</td><td>台中市都發局使用執照存根開放資料API</td></tr>
+        <tr><td>台中市（申請中）</td><td>gp-taichung-permits-2026 定版（66案）</td><td class="num">66</td><td>111–112年建照屆期，兩輪覆核</td><td>2026-07-29定版</td><td>建照屆期法＋前綴年陷阱覆核，見口徑說明③</td></tr>
+        <tr><td>桃園市（申請中）</td><td>tyc_pending_final.json / tyc_pending_named_final.json</td><td class="num">84</td><td>111–112年建照屆期</td><td>2026-07-29</td><td>建照屆期法，見口徑說明④</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">名稱豐富化來源（非母體，僅供join）：known_permit_cases.json（90筆既知配對）、txg_granted_gap/pending_gap/unresolved_attack_20260729（台中兩輪覆核）、tyc_named_match.json、ntpc_named_match.json、tyc_pending_named_final.json、如菓建案追蹤App buildings.json（575案）。</p>
+
   <footer>
-    <p>各案「已查核日」（usage_permit.checked）介於 2026-07-28～2026-07-29，隨 App 資料庫逐案更新；本報告彙整、產製於 2026-07-31。資料如有更新以 App（ruguo-building-tracker.zeabur.app）即時狀態為準。</p>
+    本報告母體改版：2026-07-31，由「App收錄版」全面重建為「六縣市政府官方使用執照/建造執照開放資料池」直接篩選版；App 僅作案名/建商/社群數之豐富化來源，不再作為母體。原 App 口徑版本歷史存於本 repo git 紀錄。資料來源與抓取方法詳見上方「來源池清單」。如發現官方池與實際登記有出入，請以各縣市政府開放資料原始公告為準。
   </footer>
 </div>
 </body>
